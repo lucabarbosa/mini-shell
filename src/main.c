@@ -6,14 +6,15 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:44:44 by lbento            #+#    #+#             */
-/*   Updated: 2025/12/10 10:48:26 by lbento           ###   ########.fr       */
+/*   Updated: 2025/12/10 16:16:09 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main (int argc, char **argv, char **envp)
+int	main(int argc, char **argv)
 {
-	if (argc != 1)
+	if (argc != 2)
 		return (0);
+	printf ("%s", argv[1]);
 }

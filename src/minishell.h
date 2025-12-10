@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2025/12/10 10:47:21 by lbento           ###   ########.fr       */
+/*   Updated: 2025/12/10 16:10:43 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <dirent.h>
 # include <signal.h>
 # include <errno.h>
-# include "libft.h"
+# include "../libft/libft.h"
 
 
 #endif

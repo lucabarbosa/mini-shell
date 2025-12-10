@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:11:37 by lbento            #+#    #+#             */
-/*   Updated: 2025/09/18 19:12:03 by lbento           ###   ########.fr       */
+/*   Updated: 2025/12/10 15:57:52 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		str[i + j] = s2[j];
 		j++;
 	}
-str[i + j] = '\0';
+	str[i + j] = '\0';
 	return (str);
 }

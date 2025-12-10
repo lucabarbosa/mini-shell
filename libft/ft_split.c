@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 19:42:44 by lbento            #+#    #+#             */
-/*   Updated: 2025/09/15 01:34:32 by lbento           ###   ########.fr       */
+/*   Updated: 2025/12/10 16:01:29 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	split_loop(char c, char **splited, const char *s)
 			splited[j] = fill_word(s, first, i);
 			if (!splited[j])
 				ft_free(splited, j);
-		first = -1;
-		j++;
+			first = -1;
+			j++;
 		}
 		i++;
 	}

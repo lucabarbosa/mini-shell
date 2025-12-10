@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 13:06:14 by lbento            #+#    #+#             */
-/*   Updated: 2025/12/10 16:01:15 by lbento           ###   ########.fr       */
+/*   Created: 2025/08/14 10:51:22 by lbento            #+#    #+#             */
+/*   Updated: 2025/12/10 16:03:42 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-void	ft_lstadd_back(t_list **lst, t_list *new);
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*current;
+# include <stdlib.h>
+# include <unistd.h>
+# include "libft.h"
 
-	if (!lst || !new)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	current = ft_lstlast(*lst);
-	current->next = new;
-}
+char	*get_next_line(int fd);
+char	*read_line(int fd, char *remaining, char *buffer);
+char	*save_file(char *line);
+
+#endif

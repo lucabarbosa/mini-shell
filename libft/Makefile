@@ -6,7 +6,7 @@
 #    By: lbento <lbento@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/15 18:22:14 by lbento            #+#    #+#              #
-#    Updated: 2025/09/08 22:06:25 by lbento           ###   ########.fr        #
+#    Updated: 2025/12/10 16:08:59 by lbento           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,9 @@ SRCS = ft_isalpha.c \
 	ft_putstr_fd.c \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c \
-	ft_split.c
+	ft_split.c \
+	get_next_line.c \
+	get_next_line_bonus.c
 
 OBJS = $(SRCS:.c=.o)
 
