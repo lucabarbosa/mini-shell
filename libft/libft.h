@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:22:32 by lbento            #+#    #+#             */
-/*   Updated: 2025/12/10 15:55:27 by lbento           ###   ########.fr       */
+/*   Updated: 2025/12/11 00:25:19 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <string.h>
 # include <unistd.h>
 # include "get_next_line.h"
+# include "garbage_colector/garbage_colector.h"
 
 typedef struct s_list
 {
