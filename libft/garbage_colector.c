@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 00:24:50 by lbento            #+#    #+#             */
-/*   Updated: 2025/12/11 00:58:08 by lbento           ###   ########.fr       */
+/*   Updated: 2025/12/11 20:49:30 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	*gc_malloc(t_gc **gc, size_t size);
 
 void	*gc_malloc(t_gc **gc, size_t size)
 {
-	void *ptr;
-	
+	void	*ptr;
+
 	ptr = malloc(size);
 	if (!ptr)
 		return (NULL);
@@ -31,9 +31,9 @@ void	*gc_malloc(t_gc **gc, size_t size)
 void	gc_add(t_gc **gc, void *ptr)
 {
 	t_gc	*new_node;
-	
+
 	if (!ptr)
-		return;
+		return ;
 	new_node = malloc(sizeof(t_gc));
 	if (!new_node)
 	{
@@ -72,7 +72,6 @@ void	gc_free(t_gc **gc, void *ptr)
 		return ;
 	current = *gc;
 	prev = NULL;
-
 	while (current)
 	{
 		if (current->ptr == ptr)
