@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 13:49:55 by lbento            #+#    #+#             */
-/*   Updated: 2025/12/10 16:09:49 by lbento           ###   ########.fr       */
+/*   Created: 2025/08/14 10:51:22 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/13 16:49:24 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 # endif
 
 # ifndef MAX_FD
-#  define MAX_FD 1048576
+#  define MAX_FD 1024
 # endif
 
-# include <stdlib.h>
 # include <unistd.h>
 # include "libft.h"
+# include "garbage_colector.h"
 
-char	*get_next_line(int fd);
-char	*read_line(int fd, char *remaining, char *buffer);
-char	*save_file(char *line);
+char	*get_next_line(int fd, t_gc *collector);
+char	*read_line(int fd, char *remaining, char *buffer, t_gc *collector);
+char	*save_file(char *line, t_gc *collector);
 
 #endif

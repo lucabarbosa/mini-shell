@@ -6,23 +6,23 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 20:34:24 by lbento            #+#    #+#             */
-/*   Updated: 2025/12/10 15:55:13 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 16:50:05 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*get_next_line(int fd);
-char	*read_line(int fd, char *remaining, char *buffer);
-char	*save_file(char *line);
+char	*get_next_line(int fd, t_gc *collector);
+char	*read_line(int fd, char *remaining, char *buffer, t_gc *collector);
+char	*save_file(char *line, t_gc *collector);
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, t_gc *collector)
 {
 	static char	*remaining[MAX_FD];
 	char		*line;
 	char		*buffer;
 
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = gc_malloc(&collector, (BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -32,7 +32,7 @@ char	*get_next_line(int fd)
 		buffer = NULL;
 		return (NULL);
 	}
-	line = read_line(fd, remaining[fd], buffer);
+	line = read_line(fd, remaining[fd], buffer, collector);
 	free(buffer);
 	buffer = NULL;
 	if (!line)
@@ -40,11 +40,11 @@ char	*get_next_line(int fd)
 		remaining[fd] = NULL;
 		return (NULL);
 	}
-	remaining[fd] = save_file(line);
+	remaining[fd] = save_file(line, collector);
 	return (line);
 }
 
-char	*read_line(int fd, char *remaining, char *buffer)
+char	*read_line(int fd, char *remaining, char *buffer, t_gc *collector)
 {
 	int		bytes_read;
 	char	*temp;
@@ -62,9 +62,9 @@ char	*read_line(int fd, char *remaining, char *buffer)
 			return (remaining);
 		buffer[bytes_read] = '\0';
 		if (!remaining)
-			remaining = ft_strdup("");
+			remaining = ft_strdup("", collector);
 		temp = remaining;
-		remaining = ft_strjoin(temp, buffer);
+		remaining = ft_strjoin(temp, buffer, collector);
 		free(temp);
 		temp = NULL;
 		if (ft_strchr(buffer, '\n'))
@@ -73,7 +73,7 @@ char	*read_line(int fd, char *remaining, char *buffer)
 	return (remaining);
 }
 
-char	*save_file(char *line)
+char	*save_file(char *line, t_gc *collector)
 {
 	char	*rest;
 	size_t	i;
@@ -87,7 +87,7 @@ char	*save_file(char *line)
 		return (NULL);
 	}
 	size_line = (ft_strlen(line) - i);
-	rest = ft_substr(line, i + 1, size_line);
+	rest = ft_substr(line, i + 1, size_line, collector);
 	if (*rest == '\0')
 	{
 		free(rest);
