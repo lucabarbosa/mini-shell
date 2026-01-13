@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 19:42:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/13 16:20:54 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 17:03:43 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	split_loop(char c, char **splited, const char *s, t_gc *collector);
 
 static char	*fill_word(const char *str, int start, int end, t_gc *collector);
 
-static void	*ft_free(char **strs, int count, t_gc *collector);
+static void	*ft_free(t_gc *collector);
 
 char	**ft_split(char const *s, char c, t_gc *collector)
 {
@@ -52,7 +52,7 @@ static void	split_loop(char c, char **splited, const char *s, t_gc *collector)
 		{
 			splited[j] = fill_word(s, first, i, collector);
 			if (!splited[j])
-				ft_free(splited, j, collector);
+				ft_free(collector);
 			first = -1;
 			j++;
 		}
@@ -102,17 +102,8 @@ static char	*fill_word(const char *str, int start, int end, t_gc *collector)
 	return (word);
 }
 
-static void	*ft_free(char **strs, int count, t_gc *collector)
+static void	*ft_free(t_gc *collector)
 {
-	int	i;
-
-	i = 0;
-	while (i < count)
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
 	gc_clear(&collector);
 	return (NULL);
 }
