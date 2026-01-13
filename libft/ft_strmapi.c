@@ -6,15 +6,15 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:02:11 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/13 16:44:25 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 20:52:00 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char *s, char (*f)(unsigned int, char), t_gc *collector);
+char	*ft_strmapi(char *s, char (*f)(unsigned int, char), t_gc **collector);
 
-char	*ft_strmapi(char *s, char (*f)(unsigned int, char), t_gc *collector)
+char	*ft_strmapi(char *s, char (*f)(unsigned int, char), t_gc **collector)
 {
 	size_t			len;
 	unsigned int	i;
@@ -23,7 +23,7 @@ char	*ft_strmapi(char *s, char (*f)(unsigned int, char), t_gc *collector)
 	if (!f || !s)
 		return (NULL);
 	len = ft_strlen(s);
-	result = gc_malloc(&collector, (len + 1) * sizeof(char));
+	result = gc_malloc(collector, (len + 1) * sizeof(char));
 	if (!result)
 		return (NULL);
 	i = 0;
