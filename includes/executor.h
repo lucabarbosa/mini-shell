@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/13 15:55:56 by lbento           ###   ########.fr       */
+/*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/13 16:04:00 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -22,12 +22,16 @@
 # include <signal.h>
 # include <errno.h>
 # include "../libft/libft.h"
-# include "../includes/executor.h"
 
-typedef struct s_mshell
+typedef struct s_cmd
 {
-	t_gc	*collector;
-	char	**envp;
-}	t_mshell;
+	char				**args;
+	char				*input;
+	char				*output;
+	int					append;
+	struct s_cmd		*next;
+}	t_cmd;
+
+t_cmd	*tester_cmd(t_gc *collector);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:44:44 by lbento            #+#    #+#             */
-/*   Updated: 2025/12/11 22:40:17 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 15:55:45 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 2 || !argv[1])
 	{
 		printf ("Minishell doesn't get arguments.\n");
-		return (0);
+		return (1);
 	}
 	shell.collector = NULL;
 	shell.envp = envp;
-	text = gc_malloc(&shell.collector, sizeof(char) * strlen(argv[1]));
-	text = argv[1];
-	printf("\n%s\n", text);
+	tester_cmd(&shell.collector);
 	gc_clear(&shell.collector);
 	return (0);
 }
