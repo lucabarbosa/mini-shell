@@ -6,7 +6,7 @@
 #    By: lbento <lbento@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/15 18:22:14 by lbento            #+#    #+#              #
-#    Updated: 2025/12/11 17:33:30 by lbento           ###   ########.fr        #
+#    Updated: 2026/01/13 16:34:13 by lbento           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,6 @@ SRCS = ft_isalpha.c \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c \
 	ft_split.c \
-	get_next_line.c \
 	get_next_line_bonus.c \
 	garbage_colector.c
 

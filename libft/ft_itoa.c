@@ -6,13 +6,13 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 19:49:35 by lbento            #+#    #+#             */
-/*   Updated: 2025/07/29 19:04:18 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 16:33:55 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_itoa(int n);
+char	*ft_itoa(int n, t_gc *collector);
 
 static size_t	ft_count_dig(int n)
 {
@@ -43,7 +43,7 @@ static char	*ft_is_zero(char *result)
 	return (result);
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(int n, t_gc *collector)
 {
 	char		*result;
 	size_t		digits_int;
@@ -51,7 +51,7 @@ char	*ft_itoa(int n)
 
 	num = n;
 	digits_int = ft_count_dig(n);
-	result = (char *)malloc(sizeof(char) * (digits_int + 1));
+	result = (char *)gc_malloc(&collector, sizeof(char) * (digits_int + 1));
 	if (result == NULL)
 		return (NULL);
 	if (n == 0)
