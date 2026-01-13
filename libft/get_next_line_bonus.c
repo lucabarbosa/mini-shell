@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 20:34:24 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/13 16:50:05 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 18:10:29 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ char	*get_next_line(int fd, t_gc *collector)
 		return (NULL);
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
-		free (buffer);
+		gc_free(&collector, buffer);
 		remaining[fd] = NULL;
 		buffer = NULL;
 		return (NULL);
 	}
 	line = read_line(fd, remaining[fd], buffer, collector);
-	free(buffer);
+	gc_free(&collector, buffer);
 	buffer = NULL;
 	if (!line)
 	{
@@ -55,7 +55,6 @@ char	*read_line(int fd, char *remaining, char *buffer, t_gc *collector)
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 		{
-			free(remaining);
 			return (NULL);
 		}
 		else if (bytes_read == 0)
@@ -65,7 +64,7 @@ char	*read_line(int fd, char *remaining, char *buffer, t_gc *collector)
 			remaining = ft_strdup("", collector);
 		temp = remaining;
 		remaining = ft_strjoin(temp, buffer, collector);
-		free(temp);
+		gc_free(&collector, temp);
 		temp = NULL;
 		if (ft_strchr(buffer, '\n'))
 			return (remaining);
@@ -90,7 +89,7 @@ char	*save_file(char *line, t_gc *collector)
 	rest = ft_substr(line, i + 1, size_line, collector);
 	if (*rest == '\0')
 	{
-		free(rest);
+		gc_free(&collector, rest);
 		rest = NULL;
 	}
 	line[i + 1] = '\0';
