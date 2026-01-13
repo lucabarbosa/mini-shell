@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/10 10:44:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/13 20:54:40 by lbento           ###   ########.fr       */
+/*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/13 16:04:00 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-int	main(int argc, char **argv, char **envp)
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <string.h>
+# include <dirent.h>
+# include <signal.h>
+# include <errno.h>
+# include "../libft/libft.h"
+
+typedef struct s_cmd
 {
-	t_mshell	shell;
-	char		*text;
+	char				**args;
+	char				*input;
+	char				*output;
+	int					append;
+	struct s_cmd		*next;
+}	t_cmd;
 
-	if (argc != 2 || !argv[1])
-	{
-		printf ("Minishell doesn't get arguments.\n");
-		return (1);
-	}
-	shell.collector = NULL;
-	shell.envp = envp;
-	printf("%s\n", text);
-	gc_clear(&shell.collector);
-	return (0);
-}
+t_cmd	*tester_cmd(t_gc *collector);
+
+#endif

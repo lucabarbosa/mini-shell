@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2025/12/11 20:54:25 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 15:55:56 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <signal.h>
 # include <errno.h>
 # include "../libft/libft.h"
+# include "../includes/executor.h"
 
 typedef struct s_mshell
 {

@@ -5,6 +5,7 @@ LIBFT		=	libft/libft.a
 INC		=	-I ./src -I ./libft
 OBJ		=	$(patsubst src/%.c, obj/%.o, $(SRC))
 SRC		=	src/main.c
+				src/executor/executor.c
 
 all:		$(LIBFT) obj $(NAME)
 

@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/10 10:44:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/13 20:54:40 by lbento           ###   ########.fr       */
+/*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/13 20:07:15 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../includes/executor.h"
 
-int	main(int argc, char **argv, char **envp)
+t_cmd	*tester_cmd(t_gc *collector);
+
+t_cmd	*tester_cmd(t_gc *collector)
 {
-	t_mshell	shell;
-	char		*text;
+	t_cmd	*cmd;
 
-	if (argc != 2 || !argv[1])
-	{
-		printf ("Minishell doesn't get arguments.\n");
-		return (1);
-	}
-	shell.collector = NULL;
-	shell.envp = envp;
-	printf("%s\n", text);
-	gc_clear(&shell.collector);
-	return (0);
+	cmd = gc_malloc(collector, sizeof(t_cmd));
+	cmd->args[0] = ft_strdup("ls", collector);
+	cmd->args[1] = ft_strdup("-l", collector);
+	cmd->args[2] = NULL;
+	cmd->input = NULL;
+	cmd->output = NULL;
+	cmd->next = NULL;
+	return (cmd);
 }
