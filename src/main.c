@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:44:44 by lbento            #+#    #+#             */
-/*   Updated: 2025/12/11 22:40:17 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 20:34:29 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	shell.collector = NULL;
 	shell.envp = envp;
-	text = gc_malloc(&shell.collector, sizeof(char) * strlen(argv[1]));
-	text = argv[1];
-	printf("\n%s\n", text);
+	printf("%s\n", text);
 	gc_clear(&shell.collector);
 	return (0);
 }

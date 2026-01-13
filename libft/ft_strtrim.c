@@ -6,15 +6,15 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:09:23 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/13 16:45:51 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 20:14:04 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(const char *s1, const char *set, t_gc *collector);
+char	*ft_strtrim(const char *s1, const char *set, t_gc **collector);
 
-char	*ft_strtrim(const char *s1, const char *set, t_gc *collector)
+char	*ft_strtrim(const char *s1, const char *set, t_gc **collector)
 {
 	char	*trimmed;
 	size_t	initial;
@@ -29,7 +29,7 @@ char	*ft_strtrim(const char *s1, const char *set, t_gc *collector)
 	end_set = ft_strlen(s1);
 	while (end_set > initial && ft_strchr((char *)set, s1[end_set - 1]))
 		end_set--;
-	trimmed = (char *)gc_malloc(&collector, end_set - initial + 1);
+	trimmed = (char *)gc_malloc(collector, end_set - initial + 1);
 	if (trimmed == NULL)
 		return (NULL);
 	i = 0;
