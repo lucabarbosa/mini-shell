@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/13 16:06:06 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 20:07:15 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,11 @@ t_cmd	*tester_cmd(t_gc *collector)
 	t_cmd	*cmd;
 
 	cmd = gc_malloc(collector, sizeof(t_cmd));
-	cmd->args[0] = 
+	cmd->args[0] = ft_strdup("ls", collector);
+	cmd->args[1] = ft_strdup("-l", collector);
+	cmd->args[2] = NULL;
+	cmd->input = NULL;
+	cmd->output = NULL;
+	cmd->next = NULL;
+	return (cmd);
 }
