@@ -3,25 +3,28 @@ CC			=	@cc
 CFLAGS	=	-Wall -Wextra -Werror
 LIBFT		=	libft/libft.a
 INC		=	-I ./src -I ./libft
+SRC		=	$(MAIN) $(EXECUTOR)
+
+MAIN		=	src/main.c \
+
+EXECUTOR	=	src/executor/executor.c \
+				src/executor/get_path.c
+
 OBJ		=	$(patsubst src/%.c, obj/%.o, $(SRC))
-SRC		=	src/main.c
 
+all:		$(LIBFT) $(NAME)
 
-all:		$(LIBFT) obj $(NAME)
+$(LIBFT):		
+			@make -s -C libft
+			@echo "\033[1;32m✅ Libft compiled!\033[1;30m"
 
 $(NAME):	$(OBJ)
 			$(CC) $(CFLAGS) -o $@ $^ $(LIBFT)
 			@echo "\033[1;32m✅ Minishell compiled!\033[1;30m"
 
-obj:
-			@mkdir -p obj
-
 obj/%.o:	src/%.c
-			$(CC) $(CFLAGS) $(INC) -o $@ -c $<
-
-$(LIBFT):		
-			@make -s -C libft
-			@echo "\033[1;32m✅ Libft compiled!\033[1;30m"
+			@mkdir -p $(dir $@)
+			$(CC) $(CFLAGS) $(INC) -c $< -o $@ 
 
 clean:
 			@make -s $@ -C libft
