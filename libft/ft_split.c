@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 19:42:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/13 17:03:43 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/13 21:01:04 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static int	word_count(const char *str, char c);
 
-static void	split_loop(char c, char **splited, const char *s, t_gc *collector);
+static void	split_loop(char c, char **splited, const char *s, t_gc **collector);
 
-static char	*fill_word(const char *str, int start, int end, t_gc *collector);
+static char	*fill_word(const char *str, int start, int end, t_gc **collector);
 
-static void	*ft_free(t_gc *collector);
+static void	*ft_free(t_gc **collector);
 
-char	**ft_split(char const *s, char c, t_gc *collector)
+char	**ft_split(char const *s, char c, t_gc **collector)
 {
 	size_t	total_word;
 	char	**splited;
@@ -33,7 +33,7 @@ char	**ft_split(char const *s, char c, t_gc *collector)
 	return (splited);
 }
 
-static void	split_loop(char c, char **splited, const char *s, t_gc *collector)
+static void	split_loop(char c, char **splited, const char *s, t_gc **collector)
 {
 	int		first;
 	size_t	i;
@@ -83,13 +83,13 @@ static int	word_count(const char *str, char c)
 	return (word);
 }
 
-static char	*fill_word(const char *str, int start, int end, t_gc *collector)
+static char	*fill_word(const char *str, int start, int end, t_gc **collector)
 {
 	char	*word;
 	int		i;
 
 	i = 0;
-	word = gc_malloc(&collector, (end - start + 1) * sizeof(char));
+	word = gc_malloc(collector, (end - start + 1) * sizeof(char));
 	if (!word)
 		return (NULL);
 	while (start < end)
@@ -102,8 +102,8 @@ static char	*fill_word(const char *str, int start, int end, t_gc *collector)
 	return (word);
 }
 
-static void	*ft_free(t_gc *collector)
+static void	*ft_free(t_gc **collector)
 {
-	gc_clear(&collector);
+	gc_clear(collector);
 	return (NULL);
 }
