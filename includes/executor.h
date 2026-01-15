@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/14 21:35:13 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/15 16:24:29 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 typedef struct s_cmd
 {
 	char				**args;
-	char				*input;
-	char				*output;
+	char				*infile;
+	char				*outfile;
 	int					append;
 	struct s_cmd		*next;
 }	t_cmd;
@@ -35,5 +35,6 @@ typedef struct s_cmd
 t_cmd	*tester_cmd(t_gc **collector);
 void	executor(t_gc **collector, char **envp);
 int		get_path(char **cmd, t_gc **collector);
+int		handle_redirect(t_cmd *cmd);
 
 #endif
