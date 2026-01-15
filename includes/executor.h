@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/14 17:45:14 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/14 21:35:13 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ typedef struct s_cmd
 }	t_cmd;
 
 t_cmd	*tester_cmd(t_gc **collector);
-void	executor(t_gc **collector);
+void	executor(t_gc **collector, char **envp);
 int		get_path(char **cmd, t_gc **collector);
-//int		exec_one_command(t_cmd *cmd);
 
 #endif

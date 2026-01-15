@@ -6,19 +6,18 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/14 19:19:57 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/14 21:36:18 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/executor.h"
 
-void	executor(t_gc **collector);
-t_cmd	*tester_cmd(t_gc **collector);
-//int		exec_one_command(t_cmd *cmd);
-int i;
+void			executor(t_gc **collector, char **envp);
+t_cmd			*tester_cmd(t_gc **collector);
+static void		exec_one_command(t_cmd *cmd, char **envp);
 
-void	executor(t_gc **collector)
+void	executor(t_gc **collector, char **envp)
 {
 	t_cmd	*cmd;
 
@@ -33,13 +32,7 @@ void	executor(t_gc **collector)
 		printf("command not found: %s", cmd->args[0]);
 		return ;
 	}
-	i = 0;
-	while (cmd->args[i])
-	{
-		printf("%s\n", cmd->args[i]);
-		i++;
-	}
-	// result = exec_one_command(cmd);
+	exec_one_command(cmd, envp);
 }
 
 t_cmd	*tester_cmd(t_gc **collector)
@@ -57,6 +50,7 @@ t_cmd	*tester_cmd(t_gc **collector)
 	return (cmd);
 }
 
-// int	exec_one_command(t_cmd *cmd)
-// {
-// }
+static void	exec_one_command(t_cmd *cmd, char **envp)
+{
+	execve(cmd->args[0], &cmd->args[0], envp);
+}
