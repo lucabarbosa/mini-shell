@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   buitins.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/20 18:33:54 by lbento           ###   ########.fr       */
+/*   Created: 2026/01/20 18:27:58 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/20 18:36:21 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../includes/minishell.h"
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <string.h>
-# include <dirent.h>
-# include <signal.h>
-# include <errno.h>
-# include <sys/wait.h>
-# include "../libft/libft.h"
-# include "../includes/executor.h"
-# include "../includes/builtin.h"
+void	exec_builtin(t_cmd **cmd, t_mshell *shell);
 
-typedef struct s_mshell
+void	exec_builtin(t_cmd **cmd, t_mshell *shell)
 {
-	t_gc	*collector;
-	char	**envp;
-}	t_mshell;
-
-#endif
+	printf("NÃO FOI FEITO ESSE BUILTIN %s\n", cmd[0]->args[0]);
+	gc_clear (shell->collector);
+	exit (0);
+}

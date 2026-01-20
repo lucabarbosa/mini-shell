@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/20 13:09:23 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/20 17:56:34 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,18 @@
 
 typedef struct s_cmd
 {
-	char				**args;
-	char				*infile;
-	char				*outfile;
-	int					append;
-	struct s_cmd		*next;
+	char			**args;
+	char			*infile;
+	char			*outfile;
+	int				append;
+	struct s_cmd	*next;
 }	t_cmd;
 
-t_cmd	*tester_cmd(t_gc **collector);
-void	executor(t_gc **collector, char **envp);
+t_cmd	**tester_cmd(t_gc **collector);
+void	executor(t_cmd **cmd, t_mshell *shell);
 int		get_path(char **cmd, t_gc **collector);
-int		handle_redirect(t_cmd *cmd);
+int		handle_one_redirect(t_cmd *cmd);
+pid_t	*create_pipes_pids(int **pipes, int num_cmd, t_gc **collector);
 void	exec_pipes(int num_cmd, t_cmd *cmd, char **envp, t_gc **collector);
 
 #endif

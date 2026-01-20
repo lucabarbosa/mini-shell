@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/10 10:44:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/14 21:34:53 by lbento           ###   ########.fr       */
+/*   Created: 2026/01/20 18:30:53 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/20 18:31:42 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_mshell	shell;
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <string.h>
+# include <dirent.h>
+# include <signal.h>
+# include <errno.h>
+# include "../libft/libft.h"
 
-	if (argc != 1 || argv[1])
-	{
-		printf ("Minishell doesn't get arguments.\n");
-		return (1);
-	}
-	shell.collector = NULL;
-	shell.envp = envp;
-	executor(&shell.collector, envp);
-	gc_clear(&shell.collector);
-	return (0);
-}
+
+
+#endif

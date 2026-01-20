@@ -5,7 +5,7 @@ LIBFT		=	libft/libft.a
 INC		=	-I ./src -I ./libft
 SRC		=	$(MAIN) $(EXECUTOR)
 
-MAIN		=	src/main.c \
+MAIN		=	src/main_executor.c \
 				src/tester_cmds.c
 
 EXECUTOR	=	src/executor/executor.c \
