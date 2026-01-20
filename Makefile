@@ -6,6 +6,7 @@ INC		=	-I ./src -I ./libft
 SRC		=	$(MAIN) $(EXECUTOR)
 
 MAIN		=	src/main.c \
+				src/tester_cmds.c
 
 EXECUTOR	=	src/executor/executor.c \
 				src/executor/get_path.c \
