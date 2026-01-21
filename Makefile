@@ -33,13 +33,17 @@ obj/%.o:	src/%.c
 clean:
 			@make -s $@ -C libft
 			@rm -rf $(OBJ) $(LIBFT) obj
-			@echo "\033[1;35mObjects deleted.\033[1;30m"
+			@echo "\033[1;35m🗑️  Objects deleted.\033[1;30m"
 
 fclean:	clean
 			@make -s fclean -C libft
 			@rm -rf $(NAME)
-			@echo "\033[1;36mMinishell deleted!\033[1;30m"
+			@echo "\033[1;36m🗑️  Minishell deleted!\033[1;30m"
 
 re:			fclean all
+
+val:			re
+				@echo "\033[1;31m\n================ Running with valgrind ================\033[1;30m"
+				@valgrind --leak-check=full --show-leak-kinds=all ./minishell
 
 .PHONY:		all clean fclean re

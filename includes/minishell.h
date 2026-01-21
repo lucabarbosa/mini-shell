@@ -21,6 +21,7 @@
 # include <dirent.h>
 # include <signal.h>
 # include <errno.h>
+# include <sys/wait.h>
 # include "../libft/libft.h"
 # include "../includes/executor.h"
 # include "../includes/lexer.h"
