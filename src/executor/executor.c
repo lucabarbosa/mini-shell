@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/20 19:11:24 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/21 13:36:59 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	executor(t_cmd **cmd, t_mshell *shell)
 
 	total_cmds = 0;
 	current = *cmd;
-	while (current->next)
+	while (current)
 	{
 		total_cmds++;
 		current = current->next;
@@ -53,11 +53,12 @@ static void	check_commands(t_cmd **cmd, t_mshell *shell)
 	{
 		if (temp)
 		{
-			if (get_path(temp->args, &shell->collector))
-			{
-				printf("command not found: %s", temp->args[0]);
-				return ;
-			}
+			if (!is_builtin(temp->args[0]))
+				if (get_path(temp->args, &shell->collector))
+				{
+					printf("command not found: %s", temp->args[0]);
+					exit (127);
+				}
 		}
 		temp = temp->next;
 	}
@@ -70,11 +71,8 @@ static void	exec_one_command(t_cmd *cmd, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (handle_one_redirect(cmd) != 0)
+		if (handle_redirect(cmd, envp) != 0)
 			return ;
-		execve(cmd->args[0], cmd->args, envp);
-		perror(cmd->args[0]);
-		return ;
 	}
 	waitpid(pid, NULL, 0);
 	return ;

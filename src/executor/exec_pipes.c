@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:08:35 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/20 19:59:26 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/21 10:19:31 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	exec_pipes(int num_cmd, t_cmd *cmd, char **envp, t_gc **collector)
 		}
 		relocate_pipes(pipes, num_cmd, i);
 		if (pid[i] == 0)
-			if (handle_mult_redirect(current) != 0)
-				perror("execve");
+			if (handle_redirect(current, envp) != 0)
+				return ;
 		current = current->next;
 		i++;
 	}

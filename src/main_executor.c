@@ -6,11 +6,14 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:44:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/20 17:55:21 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/21 13:41:26 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../includes/executor.h"
+
+static t_cmd	**tester_cmd(t_gc **collector);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -28,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!cmd)
 	{
 		printf("Error ----> tester_cmd\n");
-		return ;
+		return (1);
 	}
 	executor(cmd, &shell);
 	gc_clear(&shell.collector);
@@ -37,24 +40,24 @@ int	main(int argc, char **argv, char **envp)
 
 t_cmd	**tester_cmd(t_gc **collector)
 {
-	t_cmd	**cmd;
+    t_cmd *cmd;
 
-	cmd[0] = gc_malloc(collector, sizeof(t_cmd));
-	cmd[0]->args = gc_malloc(collector, 3 * sizeof(char *));
-	cmd[0]->args[0] = ft_strdup("cat", collector);
-	cmd[0]->args[1] = NULL;
-	cmd[0]->infile = NULL;
-	cmd[0]->outfile = ft_strdup("test.txt", collector);
-	cmd[0]->append = 0;
-	cmd[0]->next = cmd[1];
+	 cmd = gc_malloc(collector, sizeof(t_cmd));
+    cmd->args = gc_malloc(collector, 3 * sizeof(char *));
+    cmd->args[0] = ft_strdup("ls", collector);
+    cmd->args[1] = NULL;
+    cmd->infile = NULL;
+    cmd->outfile = ft_strdup("test.txt", collector);
+    cmd->append = 0;
 
-	cmd[1] = gc_malloc(collector, sizeof(t_cmd));
-	cmd[1]->args = gc_malloc(collector, 3 * sizeof(char *));
-	cmd[1]->args[0] = ft_strdup("ls", collector);
-	cmd[1]->args[1] = ft_strdup("-l", collector);
-	cmd[1]->infile = ft_strdup("infile.txt", collector);
-	cmd[1]->outfile = ft_strdup("test.txt", collector);
-	cmd[1]->append = 0;
-	cmd[1]->next = NULL;
-	return (cmd);
+    cmd->next = gc_malloc(collector, sizeof(t_cmd));
+    cmd->next->args = gc_malloc(collector, 3 * sizeof(char *));
+    cmd->next->args[0] = ft_strdup("ls", collector);
+    cmd->next->args[1] = ft_strdup("-l", collector);
+    cmd->next->args[2] = NULL;
+    cmd->next->infile = ft_strdup("infile.txt", collector);
+    cmd->next->outfile = ft_strdup("test.txt", collector);
+    cmd->next->append = 0;
+    cmd->next->next = NULL;
+    return cmd;
 }
