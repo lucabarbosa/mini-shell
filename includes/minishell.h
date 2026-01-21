@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/14 15:21:14 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:50:55 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "../libft/libft.h"
 # include "../includes/executor.h"
 # include "../includes/lexer.h"
+# include "../includes/parser.h"
 
 typedef struct s_mshell
 {

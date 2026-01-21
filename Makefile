@@ -3,9 +3,12 @@ CC			=	@cc
 CFLAGS	=	-Wall -Wextra -Werror
 LIBFT		=	libft/libft.a
 INC		=	-I ./src -I ./libft
-SRC		=	$(MAIN) $(LEXER)
+SRC		=	$(MAIN) $(LEXER) $(PARSER)
 
 MAIN		=	src/main.c \
+
+PARSER		=	src/parser/parser.c \
+				src/parser/parser_utils.c \
 
 LEXER		=	src/lexer/lexer.c \
 				src/lexer/tokenizer_utils.c \
