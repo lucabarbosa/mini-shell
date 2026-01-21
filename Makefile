@@ -5,7 +5,8 @@ LIBFT		=	libft/libft.a
 INC		=	-I ./src -I ./libft
 SRC		=	$(MAIN) $(LEXER) $(PARSER)
 
-MAIN		=	src/main.c \
+MAIN		=	src/main_executor.c \
+				src/tester_cmds.c
 
 PARSER		=	src/parser/parser.c \
 				src/parser/parser_utils.c \

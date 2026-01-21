@@ -2,3 +2,5 @@
 /obj
 *.o
 *.a
+infile.txt
+outfile.txt
