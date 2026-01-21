@@ -3,14 +3,17 @@ CC			=	@cc
 CFLAGS	=	-Wall -Wextra -Werror
 LIBFT		=	libft/libft.a
 INC		=	-I ./src -I ./libft
-SRC		=	$(MAIN) $(EXECUTOR)
+SRC		=	$(MAIN) $(LEXER) $(PARSER)
 
 MAIN		=	src/main_executor.c \
 				src/tester_cmds.c
 
-EXECUTOR	=	src/executor/executor.c \
-				src/executor/get_path.c \
-				src/executor/handle_redirect.c
+PARSER		=	src/parser/parser.c \
+				src/parser/parser_utils.c \
+
+LEXER		=	src/lexer/lexer.c \
+				src/lexer/tokenizer_utils.c \
+				src/lexer/handle_tokens.c \
 
 OBJ		=	$(patsubst src/%.c, obj/%.o, $(SRC))
 

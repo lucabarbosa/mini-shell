@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/20 18:33:54 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/21 18:58:22 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include "../libft/libft.h"
 # include "../includes/executor.h"
 # include "../includes/builtin.h"
+# include "../includes/lexer.h"
+# include "../includes/parser.h"
 
 typedef struct s_mshell
 {
