@@ -6,39 +6,44 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/21 10:19:21 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/22 00:27:38 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/executor.h"
 
-int			handle_redirect(t_cmd *cmd, char **envp);
-static int	infile_redirec(t_cmd *cmd, int newfd);
-static int	outfile_redirec(t_cmd *cmd, int newfd);
+void			handle_redirect(t_cmd *cmd, t_mshell *shell);
+static int	infile_redirect(t_cmd *cmd, int newfd);
+static int	outfile_redirect(t_cmd *cmd, int newfd);
 
-int	handle_redirect(t_cmd *cmd, char **envp)
+void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 {
-	int	exit;
+	char	*full_path;
 
 	if (cmd->infile)
-	{
-		exit = infile_redirec(cmd, STDIN_FILENO);
-		if (exit)
-			return (exit);
-	}
+		if (infile_redirect(cmd, STDIN_FILENO))
+			exit (1);
 	if (cmd->outfile)
+		if (outfile_redirect(cmd, STDOUT_FILENO))
+			exit (1);
+	if (is_builtin(cmd->args[0]))
 	{
-		exit = outfile_redirec(cmd, STDOUT_FILENO);
-		if (exit)
-			return (exit);
+		exec_builtin(&cmd, shell);
+		exit (0);
 	}
-	execve(cmd->args[0], cmd->args, envp);
+	full_path = get_path(cmd->args[0], &shell->collector);
+	if (!full_path)
+	{
+		printf("%s: command not found\n", cmd->args[0]);
+		exit (127);
+	}
+	execve(full_path, cmd->args, shell->envp);
 	perror("execve");
-	return (1);
+	exit (126);
 }
 
-static int	infile_redirec(t_cmd *cmd, int newfd)
+static int	infile_redirect(t_cmd *cmd, int newfd)
 {
 	int	fd;
 
@@ -58,7 +63,7 @@ static int	infile_redirec(t_cmd *cmd, int newfd)
 	return (0);
 }
 
-static int	outfile_redirec(t_cmd *cmd, int newfd)
+static int	outfile_redirect(t_cmd *cmd, int newfd)
 {
 	int	fd;
 

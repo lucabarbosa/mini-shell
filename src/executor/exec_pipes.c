@@ -6,88 +6,80 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:08:35 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/21 10:19:31 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/22 00:14:19 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/executor.h"
 
-void		exec_pipes(int num_cmd, t_cmd *cmd, char **envp, t_gc **collect);
+void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
+static int	**create_pipes(int num_cmd, t_gc **collector);
+static void	child_pipes(int **pipes, int num_pipes, int cmd_index);
 static void	close_pipes(int **pipe, int num_pipes);
-pid_t		*create_pipes_pids(int **pipes, int num_cmd, t_gc **collector);
-static void	relocate_pipes(int **pipes, int num_cmd, int i);
+static void wait_all(pid_t *pid, int num_cmd);
 
-void	exec_pipes(int num_cmd, t_cmd *cmd, char **envp, t_gc **collector)
+void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell)
 {
-	int		**pipes;
-	t_cmd	*current;
-	pid_t	*pid;
+	int	**pipes;
+	pid_t	*pids;
 	int		i;
 
+	pipes = create_pipes(num_cmd - 1, &shell->collector);
+	if (!pipes)
+		return ;
+	pids = gc_malloc(&shell->collector, sizeof(pid_t) * num_cmd);
 	i = 0;
-	pid = create_pipes_pids(pipes, num_cmd, collector);
-	current = cmd;
-	while (current)
+	while (cmd)
 	{
-		pid[i] = fork();
-		if (pid[i] == -1)
+		pids[i] = fork();
+		if (pids[i] == -1)
+			print_error(0);
+		if (pids[i] == 0)
 		{
-			perror("fork");
-			return ;
+			child_pipes(pipes, num_cmd - 1, i);
+			handle_redirect(cmd, shell);
+			exit (1);
 		}
-		relocate_pipes(pipes, num_cmd, i);
-		if (pid[i] == 0)
-			if (handle_redirect(current, envp) != 0)
-				return ;
-		current = current->next;
+		cmd = cmd -> next;
 		i++;
 	}
-	while (i-- < num_cmd)
-		waitpid(pid[i], NULL, 0);
+	close_pipes(pipes, num_cmd - 1);
+	wait_all(pids, num_cmd);
 }
 
-static pid_t	*create_pipes_pids(int **pipes, int num_cmd, t_gc **collector)
+static int	**create_pipes(int num_pipes, t_gc **collector)
 {
+	int		**pipes;
 	int		i;
-	pid_t	*pid;
 
+	pipes = gc_malloc(collector, num_pipes * sizeof(int *));
 	i = 0;
-	pipes = gc_malloc(collector, num_cmd * sizeof(int *));
-	while (i < num_cmd)
+	while (i < num_pipes)
 	{
 		pipes[i] = gc_malloc(collector, 2 * sizeof(int));
 		i++;
 	}
 	i = 0;
-	while (i < num_cmd)
+	while (i < num_pipes)
 	{
 		if (pipe(pipes[i]) == -1)
 		{
 			perror("pipe");
-			return ;
+			return (NULL);
 		}
 		i++;
 	}
-	pid = gc_malloc(collector, num_cmd * sizeof(pid_t));
-	return (pid);
+	return (pipes);
 }
 
-static void	relocate_pipes(int **pipes, int num_cmd, int i)
+static void	child_pipes(int **pipes, int num_pipes, int cmd_index)
 {
-	int	j;
-
-	j = 0;
-	if (i > 0)
-		dup2(pipes[i - 1][0], STDIN_FILENO);
-	if (i < num_cmd - 1)
-		dup2 (pipes[i][1], STDOUT_FILENO);
-	while (j < num_cmd - 1)
-	{
-		close(pipes[j][0]);
-		close(pipes[j][1]);
-		j++;
-	}
+	if(cmd_index > 0)
+		dup2(pipes[cmd_index - 1][0], STDIN_FILENO);
+	if(cmd_index < num_pipes)
+		dup2(pipes[cmd_index][1], STDOUT_FILENO);
+	close_pipes(pipes, num_pipes);
 }
 
 static void	close_pipes(int **pipe, int num_pipes)
@@ -99,6 +91,18 @@ static void	close_pipes(int **pipe, int num_pipes)
 	{
 		close(pipe[i][0]);
 		close(pipe[i][1]);
+		i++;
+	}
+}
+
+static void wait_all(pid_t *pid, int num_cmd)
+{
+	int	i;
+
+	i = 0;
+	while (i < num_cmd)
+	{
+		waitpid(pid[i], NULL, 0);
 		i++;
 	}
 }

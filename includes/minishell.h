@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/21 18:58:22 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/21 20:36:04 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ typedef struct s_mshell
 	t_gc	*collector;
 	char	**envp;
 }	t_mshell;
+
+void	print_error(int num);
 
 #endif
