@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:05:42 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 00:00:30 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/22 15:43:19 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ char	*get_path(char *cmd, t_gc **collector)
 	if (!cmd || !cmd[0])
 		return (NULL);
 	if (cmd[0] == '/' || cmd[0] == '.')
-    {
-        if (access(cmd, X_OK) == 0)
-            return (ft_strdup(cmd, collector));
-        else
-            return (NULL);
-    }
+	{
+		if (access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd, collector));
+		else
+			return (NULL);
+	}
 	cmd_paths = getting_path(collector);
 	if (!cmd_paths)
 		return (NULL);

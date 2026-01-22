@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/21 20:36:04 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/22 16:04:31 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,20 @@
 # include <signal.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libft/libft.h"
-# include "../includes/executor.h"
-# include "../includes/builtin.h"
-# include "../includes/lexer.h"
-# include "../includes/parser.h"
+# include "executor.h"
+# include "builtin.h"
+# include "lexer.h"
+# include "parser.h"
 
 typedef struct s_mshell
 {
 	t_gc	*collector;
 	char	**envp;
+	int		last_exit;
+	int		running;
 }	t_mshell;
 
 void	print_error(int num);

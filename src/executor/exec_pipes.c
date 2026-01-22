@@ -6,24 +6,24 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:08:35 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 00:14:19 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/22 19:36:48 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-#include "../includes/executor.h"
+#include "../../includes/minishell.h"
+#include "../../includes/executor.h"
 
-void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
-static int	**create_pipes(int num_cmd, t_gc **collector);
+void		exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
+static int	**create_pipes(int num_pipes, t_gc **collector);
 static void	child_pipes(int **pipes, int num_pipes, int cmd_index);
 static void	close_pipes(int **pipe, int num_pipes);
-static void wait_all(pid_t *pid, int num_cmd);
+static int	wait_all_exit(pid_t *pid, int num_cmd);
 
 void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell)
 {
-	int	**pipes;
-	pid_t	*pids;
 	int		i;
+	pid_t	*pids;
+	int		**pipes;
 
 	pipes = create_pipes(num_cmd - 1, &shell->collector);
 	if (!pipes)
@@ -45,7 +45,7 @@ void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell)
 		i++;
 	}
 	close_pipes(pipes, num_cmd - 1);
-	wait_all(pids, num_cmd);
+	shell->last_exit = wait_all_exit(pids, num_cmd);
 }
 
 static int	**create_pipes(int num_pipes, t_gc **collector)
@@ -54,18 +54,17 @@ static int	**create_pipes(int num_pipes, t_gc **collector)
 	int		i;
 
 	pipes = gc_malloc(collector, num_pipes * sizeof(int *));
+	if (!pipes)
+		return (NULL);
 	i = 0;
 	while (i < num_pipes)
 	{
 		pipes[i] = gc_malloc(collector, 2 * sizeof(int));
-		i++;
-	}
-	i = 0;
-	while (i < num_pipes)
-	{
+		if (!pipes[i])
+			return (NULL);
 		if (pipe(pipes[i]) == -1)
 		{
-			perror("pipe");
+			perror("minishell: pipe");
 			return (NULL);
 		}
 		i++;
@@ -75,10 +74,12 @@ static int	**create_pipes(int num_pipes, t_gc **collector)
 
 static void	child_pipes(int **pipes, int num_pipes, int cmd_index)
 {
-	if(cmd_index > 0)
-		dup2(pipes[cmd_index - 1][0], STDIN_FILENO);
-	if(cmd_index < num_pipes)
-		dup2(pipes[cmd_index][1], STDOUT_FILENO);
+	if (cmd_index > 0)
+		if (dup2(pipes[cmd_index - 1][0], STDIN_FILENO) == -1)
+			print_error(1);
+	if (cmd_index < num_pipes)
+		if (dup2(pipes[cmd_index][1], STDOUT_FILENO) == -1)
+			print_error(1);
 	close_pipes(pipes, num_pipes);
 }
 
@@ -95,14 +96,25 @@ static void	close_pipes(int **pipe, int num_pipes)
 	}
 }
 
-static void wait_all(pid_t *pid, int num_cmd)
+static int	wait_all_exit(pid_t *pid, int num_cmd)
 {
 	int	i;
+	int	status;
+	int	last_status;
 
 	i = 0;
+	last_status = 0;
 	while (i < num_cmd)
 	{
-		waitpid(pid[i], NULL, 0);
+		waitpid(pid[i], &status, 0);
+		if (i == num_cmd -1)
+		{
+			if (WIFEXITED(status))
+				last_status = WEXITSTATUS(status);
+			if (WIFSIGNALED(status))
+				last_status = 128 + WTERMSIG(status);
+		}
 		i++;
 	}
+	return (last_status);
 }

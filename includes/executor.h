@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 00:28:55 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/22 17:08:28 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@
 # include <signal.h>
 # include <errno.h>
 # include "../libft/libft.h"
+# include "minishell.h"
+# include "builtin.h"
 
-typedef struct s_mshell t_mshell;
+typedef struct s_mshell	t_mshell;
 
 typedef struct s_cmd
 {
@@ -34,12 +36,10 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+int		wait_exit_status(pid_t pid);
 void	executor(t_cmd **cmd, t_mshell *shell);
 char	*get_path(char *cmd, t_gc **collector);
 void	handle_redirect(t_cmd *cmd, t_mshell *shell);
 void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
-
-int		is_builtin(char *arg);
-void	exec_builtin(t_cmd **cmd, t_mshell *shell);
 
 #endif
