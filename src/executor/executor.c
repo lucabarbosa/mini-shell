@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/21 13:36:59 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/22 00:30:12 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "../includes/executor.h"
 
 void			executor(t_cmd **cmd, t_mshell *shell);
-static int		is_builtin(char *arg);
-static void		check_commands(t_cmd **cmd, t_mshell *shell);
-static void		exec_one_command(t_cmd *cmd, char **envp);
-static void		execution_commands(t_cmd *cmd, t_gc **collector, char **envp);
+static void		exec_one_command(t_cmd *cmd, t_mshell *shell);
+
+int		is_builtin(char *arg);
+void	exec_builtin(t_cmd **cmd, t_mshell *shell);
 
 void	executor(t_cmd **cmd, t_mshell *shell)
 {
@@ -32,53 +32,36 @@ void	executor(t_cmd **cmd, t_mshell *shell)
 		current = current->next;
 	}
 	current = *cmd;
-	check_commands(cmd, &shell->collector);
 	if (total_cmds == 1)
 	{
 		if (is_builtin(current->args[0]))
 			exec_builtin(cmd, shell);
 		else
-			exec_one_command(current, &shell->envp);
+			exec_one_command(current, shell);
 	}
 	else
-		exec_pipes(cmd, total_cmds, &shell->collector, &shell->envp);
+		exec_pipes(total_cmds, current, shell);
 }
 
-static void	check_commands(t_cmd **cmd, t_mshell *shell)
-{
-	t_cmd	*temp;
-
-	temp = *cmd;
-	while (temp->next)
-	{
-		if (temp)
-		{
-			if (!is_builtin(temp->args[0]))
-				if (get_path(temp->args, &shell->collector))
-				{
-					printf("command not found: %s", temp->args[0]);
-					exit (127);
-				}
-		}
-		temp = temp->next;
-	}
-}
-
-static void	exec_one_command(t_cmd *cmd, char **envp)
+static void	exec_one_command(t_cmd *cmd, t_mshell *shell)
 {
 	pid_t	pid;
 
 	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		return ;
+	}
 	if (pid == 0)
 	{
-		if (handle_redirect(cmd, envp) != 0)
-			return ;
+		handle_redirect(cmd, shell);
+		exit (1);
 	}
 	waitpid(pid, NULL, 0);
-	return ;
 }
 
-static int	is_builtin(char *arg)
+int	is_builtin(char *arg)
 {
 	if (!ft_strcmp("echo", arg))
 		return (1);
@@ -96,4 +79,11 @@ static int	is_builtin(char *arg)
 		return (1);
 	else
 		return (0);
+}
+
+void	exec_builtin(t_cmd **cmd, t_mshell *shell)
+{
+	printf("NÃO FOI FEITO ESSE BUILTIN %s\n", cmd[0]->args[0]);
+	gc_clear (&shell->collector);
+	exit (0);
 }

@@ -6,39 +6,36 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:05:42 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/14 19:14:42 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/22 00:00:30 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/executor.h"
 
-int			get_path(char **cmd, t_gc **collector);
+char		*get_path(char *cmd, t_gc **collector);
 static char	**getting_path(t_gc **collector);
 static char	*finding_executable(char *cmd, char **paths, t_gc **collector);
 
-int	get_path(char **cmd, t_gc **collector)
+char	*get_path(char *cmd, t_gc **collector)
 {
 	char	**cmd_paths;
 	char	*full_path;
 
 	if (!cmd || !cmd[0])
-		return (1);
-	if (ft_strchr(cmd[0], '/'))
-	{
-		if (access(cmd[0], X_OK) == 0)
-			return (0);
-		return (1);
-	}
+		return (NULL);
+	if (cmd[0] == '/' || cmd[0] == '.')
+    {
+        if (access(cmd, X_OK) == 0)
+            return (ft_strdup(cmd, collector));
+        else
+            return (NULL);
+    }
 	cmd_paths = getting_path(collector);
 	if (!cmd_paths)
-		return (1);
-	full_path = finding_executable(cmd[0], cmd_paths, collector);
-	if (!full_path)
-		return (1);
-	gc_free(collector, cmd[0]);
-	cmd[0] = full_path;
-	return (0);
+		return (NULL);
+	full_path = finding_executable(cmd, cmd_paths, collector);
+	return (full_path);
 }
 
 static char	**getting_path(t_gc **collector)

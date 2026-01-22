@@ -3,10 +3,9 @@ CC			=	@cc
 CFLAGS	=	-Wall -Wextra -Werror
 LIBFT		=	libft/libft.a
 INC		=	-I ./src -I ./libft
-SRC		=	$(MAIN) $(LEXER) $(PARSER)
+SRC		=	$(MAIN) $(LEXER) $(PARSER) $(EXECUTOR)
 
 MAIN		=	src/main_executor.c \
-				src/tester_cmds.c
 
 PARSER		=	src/parser/parser.c \
 				src/parser/parser_utils.c \
@@ -14,6 +13,11 @@ PARSER		=	src/parser/parser.c \
 LEXER		=	src/lexer/lexer.c \
 				src/lexer/tokenizer_utils.c \
 				src/lexer/handle_tokens.c \
+
+EXECUTOR	=	src/executor/executor.c \
+				src/executor/get_path.c \
+				src/executor/handle_redirect.c \
+				src/executor/exec_pipes.c \
 
 OBJ		=	$(patsubst src/%.c, obj/%.o, $(SRC))
 
@@ -29,7 +33,7 @@ $(NAME):	$(OBJ)
 
 obj/%.o:	src/%.c
 			@mkdir -p $(dir $@)
-			$(CC) $(CFLAGS) $(INC) -c $< -o $@ 
+			@$(CC) $(CFLAGS) $(INC) -c $< -o $@ 
 
 clean:
 			@make -s $@ -C libft
@@ -47,4 +51,4 @@ val:			re
 				@echo "\033[1;31m\n================ Running with valgrind ================\033[1;30m"
 				@valgrind --leak-check=full --show-leak-kinds=all ./minishell
 
-.PHONY:		all clean fclean re
+.PHONY:		all clean fclean re val

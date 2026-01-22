@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:33:21 by iaratang          #+#    #+#             */
-/*   Updated: 2026/01/21 20:48:41 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:54:13 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void print_commands(t_cmd *commands)
             printf("(none)");
         printf("\n");
         
-        printf("  Input: %s\n", current->input ? current->input : "(none)");
-        printf("  Output: %s\n", current->output ? current->output : "(none)");
+        printf("  Input: %s\n", current->infile ? current->infile : "(none)");
+        printf("  Output: %s\n", current->outfile ? current->outfile : "(none)");
         printf("  Append: %s\n", current->append ? "yes" : "no");
         printf("----------------------------\n");
         

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 17:50:17 by iaratang          #+#    #+#             */
-/*   Updated: 2026/01/21 21:03:47 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:51:09 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ t_cmd    *init_cmd(t_gc **collector)
         return (NULL);
     command->append = 0;
     command->args = NULL;
-    command->input = NULL;
-    command->output = NULL;
+    command->infile = NULL;
+    command->outfile = NULL;
     command->next = NULL;
     return (command);
 }
@@ -75,15 +75,15 @@ int handle_redirection(t_cmd *cmd, t_token **current, t_gc  **collector)
     if (!(*current) || ((*current)->type != TOKEN_DQUOTE && (*current)->type != TOKEN_SQUOTE && (*current)->type != TOKEN_WORD))
         return (0);
     if (type == TOKEN_REDIR_IN || type == TOKEN_HEREDOC)
-        cmd->input = ft_strdup((*current)->value, collector);
+        cmd->infile = ft_strdup((*current)->value, collector);
     else if (type == TOKEN_REDIR_OUT)
     {
-        cmd->output = ft_strdup((*current)->value, collector);
+        cmd->outfile = ft_strdup((*current)->value, collector);
         cmd->append = 0;
     }
     else if (type == TOKEN_REDIR_APPEND)
     {
-        cmd->output = ft_strdup((*current)->value, collector);
+        cmd->outfile = ft_strdup((*current)->value, collector);
         cmd->append = 1;
     }
     *current = (*current)->next;

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:30:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/20 18:31:42 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/22 00:20:01 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # include <errno.h>
 # include "../libft/libft.h"
 
+typedef struct s_cmd t_cmd;
+typedef struct s_mshell t_mshell;
 
+int		is_builtin(char *cmd);
+void	exec_builtin(t_cmd **cmd, t_mshell *shell);
 
 #endif
