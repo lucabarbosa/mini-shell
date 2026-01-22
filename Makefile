@@ -1,23 +1,27 @@
 NAME		=	minishell
 CC			=	@cc
 CFLAGS	=	-Wall -Wextra -Werror
+READLINE =	-lreadline
 LIBFT		=	libft/libft.a
 INC		=	-I ./src -I ./libft
-SRC		=	$(MAIN) $(LEXER) $(PARSER) $(EXECUTOR)
+SRC		=	$(MAIN) $(LEXER) $(PARSER) $(EXECUTOR) $(BUILTIN)
 
-MAIN		=	src/main_executor.c \
-
-PARSER		=	src/parser/parser.c \
-				src/parser/parser_utils.c \
+MAIN		=	src/main.c \
+				src/minishell_utils.c
 
 LEXER		=	src/lexer/lexer.c \
 				src/lexer/tokenizer_utils.c \
 				src/lexer/handle_tokens.c \
 
+PARSER		=	src/parser/parser.c \
+				src/parser/parser_utils.c \
+
 EXECUTOR	=	src/executor/executor.c \
 				src/executor/get_path.c \
 				src/executor/handle_redirect.c \
 				src/executor/exec_pipes.c \
+
+BUILTIN		=	src/builtin/builtin.c
 
 OBJ		=	$(patsubst src/%.c, obj/%.o, $(SRC))
 
@@ -28,7 +32,7 @@ $(LIBFT):
 			@echo "\033[1;32m✅ Libft compiled!\033[1;30m"
 
 $(NAME):	$(OBJ)
-			$(CC) $(CFLAGS) -o $@ $^ $(LIBFT)
+			$(CC) $(CFLAGS) -o $@ $^ $(LIBFT) $(READLINE)
 			@echo "\033[1;32m✅ Minishell compiled!\033[1;30m"
 
 obj/%.o:	src/%.c

@@ -6,16 +6,16 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 00:27:38 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/22 19:02:38 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-#include "../includes/executor.h"
+#include "../../includes/minishell.h"
+#include "../../includes/executor.h"
 
 void			handle_redirect(t_cmd *cmd, t_mshell *shell);
-static int	infile_redirect(t_cmd *cmd, int newfd);
-static int	outfile_redirect(t_cmd *cmd, int newfd);
+static int		infile_redirect(t_cmd *cmd, int newfd);
+static int		outfile_redirect(t_cmd *cmd, int newfd);
 
 void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 {
@@ -35,7 +35,7 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 	full_path = get_path(cmd->args[0], &shell->collector);
 	if (!full_path)
 	{
-		printf("%s: command not found\n", cmd->args[0]);
+		perror(cmd->args[0]);
 		exit (127);
 	}
 	execve(full_path, cmd->args, shell->envp);

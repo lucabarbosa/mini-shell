@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 18:30:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 19:01:52 by lbento           ###   ########.fr       */
+/*   Created: 2026/01/22 16:21:07 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/22 18:44:20 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "../includes/minishell.h"
 
-# include "../libft/libft.h"
-# include "minishell.h"
-# include "executor.h"
+void	print_error(int num);
 
-typedef struct s_cmd	t_cmd;
-typedef struct s_mshell	t_mshell;
-
-int		is_builtin(char *arg);
-void	exec_builtin(t_cmd **cmd, t_mshell *shell);
-
-#endif
+void	print_error(int num)
+{
+	if (num == 0)
+		perror("minishell: fork");
+	if (num == 1)
+		perror("minishell: dup2");
+	exit (1);
+}
