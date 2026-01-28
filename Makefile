@@ -53,6 +53,6 @@ re:			fclean all
 
 val:			re
 				@echo "\033[1;31m\n================ Running with valgrind ================\033[1;30m"
-				@valgrind --leak-check=full --show-leak-kinds=all ./minishell
+				@valgrind --leak-check=full --show-leak-kinds=all --suppressions=./readline.supp ./minishell
 
 .PHONY:		all clean fclean re val

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 19:02:38 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/28 16:53:54 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,25 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 
 	if (cmd->infile)
 		if (infile_redirect(cmd, STDIN_FILENO))
-			exit (1);
+			print_error (0, shell);
 	if (cmd->outfile)
 		if (outfile_redirect(cmd, STDOUT_FILENO))
-			exit (1);
-	if (is_builtin(cmd->args[0]))
+			print_error (0, shell);
+	if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
 	{
 		exec_builtin(&cmd, shell);
-		exit (0);
+		print_error(0, shell);
 	}
 	full_path = get_path(cmd->args[0], &shell->collector);
 	if (!full_path)
 	{
 		perror(cmd->args[0]);
+		clean_shell(shell);
 		exit (127);
 	}
 	execve(full_path, cmd->args, shell->envp);
 	perror("execve");
+	clean_shell(shell);
 	exit (126);
 }
 

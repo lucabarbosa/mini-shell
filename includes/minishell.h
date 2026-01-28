@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 16:04:31 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/28 16:27:36 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_mshell
 	int		running;
 }	t_mshell;
 
-void	print_error(int num);
+void	clean_shell(t_mshell *shell);
+void	print_error(int num, t_mshell *shell);
 
 #endif
