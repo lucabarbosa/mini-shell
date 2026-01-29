@@ -6,19 +6,19 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 11:46:18 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 12:53:10 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/29 15:34:02 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/builtin.h"
 
-static int  have_char(char *str);
-long   command_exit(char **args, t_mshell *shell);
+static int	have_char(char *str);
+long		command_exit(char **args, t_mshell *shell);
 
-long   command_exit(char **args, t_mshell *shell)
+long	command_exit(char **args, t_mshell *shell)
 {
-	long  exit_num;
+	long	exit_num;
 
 	ft_putendl_fd("exit", 2);
 	if (!args[1])
@@ -35,7 +35,7 @@ long   command_exit(char **args, t_mshell *shell)
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
-		ft_putendl_fd(": numeric argument required\n" ,2);
+		ft_putendl_fd(": numeric argument required\n", 2);
 		shell->running = 0;
 		return (2);
 	}
@@ -45,7 +45,7 @@ long   command_exit(char **args, t_mshell *shell)
 	return (exit_num);
 }
 
-static int  have_char(char *str)
+static int	have_char(char *str)
 {
 	int	i;
 

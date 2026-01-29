@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 23:31:06 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 15:33:20 by lbento           ###   ########.fr       */
+/*   Created: 2026/01/29 15:31:07 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/29 15:35:34 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/builtin.h"
 
-int	command_pwd(void);
+int	command_cd(char **args, t_mshell *shell);
 
-int	command_pwd(void)
+int	command_cd(char **args, t_mshell *shell)
 {
-	char	current_path[4096];
-
-	if (getcwd(current_path, 4096) == NULL)
-	{
-		perror("minishell: getcwd");
-		return (1);
-	}
-	printf("%s\n", current_path);
-	return (0);
+	
 }

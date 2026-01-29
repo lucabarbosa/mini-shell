@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 17:08:28 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/29 20:20:44 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_cmd
 
 int		wait_exit_status(pid_t pid);
 void	executor(t_cmd **cmd, t_mshell *shell);
-char	*get_path(char *cmd, t_gc **collector);
+char	*get_path(char *cmd, t_mshell *shell);
 void	handle_redirect(t_cmd *cmd, t_mshell *shell);
 void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
 

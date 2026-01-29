@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 19:02:16 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/29 18:30:02 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	executor(t_cmd **cmd, t_mshell *shell)
 	current = *cmd;
 	if (total_cmds == 1)
 	{
-		if (is_builtin(current->args[0]))
+		if (current->args && current->args[0] && parent_built(current->args[0]))
 		{
 			exec_builtin(cmd, shell);
 			return ;
