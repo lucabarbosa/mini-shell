@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 18:30:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/28 23:59:07 by lbento           ###   ########.fr       */
+/*   Created: 2026/01/28 23:31:06 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/28 23:40:40 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "../../includes/minishell.h"
+#include "../../includes/builtin.h"
 
-# include "../libft/libft.h"
-# include "minishell.h"
-# include "executor.h"
-
-typedef struct s_cmd	t_cmd;
-typedef struct s_mshell	t_mshell;
-
-int		is_builtin(char *arg);
-void	exec_builtin(t_cmd **cmd, t_mshell *shell);
-int   command_echo(char **args);
 int   command_pwd(void);
 
-#endif
+int   command_pwd(void)
+{
+   char  current_path[4096];
+   
+   if (getcwd(current_path, 4096) == NULL)
+   {
+      perror("minishell: getcwd");
+      return (1);
+   }
+  	printf("%s\n", current_path);
+	return (0);
+}

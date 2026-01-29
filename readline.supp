@@ -1,0 +1,24 @@
+# Supressões para a biblioteca readline
+{
+   readline_internal
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:readline
+}
+
+{
+   add_history_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:add_history
+}
+
+{
+   readline_lib
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:*/libreadline.so*
+}

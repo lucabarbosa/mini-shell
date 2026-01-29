@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 19:06:36 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/28 16:35:45 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	init_shell(t_mshell *shell, char **envp);
 static int	input_process(char *input, t_mshell *shell);
 static void	shell_loop(t_mshell *shell);
-static void	cleanup_shell(t_mshell *shell);
+void	clean_shell(t_mshell *shell);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	init_shell(&shell, envp);
 	shell_loop(&shell);
-	cleanup_shell(&shell);
+	clean_shell(&shell);
 	return (shell.last_exit);
 }
 
@@ -55,6 +55,7 @@ static void	shell_loop(t_mshell *shell)
 			shell->last_exit = input_process(input, shell);
 		}
 		free(input);
+		input = NULL;
 	}
 }
 
@@ -83,7 +84,7 @@ static int	input_process(char *input, t_mshell *shell)
 	return (exit_status);
 }
 
-static void	cleanup_shell(t_mshell *shell)
+void	clean_shell(t_mshell *shell)
 {
 	gc_clear(&shell->collector);
 	rl_clear_history();

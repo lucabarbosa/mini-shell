@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:08:35 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 19:36:48 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/28 16:50:56 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void		exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
 static int	**create_pipes(int num_pipes, t_gc **collector);
-static void	child_pipes(int **pipes, int num_pipes, int cmd_index);
+static void	child_pipes(int **pipes, int num_pipes, int cmd_index, t_mshell *shell);
 static void	close_pipes(int **pipe, int num_pipes);
 static int	wait_all_exit(pid_t *pid, int num_cmd);
 
@@ -34,12 +34,12 @@ void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell)
 	{
 		pids[i] = fork();
 		if (pids[i] == -1)
-			print_error(0);
+			print_error(0, shell);
 		if (pids[i] == 0)
 		{
-			child_pipes(pipes, num_cmd - 1, i);
+			child_pipes(pipes, num_cmd - 1, i, shell);
 			handle_redirect(cmd, shell);
-			exit (1);
+			print_error (0, shell);
 		}
 		cmd = cmd -> next;
 		i++;
@@ -72,14 +72,14 @@ static int	**create_pipes(int num_pipes, t_gc **collector)
 	return (pipes);
 }
 
-static void	child_pipes(int **pipes, int num_pipes, int cmd_index)
+static void	child_pipes(int **pipes, int num_pipes, int cmd_index, t_mshell *shell)
 {
 	if (cmd_index > 0)
 		if (dup2(pipes[cmd_index - 1][0], STDIN_FILENO) == -1)
-			print_error(1);
+			print_error(1, shell);
 	if (cmd_index < num_pipes)
 		if (dup2(pipes[cmd_index][1], STDOUT_FILENO) == -1)
-			print_error(1);
+			print_error(1, shell);
 	close_pipes(pipes, num_pipes);
 }
 
