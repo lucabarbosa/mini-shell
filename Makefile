@@ -23,7 +23,9 @@ EXECUTOR	=	src/executor/executor.c \
 
 BUILTIN		=	src/builtin/builtin.c \
 					src/builtin/builtin_pwd.c \
-					src/builtin/builtin_echo.c
+					src/builtin/builtin_echo.c \
+					src/builtin/builtin_env.c \
+					src/builtin/builtin_exit.c
 
 OBJ		=	$(patsubst src/%.c, obj/%.o, $(SRC))
 

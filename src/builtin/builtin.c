@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:27:58 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 00:07:35 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/29 12:54:49 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ void	exec_builtin(t_cmd **cmd, t_mshell *shell)
 	else if (!ft_strcmp("unset", command))
 		shell->last_exit = 0;
 	else if (!ft_strcmp("env", command))
-		shell->last_exit = 0;
+		shell->last_exit = command_env((*cmd)->args, shell->envp);
 	else if (!ft_strcmp("exit", command))
-	{
-		shell->running = 0;
-		shell->last_exit = 0;
-	}
+		shell->last_exit = command_exit((*cmd)->args, shell);
 }

@@ -1,30 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 18:30:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 12:38:36 by lbento           ###   ########.fr       */
+/*   Created: 2026/01/29 11:11:28 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/29 11:44:54 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "../../includes/minishell.h"
+#include "../../includes/builtin.h"
 
-# include "../libft/libft.h"
-# include "minishell.h"
-# include "executor.h"
-
-typedef struct s_cmd	t_cmd;
-typedef struct s_mshell	t_mshell;
-
-int		is_builtin(char *arg);
-void	exec_builtin(t_cmd **cmd, t_mshell *shell);
-int   command_echo(char **args);
-int   command_pwd(void);
 int   command_env(char **args, char **envp);
-long   command_exit(char **args, t_mshell *shell);
 
-#endif
+int   command_env(char **args, char **envp)
+{
+	int   i;
+
+	if (!envp || !envp [0])
+		return (1);
+	if (args[1] != NULL)
+	{
+		ft_putendl_fd("minishell: env: command not allowed", 2);
+		return (1);
+	}
+	i = 0;
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+	return (0);
+}
