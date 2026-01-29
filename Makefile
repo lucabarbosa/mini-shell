@@ -21,7 +21,9 @@ EXECUTOR	=	src/executor/executor.c \
 				src/executor/handle_redirect.c \
 				src/executor/exec_pipes.c \
 
-BUILTIN		=	src/builtin/builtin.c
+BUILTIN		=	src/builtin/builtin.c \
+					src/builtin/builtin_pwd.c \
+					src/builtin/builtin_echo.c
 
 OBJ		=	$(patsubst src/%.c, obj/%.o, $(SRC))
 

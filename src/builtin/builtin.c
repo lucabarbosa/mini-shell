@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:27:58 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 19:01:37 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/29 00:07:35 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ void	exec_builtin(t_cmd **cmd, t_mshell *shell)
 		return ;
 	command = (*cmd)->args[0];
 	if (!ft_strcmp("echo", command))
-		shell->last_exit = 0;
+		shell->last_exit = command_echo((*cmd)->args);
 	else if (!ft_strcmp("cd", command))
 		shell->last_exit = 0;
 	else if (!ft_strcmp("pwd", command))
-		shell->last_exit = 0;
+		shell->last_exit = command_pwd();
 	else if (!ft_strcmp("export", command))
 		shell->last_exit = 0;
 	else if (!ft_strcmp("unset", command))
@@ -61,5 +61,4 @@ void	exec_builtin(t_cmd **cmd, t_mshell *shell)
 		shell->running = 0;
 		shell->last_exit = 0;
 	}
-	printf ("BULTIN NÃO ESTÁ FETO AINDA!");
 }
