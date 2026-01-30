@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 19:27:21 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/30 10:32:49 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 typedef struct s_mshell
 {
 	t_gc	*collector;
+	t_gc	*envp_collect;
 	char	**envp;
 	int		env_size;
 	int		env_capacity;

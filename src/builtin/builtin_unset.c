@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 19:01:54 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 19:52:09 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/30 10:57:24 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ int	command_unset(char **args, t_mshell *shell)
 		{
 			index = find_env_index(args[i], shell->envp);
 			if (index != -1)
+			{
 				remove_env_var(index, shell);
+				gc_free(&shell->envp_collect, args[i]);
+			}
 		}
 		i++;
 	}

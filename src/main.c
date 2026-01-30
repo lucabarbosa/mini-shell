@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 19:32:05 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/30 10:53:25 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	main(int argc, char **argv, char **envp)
 static void	init_shell(t_mshell *shell, char **envp)
 {
 	shell->collector = NULL;
-	shell->envp = init_envp(envp, &shell->collector, shell);
+	shell->envp_collect = NULL;
+	shell->envp = init_envp(envp, &shell->envp_collect, shell);
 	shell->last_exit = 0;
 	shell->running = 1;
 }
@@ -49,7 +50,7 @@ static char	**init_envp(char **envp, t_gc **collector, t_mshell *shell)
 	while (envp[i])
 		i++;
 	shell->env_size = i;
-	shell->env_capacity = i + 10;
+	shell->env_capacity = i;
 	env_clone = gc_malloc(collector, sizeof(char *) * (i + 10));
 	if (!env_clone)
 		return (NULL);

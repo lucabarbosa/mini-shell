@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:27:58 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 19:45:38 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/30 14:52:05 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	exec_builtin(t_cmd **cmd, t_mshell *shell)
 	if (!ft_strcmp("echo", command))
 		shell->last_exit = command_echo((*cmd)->args);
 	else if (!ft_strcmp("cd", command))
-		shell->last_exit = 0;
+		shell->last_exit = 0; //command_cd((*cmd)->args, shell);
 	else if (!ft_strcmp("pwd", command))
 		shell->last_exit = command_pwd();
 	else if (!ft_strcmp("export", command))

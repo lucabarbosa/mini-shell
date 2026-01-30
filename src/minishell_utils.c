@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 19:32:53 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/30 10:34:24 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	remove_env_var(int index, t_mshell *shell)
 
 void	clean_shell(t_mshell *shell)
 {
+	gc_clear(&shell->envp_collect);
 	gc_clear(&shell->collector);
 	rl_clear_history();
 }
