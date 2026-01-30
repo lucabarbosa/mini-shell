@@ -6,18 +6,18 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:05:42 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/22 15:43:19 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/29 20:33:06 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/executor.h"
 
-char		*get_path(char *cmd, t_gc **collector);
-static char	**getting_path(t_gc **collector);
+char		*get_path(char *cmd, t_mshell *shell);
+static char	**getting_path(char **envp, t_gc **collector);
 static char	*finding_executable(char *cmd, char **paths, t_gc **collector);
 
-char	*get_path(char *cmd, t_gc **collector)
+char	*get_path(char *cmd, t_mshell *shell)
 {
 	char	**cmd_paths;
 	char	*full_path;
@@ -27,25 +27,25 @@ char	*get_path(char *cmd, t_gc **collector)
 	if (cmd[0] == '/' || cmd[0] == '.')
 	{
 		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd, collector));
+			return (ft_strdup(cmd, &shell->collector));
 		else
 			return (NULL);
 	}
-	cmd_paths = getting_path(collector);
+	cmd_paths = getting_path(shell->envp, &shell->collector);
 	if (!cmd_paths)
 		return (NULL);
-	full_path = finding_executable(cmd, cmd_paths, collector);
+	full_path = finding_executable(cmd, cmd_paths, &shell->collector);
 	return (full_path);
 }
 
-static char	**getting_path(t_gc **collector)
+static char	**getting_path(char **envp, t_gc **collector)
 {
 	char	*path_envp;
 	char	**all_paths;
 	char	*temp;
 	int		i;
 
-	path_envp = getenv("PATH");
+	path_envp = get_env_value("PATH", envp);
 	if (!path_envp)
 		return (NULL);
 	all_paths = ft_split(path_envp, ':', collector);

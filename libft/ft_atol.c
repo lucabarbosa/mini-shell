@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 23:31:06 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 15:33:20 by lbento           ###   ########.fr       */
+/*   Created: 2026/01/29 11:52:08 by lbento            #+#    #+#             */
+/*   Updated: 2026/01/29 11:58:04 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include "../../includes/builtin.h"
+#include "libft.h"
 
-int	command_pwd(void);
-
-int	command_pwd(void)
+long	ft_atol(char *nptr)
 {
-	char	current_path[4096];
+	long	total;
+	int		i;
+	int		signal;
 
-	if (getcwd(current_path, 4096) == NULL)
+	total = 0;
+	i = 0;
+	signal = 1;
+	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
 	{
-		perror("minishell: getcwd");
-		return (1);
+		if (nptr[i] == '-')
+			signal *= -1;
+		i++;
 	}
-	printf("%s\n", current_path);
-	return (0);
+	while ((nptr[i] >= '0' && nptr[i] <= '9'))
+	{
+		total = (nptr[i] - '0') + (total * 10);
+		i++;
+	}
+	return (total * signal);
 }

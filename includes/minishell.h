@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/28 16:27:36 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/30 10:32:49 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,17 @@
 typedef struct s_mshell
 {
 	t_gc	*collector;
+	t_gc	*envp_collect;
 	char	**envp;
+	int		env_size;
+	int		env_capacity;
 	int		last_exit;
 	int		running;
 }	t_mshell;
 
+char	*get_env_value(char *name, char **envp);
+int		find_env_index(char *name, char **envp);
+void	remove_env_var(int index, t_mshell *shell);
 void	clean_shell(t_mshell *shell);
 void	print_error(int num, t_mshell *shell);
 

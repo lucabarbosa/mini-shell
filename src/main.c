@@ -6,16 +6,16 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/28 16:35:45 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/30 10:53:25 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static void	init_shell(t_mshell *shell, char **envp);
+static char	**init_envp(char **envp, t_gc **collector, t_mshell *shell);
 static int	input_process(char *input, t_mshell *shell);
 static void	shell_loop(t_mshell *shell);
-void	clean_shell(t_mshell *shell);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -35,9 +35,33 @@ int	main(int argc, char **argv, char **envp)
 static void	init_shell(t_mshell *shell, char **envp)
 {
 	shell->collector = NULL;
-	shell->envp = envp;
+	shell->envp_collect = NULL;
+	shell->envp = init_envp(envp, &shell->envp_collect, shell);
 	shell->last_exit = 0;
 	shell->running = 1;
+}
+
+static char	**init_envp(char **envp, t_gc **collector, t_mshell *shell)
+{
+	int		i;
+	char	**env_clone;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	shell->env_size = i;
+	shell->env_capacity = i;
+	env_clone = gc_malloc(collector, sizeof(char *) * (i + 10));
+	if (!env_clone)
+		return (NULL);
+	i = 0;
+	while (envp[i])
+	{
+		env_clone[i] = ft_strdup(envp[i], collector);
+		i++;
+	}
+	env_clone[i] = NULL;
+	return (env_clone);
 }
 
 static void	shell_loop(t_mshell *shell)
@@ -84,8 +108,3 @@ static int	input_process(char *input, t_mshell *shell)
 	return (exit_status);
 }
 
-void	clean_shell(t_mshell *shell)
-{
-	gc_clear(&shell->collector);
-	rl_clear_history();
-}

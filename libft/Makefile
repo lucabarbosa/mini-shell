@@ -6,7 +6,7 @@
 #    By: lbento <lbento@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/15 18:22:14 by lbento            #+#    #+#              #
-#    Updated: 2026/01/13 16:34:13 by lbento           ###   ########.fr        #
+#    Updated: 2026/01/29 12:35:52 by lbento           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS = ft_isalpha.c \
 	ft_strjoin.c \
 	ft_strtrim.c \
 	ft_itoa.c \
+	ft_atol.c \
 	ft_strmapi.c \
 	ft_striteri.c \
 	ft_putchar_fd.c \

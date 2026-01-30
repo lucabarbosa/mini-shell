@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:08:35 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/28 16:50:56 by lbento           ###   ########.fr       */
+/*   Updated: 2026/01/29 17:51:02 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void		exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
 static int	**create_pipes(int num_pipes, t_gc **collector);
-static void	child_pipes(int **pipes, int num_pipes, int cmd_index, t_mshell *shell);
+static void	child_pipes(int **pipe, int num_pipe, int cmd_ind, t_mshell *shell);
 static void	close_pipes(int **pipe, int num_pipes);
 static int	wait_all_exit(pid_t *pid, int num_cmd);
 
@@ -72,15 +72,15 @@ static int	**create_pipes(int num_pipes, t_gc **collector)
 	return (pipes);
 }
 
-static void	child_pipes(int **pipes, int num_pipes, int cmd_index, t_mshell *shell)
+static void	child_pipes(int **pipe, int num_pipe, int cmd_ind, t_mshell *shell)
 {
-	if (cmd_index > 0)
-		if (dup2(pipes[cmd_index - 1][0], STDIN_FILENO) == -1)
+	if (cmd_ind > 0)
+		if (dup2(pipe[cmd_ind - 1][0], STDIN_FILENO) == -1)
 			print_error(1, shell);
-	if (cmd_index < num_pipes)
-		if (dup2(pipes[cmd_index][1], STDOUT_FILENO) == -1)
+	if (cmd_ind < num_pipe)
+		if (dup2(pipe[cmd_ind][1], STDOUT_FILENO) == -1)
 			print_error(1, shell);
-	close_pipes(pipes, num_pipes);
+	close_pipes(pipe, num_pipe);
 }
 
 static void	close_pipes(int **pipe, int num_pipes)
