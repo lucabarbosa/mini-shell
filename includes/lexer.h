@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/01/22 19:54:09 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/03 13:48:55 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,14 @@ void	add_token(t_token **token, t_token_type type, char *value, t_gc **coll);
 
 int		handle_append_or_out(t_token **tokens, char *str, int i, t_gc **colle);
 int		handle_heredoc_or_in(t_token **tokens, char *str, int i, t_gc **colle);
+
+int		chktp(t_token token);
+int		envchr(char c);
+void	expd(t_token *tokens, t_gc **gc, char **env);
+char	*chkcmd(char *arg, t_gc **gc, char **env);
+int		chkx(char *arg);
+char	*srchcmd(char *cmd, char **env);
+void    print_tokens(t_token *tokens);
+void	init_var(int *i, char **res, char *tmp, t_gc **gc);
 
 #endif

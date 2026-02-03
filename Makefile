@@ -4,10 +4,14 @@ CFLAGS	=	-Wall -Wextra -Werror
 READLINE =	-lreadline
 LIBFT		=	libft/libft.a
 INC		=	-I ./src -I ./libft
-SRC		=	$(MAIN) $(LEXER) $(PARSER) $(EXECUTOR) $(BUILTIN)
+SRC		=	$(MAIN) $(LEXER) $(PARSER) $(EXECUTOR) $(BUILTIN) $(EXPANDER)
 
 MAIN		=	src/main.c \
-				src/minishell_utils.c
+				src/minishell_utils.c \
+				src/signals/signal_handler.c \
+
+EXPANDER	=	src/expander/expander.c \
+				src/expander/expander_utils.c \
 
 LEXER		=	src/lexer/lexer.c \
 				src/lexer/tokenizer_utils.c \

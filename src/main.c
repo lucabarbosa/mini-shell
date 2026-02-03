@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/30 10:53:25 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/03 13:55:54 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_putstr_fd("minishell: does not accept arguments\n", 2);
 		return (1);
 	}
+	signal(SIGINT, sigint_handler);
 	init_shell(&shell, envp);
 	shell_loop(&shell);
 	clean_shell(&shell);
@@ -96,6 +97,7 @@ static int	input_process(char *input, t_mshell *shell)
 		gc_clear(&shell->collector);
 		return (1);
 	}
+	expd(tokens, &shell->collector, shell->envp);
 	commands = parser(tokens, &shell->collector);
 	if (commands == NULL)
 	{
