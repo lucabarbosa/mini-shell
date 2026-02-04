@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 20:20:44 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 00:32:40 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 
 typedef struct s_mshell	t_mshell;
 
+typedef struct s_envlist	t_envlist;
+
 typedef struct s_cmd
 {
 	char			**args;
@@ -41,5 +43,6 @@ void	executor(t_cmd **cmd, t_mshell *shell);
 char	*get_path(char *cmd, t_mshell *shell);
 void	handle_redirect(t_cmd *cmd, t_mshell *shell);
 void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
+char **env_list_to_array(t_envlist *envp, t_gc **collector);
 
 #endif

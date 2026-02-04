@@ -6,16 +6,16 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 19:02:52 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/04 19:17:09 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	init_shell(t_mshell *shell, char **envp);
-static char	**init_envp(char **envp, t_gc **collector, t_mshell *shell);
-static int	input_process(char *input, t_mshell *shell);
-static void	shell_loop(t_mshell *shell);
+static void			init_shell(t_mshell *shell, char **envp);
+static t_envlist	*init_envp(char **envp, t_gc **collector);
+static int			input_process(char *input, t_mshell *shell);
+static void			shell_loop(t_mshell *shell);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -37,32 +37,39 @@ static void	init_shell(t_mshell *shell, char **envp)
 {
 	shell->collector = NULL;
 	shell->envp_collect = NULL;
-	shell->envp = init_envp(envp, &shell->envp_collect, shell);	
+	shell->env_char = NULL;
+	shell->envp = init_envp(envp, &shell->envp_collect);
+	if (!shell->envp)
+		print_error(3, shell);
 	shell->last_exit = 0;
 	shell->running = 1;
 }
 
-static char	**init_envp(char **envp, t_gc **collector, t_mshell *shell)
+static t_envlist	*init_envp(char **envp, t_gc **collector)
 {
-	int		i;
-	char	**env_clone;
+	int			i;
+	t_envlist	*head;
+	t_envlist	*current;
+	t_envlist	*new_node;
 
 	i = 0;
-	while (envp[i])
-		i++;
-	shell->env_size = i;
-	shell->env_capacity = i;
-	env_clone = gc_malloc(collector, sizeof(char *) * (i + 10));
-	if (!env_clone)
-		return (NULL);
-	i = 0;
+	head = NULL;
+	current = NULL;
 	while (envp[i])
 	{
-		env_clone[i] = ft_strdup(envp[i], collector);
+		new_node = gc_malloc(collector, sizeof(t_envlist));
+		if (!new_node)
+			return (NULL);
+		new_node->value = ft_strdup(envp[i], collector);
+		new_node->next = NULL;
+		if (head == NULL)
+			head = new_node;
+		else
+			current->next = new_node;
+		current = new_node;
 		i++;
 	}
-	env_clone[i] = NULL;
-	return (env_clone);
+	return (head);
 }
 
 static void	shell_loop(t_mshell *shell)
@@ -109,4 +116,3 @@ static int	input_process(char *input, t_mshell *shell)
 	gc_clear(&shell->collector);
 	return (exit_status);
 }
-

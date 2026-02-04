@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 20:27:39 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 14:32:52 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 		if (outfile_redirect(cmd, STDOUT_FILENO))
 			print_error (0, shell);
 	if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
-	{
-		exec_builtin(&cmd, shell);
-		print_error(0, shell);
-	}
+		if (exec_builtin(&cmd, shell))
+			return ;
 	full_path = get_path(cmd->args[0], shell);
 	if (!full_path)
 	{
@@ -39,7 +37,10 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 		clean_shell(shell);
 		exit (127);
 	}
-	execve(full_path, cmd->args, shell->envp);
+	if (shell->env_char)
+		gc_free(&shell->envp_collect, shell->env_char);
+	shell->env_char = env_list_to_array(shell->envp, &shell->envp_collect);
+	execve(full_path, cmd->args, shell->env_char);
 	perror("execve");
 	clean_shell(shell);
 	exit (126);
@@ -86,4 +87,33 @@ static int	outfile_redirect(t_cmd *cmd, int newfd)
 	}
 	close (fd);
 	return (0);
+}
+
+char	**env_list_to_array(t_envlist *envp, t_gc **collector)
+{
+	t_envlist	*current;
+	char		**envp_array;
+	int			count;
+	int			i;
+
+	count = 0;
+	current = envp;
+	while (current)
+	{
+		count++;
+		current = current->next;
+	}
+	envp_array = gc_malloc(collector, sizeof(char *) * (count + 1));
+	if (!envp_array)
+		return (NULL);
+	current = envp;
+	i = 0;
+	while (current)
+	{
+		envp_array[i] = current->value;
+		current = current->next;
+		i++;
+	}
+	envp_array[i] = NULL;
+	return (envp_array);
 }
