@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:19:54 by iaratang          #+#    #+#             */
-/*   Updated: 2026/01/22 19:54:14 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 16:09:16 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_token	*lexer(char *input, t_gc **collector)
 			i += handle_words(input + i, &tokens, collector);
 	}
 	add_token(&tokens, TOKEN_END, NULL, collector);
+	expandable_tokens(tokens);
 	return (tokens);
 }
 
@@ -50,6 +51,7 @@ void	add_token(t_token **token, t_token_type type, char *value, t_gc **coll)
 	if (!new_token)
 		return ;
 	new_token->type = type;
+	new_token->expandable = 0;
 	if (value)
 		new_token->value = ft_strdup(value, coll);
 	else
@@ -64,4 +66,27 @@ void	add_token(t_token **token, t_token_type type, char *value, t_gc **coll)
 	while (current->next != NULL)
 		current = current->next;
 	current->next = new_token;
+}
+
+void	expandable_tokens(t_token *tokens)
+{
+	t_token	*cr;
+	int		i;
+	
+	
+	cr = tokens;
+	while (cr)
+	{
+		if (cr->type == TOKEN_DQUOTE || cr->type == TOKEN_WORD)
+		{
+			i = 0;
+			while (cr->value[i])
+			{
+				if (cr->value[i] == '$')
+					cr->expandable = 1;
+				i++;
+			}
+		}
+		cr = cr->next;
+	}
 }

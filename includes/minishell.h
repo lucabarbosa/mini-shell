@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/30 10:32:49 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/03 13:55:34 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ int		find_env_index(char *name, char **envp);
 void	remove_env_var(int index, t_mshell *shell);
 void	clean_shell(t_mshell *shell);
 void	print_error(int num, t_mshell *shell);
+
+void	sigint_handler(int sig);
 
 #endif

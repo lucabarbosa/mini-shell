@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 15:31:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/30 14:51:06 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/03 11:13:24 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	command_cd(char **args, t_mshell *shell)
       old_pwd[0] = '\0';
    target = get_target_path(args, shell);
    if (!target)
-      return (1);]
+      return (1);
    if (chadir(args[0]) == -1)
       return (1);
    return (0);
