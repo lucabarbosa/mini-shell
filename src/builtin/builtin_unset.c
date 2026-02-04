@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 19:01:54 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/30 10:57:24 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 00:23:03 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,20 @@ int	command_unset(char **args, t_mshell *shell)
 {
 	int	i;
 	int	status;
-	int	index;
 
 	i = 1;
 	status = 0;
 	while (args[i])
 	{
-		if (is_valid_env(args[i]))
+		if (!is_valid_env(args[i]))
 		{
-			ft_putstr_fd("minishell:", 2);
+			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(args[i], 2);
 			ft_putendl_fd(": invalid parameter name", 2);
 			status = 1;
 		}
 		else
-		{
-			index = find_env_index(args[i], shell->envp);
-			if (index != -1)
-			{
-				remove_env_var(index, shell);
-				gc_free(&shell->envp_collect, args[i]);
-			}
-		}
+			remove_env_var(args[i], shell);
 		i++;
 	}
 	return (status);

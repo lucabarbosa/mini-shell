@@ -6,66 +6,59 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/30 10:34:24 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 00:28:21 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*get_env_value(char *name, char **envp);
-int		find_env_index(char *name, char **envp);
-void	remove_env_var(int index, t_mshell *shell);
+char	*get_env_value(char *name, t_envlist *envp);
+void	remove_env_var(char *name, t_mshell *shell);
 void	clean_shell(t_mshell *shell);
 void	print_error(int num, t_mshell *shell);
 
-char	*get_env_value(char *name, char **envp)
+char	*get_env_value(char *name, t_envlist *envp)
 {
-	int	i;
 	int	len;
+	t_envlist	*current;
 
 	if (!name || !envp)
 		return (NULL);
 	len = ft_strlen(name);
-	i = 0;
-	while (envp[i])
+	current = envp;
+	while (current)
 	{
-		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
-			return (envp[i] + len + 1);
-		i++;
+		if (ft_strncmp(current->value, name, len) == 0 && current->value[len] == '=')
+			return (current->value + len + 1);
+		current = current->next;
 	}
 	return (NULL);
 }
 
-int	find_env_index(char *name, char **envp)
+void	remove_env_var(char *name, t_mshell *shell)
 {
-	int	i;
+	t_envlist	*current;
+	t_envlist	*prev;
 	int	len;
 
-	if (!name || !envp)
-		return (-1);
+	prev = NULL;
+	current = shell->envp;
 	len = ft_strlen(name);
-	i = 0;
-	while (envp[i])
+	while (current)
 	{
-		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
-			return (i);
-		i++;
+		if (ft_strncmp(current->value, name, len) == 0 && current->value[len] == '=')
+		{
+			if (prev == NULL)
+				shell->envp = current->next;
+			else
+				prev->next = current->next;
+			gc_free(&shell->envp_collect, current->value);
+			gc_free(&shell->envp_collect, current);
+			return ;
+		}
+		prev = current;
+		current = current->next;
 	}
-	return (-1);
-}
-
-void	remove_env_var(int index, t_mshell *shell)
-{
-	int	i;
-
-	i = index;
-	while (shell->envp[i + 1])
-	{
-		shell->envp[i] = shell->envp[i + 1];
-		i++;
-	}
-	shell->envp[i] = NULL;
-	shell->env_size--;
 }
 
 void	clean_shell(t_mshell *shell)
@@ -86,6 +79,11 @@ void	print_error(int num, t_mshell *shell)
 	if (num == 2)
 	{
 		perror("minishell: dup2");
+		shell->last_exit = 1;
+	}
+		if (num == 3)
+	{
+		perror("minishell: malloc");
 		shell->last_exit = 1;
 	}
 	clean_shell(shell);

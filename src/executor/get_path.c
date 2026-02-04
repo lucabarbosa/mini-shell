@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:05:42 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 20:33:06 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 00:35:19 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../includes/executor.h"
 
 char		*get_path(char *cmd, t_mshell *shell);
-static char	**getting_path(char **envp, t_gc **collector);
+static char	**getting_path(t_envlist *envp, t_gc **collector);
 static char	*finding_executable(char *cmd, char **paths, t_gc **collector);
 
 char	*get_path(char *cmd, t_mshell *shell)
@@ -38,7 +38,7 @@ char	*get_path(char *cmd, t_mshell *shell)
 	return (full_path);
 }
 
-static char	**getting_path(char **envp, t_gc **collector)
+static char	**getting_path(t_envlist *envp, t_gc **collector)
 {
 	char	*path_envp;
 	char	**all_paths;

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:27:58 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/30 14:52:05 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 01:11:09 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int		is_builtin(char *arg);
 int		parent_built(char *arg);
-void	exec_builtin(t_cmd **cmd, t_mshell *shell);
+int		exec_builtin(t_cmd **cmd, t_mshell *shell);
 
 int	is_builtin(char *arg)
 {
@@ -53,17 +53,17 @@ int	parent_built(char *arg)
 	return (0);
 }
 
-void	exec_builtin(t_cmd **cmd, t_mshell *shell)
+int	exec_builtin(t_cmd **cmd, t_mshell *shell)
 {
 	char	*command;
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
-		return ;
+		return 0;
 	command = (*cmd)->args[0];
 	if (!ft_strcmp("echo", command))
 		shell->last_exit = command_echo((*cmd)->args);
 	else if (!ft_strcmp("cd", command))
-		shell->last_exit = 0; //command_cd((*cmd)->args, shell);
+		shell->last_exit = command_cd((*cmd)->args, shell);
 	else if (!ft_strcmp("pwd", command))
 		shell->last_exit = command_pwd();
 	else if (!ft_strcmp("export", command))
@@ -74,4 +74,5 @@ void	exec_builtin(t_cmd **cmd, t_mshell *shell)
 		shell->last_exit = command_env((*cmd)->args, shell->envp);
 	else if (!ft_strcmp("exit", command))
 		shell->last_exit = command_exit((*cmd)->args, shell);
+	return (1);
 }
