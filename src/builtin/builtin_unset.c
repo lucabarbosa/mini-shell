@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 19:01:54 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 00:23:03 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 19:26:28 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	command_unset(char **args, t_mshell *shell)
 	status = 0;
 	while (args[i])
 	{
-		if (!is_valid_env(args[i]))
+		if (is_valid_env(args[i]))
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(args[i], 2);

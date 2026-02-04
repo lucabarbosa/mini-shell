@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:27:58 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 01:11:09 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 13:57:16 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	exec_builtin(t_cmd **cmd, t_mshell *shell)
 	char	*command;
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
-		return 0;
+		return (0);
 	command = (*cmd)->args[0];
 	if (!ft_strcmp("echo", command))
 		shell->last_exit = command_echo((*cmd)->args);
@@ -67,7 +67,7 @@ int	exec_builtin(t_cmd **cmd, t_mshell *shell)
 	else if (!ft_strcmp("pwd", command))
 		shell->last_exit = command_pwd();
 	else if (!ft_strcmp("export", command))
-		shell->last_exit = 0;
+		shell->last_exit = command_export((*cmd)->args, shell);
 	else if (!ft_strcmp("unset", command))
 		shell->last_exit = command_unset((*cmd)->args, shell);
 	else if (!ft_strcmp("env", command))

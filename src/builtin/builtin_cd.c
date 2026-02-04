@@ -6,22 +6,22 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 15:31:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 01:01:24 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 13:54:43 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/builtin.h"
 
-int	command_cd(char **args, t_mshell *shell);
-static char *get_target_path(char **args, int *print, t_mshell *shell);
+int			command_cd(char **args, t_mshell *shell);
+static char	*get_target_path(char **args, int *print, t_mshell *shell);
 static void	update_pwd(t_mshell *shell);
 static void	update_oldpwd(char *old_pwd, t_mshell *shell);
 static void	create_envp_var(char *name, char *new_env, t_mshell *shell);
 
 int	command_cd(char **args, t_mshell *shell)
 {
-	int	print;
+	int		print;
 	char	*target;
 	char	old_pwd[4096];
 
@@ -29,7 +29,7 @@ int	command_cd(char **args, t_mshell *shell)
 	if (args[1] && args[2])
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", 2);
-		return (1);  
+		return (1);
 	}
 	if (getcwd(old_pwd, 4096) == NULL)
 		old_pwd[0] = '\0';
@@ -48,9 +48,9 @@ int	command_cd(char **args, t_mshell *shell)
 	return (0);
 }
 
-static char *get_target_path(char **args, int *print, t_mshell *shell)
+static char	*get_target_path(char **args, int *print, t_mshell *shell)
 {
-	char  *target;
+	char	*target;
 
 	if (!args[1] || args[1][0] == '~')
 	{
@@ -78,8 +78,8 @@ static char *get_target_path(char **args, int *print, t_mshell *shell)
 
 static void	update_pwd(t_mshell *shell)
 {
-	char	new_pwd[4096];
-	char	*temp;
+	char		new_pwd[4096];
+	char		*temp;
 	t_envlist	*current;
 
 	if (getcwd(new_pwd, 4096) == NULL)
@@ -87,7 +87,8 @@ static void	update_pwd(t_mshell *shell)
 	current = shell->envp;
 	while (current)
 	{
-		if (ft_strncmp(current->value, "PWD", 3) == 0 && current->value[3] == '=')
+		if (ft_strncmp(current->value, "PWD", 3) == 0
+			&& current->value[3] == '=')
 		{
 			gc_free(&shell->envp_collect, current->value);
 			temp = ft_strjoin("PWD", "=", &shell->envp_collect);
@@ -102,7 +103,7 @@ static void	update_pwd(t_mshell *shell)
 
 static void	update_oldpwd(char *old_pwd, t_mshell *shell)
 {
-	char	*temp;
+	char		*temp;
 	t_envlist	*current;
 
 	if (old_pwd[0] == '\0')
@@ -110,7 +111,8 @@ static void	update_oldpwd(char *old_pwd, t_mshell *shell)
 	current = shell->envp;
 	while (current)
 	{
-		if (ft_strncmp(current->value, "OLDPWD", 6) == 0 && current->value[6] == '=')
+		if (ft_strncmp(current->value, "OLDPWD", 6) == 0
+			&& current->value[6] == '=')
 		{
 			gc_free(&shell->envp_collect, current->value);
 			temp = ft_strjoin("OLDPWD", "=", &shell->envp_collect);
@@ -126,14 +128,14 @@ static void	update_oldpwd(char *old_pwd, t_mshell *shell)
 static void	create_envp_var(char *name, char *set_env, t_mshell *shell)
 {
 	t_envlist	*new_node;
-	char	*temp;
+	char		*temp;
 
-   new_node = gc_malloc(&shell->envp_collect, sizeof(t_envlist));
-   if (!new_node)
-       print_error(3, shell);
-   temp = ft_strjoin(name, "=", &shell->envp_collect);
-   new_node->value = ft_strjoin(temp, set_env, &shell->envp_collect);
-   gc_free(&shell->envp_collect, temp);
-   new_node->next = shell->envp;
-   shell->envp	 = new_node;
+	new_node = gc_malloc(&shell->envp_collect, sizeof(t_envlist));
+	if (!new_node)
+		print_error(3, shell);
+	temp = ft_strjoin(name, "=", &shell->envp_collect);
+	new_node->value = ft_strjoin(temp, set_env, &shell->envp_collect);
+	gc_free(&shell->envp_collect, temp);
+	new_node->next = shell->envp;
+	shell->envp = new_node;
 }

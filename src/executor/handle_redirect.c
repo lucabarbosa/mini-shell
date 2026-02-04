@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 01:09:30 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 14:32:52 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ static int	outfile_redirect(t_cmd *cmd, int newfd)
 	return (0);
 }
 
-char **env_list_to_array(t_envlist *envp, t_gc **collector)
+char	**env_list_to_array(t_envlist *envp, t_gc **collector)
 {
 	t_envlist	*current;
-	char			**envp_array;
+	char		**envp_array;
 	int			count;
 	int			i;
 
@@ -100,12 +100,12 @@ char **env_list_to_array(t_envlist *envp, t_gc **collector)
 	current = envp;
 	while (current)
 	{
-	  count++;
-	  current = current->next;
+		count++;
+		current = current->next;
 	}
 	envp_array = gc_malloc(collector, sizeof(char *) * (count + 1));
 	if (!envp_array)
-	  return (NULL);
+		return (NULL);
 	current = envp;
 	i = 0;
 	while (current)

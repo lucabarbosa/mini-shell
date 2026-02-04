@@ -6,16 +6,16 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 01:00:49 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 19:17:09 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	init_shell(t_mshell *shell, char **envp);
+static void			init_shell(t_mshell *shell, char **envp);
 static t_envlist	*init_envp(char **envp, t_gc **collector);
-static int	input_process(char *input, t_mshell *shell);
-static void	shell_loop(t_mshell *shell);
+static int			input_process(char *input, t_mshell *shell);
+static void			shell_loop(t_mshell *shell);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -46,7 +46,7 @@ static void	init_shell(t_mshell *shell, char **envp)
 
 static t_envlist	*init_envp(char **envp, t_gc **collector)
 {
-	int		i;
+	int			i;
 	t_envlist	*head;
 	t_envlist	*current;
 	t_envlist	*new_node;

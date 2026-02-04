@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 00:28:21 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 19:13:56 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_error(int num, t_mshell *shell);
 
 char	*get_env_value(char *name, t_envlist *envp)
 {
-	int	len;
+	int			len;
 	t_envlist	*current;
 
 	if (!name || !envp)
@@ -28,7 +28,8 @@ char	*get_env_value(char *name, t_envlist *envp)
 	current = envp;
 	while (current)
 	{
-		if (ft_strncmp(current->value, name, len) == 0 && current->value[len] == '=')
+		if (ft_strncmp(current->value, name, len) == 0
+			&& current->value[len] == '=')
 			return (current->value + len + 1);
 		current = current->next;
 	}
@@ -39,14 +40,15 @@ void	remove_env_var(char *name, t_mshell *shell)
 {
 	t_envlist	*current;
 	t_envlist	*prev;
-	int	len;
+	int			len;
 
 	prev = NULL;
 	current = shell->envp;
 	len = ft_strlen(name);
 	while (current)
 	{
-		if (ft_strncmp(current->value, name, len) == 0 && current->value[len] == '=')
+		if (ft_strncmp(current->value, name, len) == 0
+			&& current->value[len] == '=')
 		{
 			if (prev == NULL)
 				shell->envp = current->next;
@@ -81,7 +83,7 @@ void	print_error(int num, t_mshell *shell)
 		perror("minishell: dup2");
 		shell->last_exit = 1;
 	}
-		if (num == 3)
+	if (num == 3)
 	{
 		perror("minishell: malloc");
 		shell->last_exit = 1;
