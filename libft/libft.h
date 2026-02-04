@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:22:32 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 11:54:52 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 20:13:25 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 char	*ft_strchr(const char *s, int c);
 int		ft_atoi(const char *nptr);
-long		ft_atol(char *str);
+long	ft_atol(char *str);
 char	*ft_strrchr(const char *s, int c);
 char	**ft_split(char const *s, char c, t_gc **collector);
 void	*ft_memset(void *s, int c, size_t n);

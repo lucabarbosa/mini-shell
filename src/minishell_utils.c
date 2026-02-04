@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 19:13:56 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/04 20:14:56 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	clean_shell(t_mshell *shell)
 	gc_clear(&shell->collector);
 	rl_clear_history();
 }
-
 
 void	print_error(int num, t_mshell *shell)
 {

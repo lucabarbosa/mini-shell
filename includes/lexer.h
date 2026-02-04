@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/04 18:45:17 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/04 20:13:54 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <errno.h>
 # include "../libft/libft.h"
 
+typedef struct s_mshell	t_mshell;
+
 typedef enum e_token_type
 {
 	TOKEN_WORD,
@@ -36,7 +38,6 @@ typedef enum e_token_type
 	TOKEN_DQUOTE,
 	TOKEN_END
 }	t_token_type;
-
 
 typedef struct s_token
 {
@@ -61,6 +62,6 @@ int		handle_heredoc_or_in(t_token **tokens, char *str, int i, t_gc **colle);
 
 void	expandable_tokens(t_token *tokens);
 
-void	expand(t_token *tokens, t_gc **gc, char **env);
+void	expand(t_token *tokens, t_gc **gc, t_mshell *shell);
 
 #endif

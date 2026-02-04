@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:07:34 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/03 13:48:32 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/04 20:15:40 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int	chktp(t_token token)
 void	init_var(int *i, char **res, char *tmp, t_gc **gc)
 {
 	*i = 0;
-	*res = ft_strdup("", gc);	
+	*res = ft_strdup("", gc);
 	tmp[1] = '\0';
 }
