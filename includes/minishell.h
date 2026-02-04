@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
 /*   Updated: 2026/02/04 19:16:06 by lbento           ###   ########.fr       */
@@ -50,5 +50,7 @@ char	*get_env_value(char *name, t_envlist *envp);
 void	remove_env_var(char *name, t_mshell *shell);
 void	clean_shell(t_mshell *shell);
 void	print_error(int num, t_mshell *shell);
+
+void	sigint_handler(int sig);
 
 #endif
