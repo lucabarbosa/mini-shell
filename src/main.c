@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/03 13:55:54 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/04 19:02:52 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_putstr_fd("minishell: does not accept arguments\n", 2);
 		return (1);
 	}
-	signal(SIGINT, sigint_handler);
+	sig_init();
 	init_shell(&shell, envp);
 	shell_loop(&shell);
 	clean_shell(&shell);
@@ -37,7 +37,7 @@ static void	init_shell(t_mshell *shell, char **envp)
 {
 	shell->collector = NULL;
 	shell->envp_collect = NULL;
-	shell->envp = init_envp(envp, &shell->envp_collect, shell);
+	shell->envp = init_envp(envp, &shell->envp_collect, shell);	
 	shell->last_exit = 0;
 	shell->running = 1;
 }
@@ -97,7 +97,7 @@ static int	input_process(char *input, t_mshell *shell)
 		gc_clear(&shell->collector);
 		return (1);
 	}
-	expd(tokens, &shell->collector, shell->envp);
+	expand(tokens, &shell->collector, shell->envp);
 	commands = parser(tokens, &shell->collector);
 	if (commands == NULL)
 	{

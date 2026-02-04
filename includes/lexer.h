@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/03 13:48:55 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/04 18:45:17 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@
 
 typedef enum e_token_type
 {
-	TOKEN_WORD,             // comand or arg
-	TOKEN_PIPE,             // |
-	TOKEN_REDIR_IN,         // <
-	TOKEN_REDIR_OUT,        // >
-	TOKEN_REDIR_APPEND,     // >> 
-	TOKEN_HEREDOC,          // <<
-	TOKEN_ENV_VAR,          // $VAR
-	TOKEN_SQUOTE,           // '
-	TOKEN_DQUOTE,           // "
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_REDIR_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_ENV_VAR,
+	TOKEN_SQUOTE,
+	TOKEN_DQUOTE,
 	TOKEN_END
 }	t_token_type;
 
@@ -43,6 +43,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*value;
 	struct s_token	*next;
+	int				expandable;
 }	t_token;
 
 t_token	*lexer(char *input, t_gc **collector);
@@ -58,13 +59,8 @@ void	add_token(t_token **token, t_token_type type, char *value, t_gc **coll);
 int		handle_append_or_out(t_token **tokens, char *str, int i, t_gc **colle);
 int		handle_heredoc_or_in(t_token **tokens, char *str, int i, t_gc **colle);
 
-int		chktp(t_token token);
-int		envchr(char c);
-void	expd(t_token *tokens, t_gc **gc, char **env);
-char	*chkcmd(char *arg, t_gc **gc, char **env);
-int		chkx(char *arg);
-char	*srchcmd(char *cmd, char **env);
-void    print_tokens(t_token *tokens);
-void	init_var(int *i, char **res, char *tmp, t_gc **gc);
+void	expandable_tokens(t_token *tokens);
+
+void	expand(t_token *tokens, t_gc **gc, char **env);
 
 #endif

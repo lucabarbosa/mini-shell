@@ -6,63 +6,62 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:07:16 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/03 13:49:09 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/04 18:46:30 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	expd(t_token *tokens, t_gc **gc, char **env)
+static char *find_cmd(char *arg, t_gc **gc, char **env);
+static char	*srchcmd(char *cmd, char **env);
+static char	*concat_cmd( char **res, char *arg, int i, t_gc **gc);
+static int	envchr(char c);
+
+void expand(t_token *tokens, t_gc **gc, char **env)
 {
-	int		i;
-	char	*cmd;
+	t_token	*cr;
 	
-	i = 0;
-	while (tokens != NULL)
+	cr = tokens;
+	while (cr != NULL)
 	{
-		if (chktp(*tokens))
-			if (chkx(tokens->value))
-			{	
-				cmd = chkcmd(tokens->value, gc, env);
-				tokens->type = TOKEN_ENV_VAR;
-				tokens->value = cmd;
-			}
-		tokens = tokens->next;
+		if (cr->expandable)
+		{
+			cr->value = find_cmd(cr->value, gc, env);
+		}
+		cr = cr->next;
 	}
-	
 }
 
-char	*chkcmd(char *arg, t_gc **gc, char **env)
+static char *find_cmd(char *arg, t_gc **gc, char **env)
 {
-	int		j;
 	int		i;
+	int		j;
 	char	*env_v;
-	char 	*res;
-	char	tmp[2];
-
-	init_var(&i, &res, tmp, gc);
+	char	*res;
+	
+	i = 0;
+	res = ft_strdup("", gc);
 	while (arg[i])
 	{
 		if (arg[i] == '$')
 		{
 			j = ++i;
 			while (envchr(arg[i]))
-				i++;
-			env_v = srchcmd(ft_substr(arg, j, i - j, gc), env);
+			i++;
+			env_v = srchcmd(ft_substr(arg, j, i - j, gc), env);	
 			if (env_v)
-				res = ft_strjoin(res, env_v, gc);
+			res = ft_strjoin(res, env_v, gc);		
 		}
 		else
 		{
-			tmp[0] = arg[i];
-			res = ft_strjoin(res, tmp, gc);
+			res = concat_cmd(&res, arg, i, gc);	
 			i++;
 		}
 	}
 	return (res);
 }
 
-char	*srchcmd(char *cmd, char **env)
+static char	*srchcmd(char *cmd, char **env)
 {
 	char *env_v;
 
@@ -73,16 +72,17 @@ char	*srchcmd(char *cmd, char **env)
 		return (NULL);
 }
 
-int	chkx(char *arg)
+static char	*concat_cmd( char **res, char *arg, int i, t_gc **gc)
 {
-	int	i;
+	char	tmp[2];
 	
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] == '$')
-			return (1);
-		i++;
-	}
-	return (0);
+	tmp[1] = '\0';
+	tmp[0] = arg[i];
+	*res = ft_strjoin(*res, tmp, gc);
+	return (*res);
+}
+
+static int	envchr(char c)
+{
+	return (ft_isalnum(c) || c == '_');
 }
