@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/03 13:52:40 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/05 15:54:46 by lbento           ###   ########.fr       */
+/*   Created: 2026/02/05 16:10:21 by lbento            #+#    #+#             */
+/*   Updated: 2026/02/05 18:16:11 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/heredoc.h"
 
-static volatile sig_atomic_t	g_signal;
+void	cleanup_heredoc(t_cmd *cmd);
 
-void	sigint_handler(int sig)
+void	cleanup_heredoc(t_cmd *cmd)
 {
-	if (sig)
-		printf("^C");
-	g_signal = SIGINT;
+	t_cmd	*current;
+
+	current = cmd;
+	while (current)
+	{
+		if (current->heredoc_file != NULL)
+			unlink(current->heredoc_file);
+		current = current->next;
+	}
 }
