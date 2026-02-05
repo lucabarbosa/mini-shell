@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 20:06:29 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/05 16:00:36 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_putstr_fd("minishell: does not accept arguments\n", 2);
 		return (1);
 	}
-	//sig_init();
 	init_shell(&shell, envp);
 	shell_loop(&shell);
 	clean_shell(&shell);
@@ -35,6 +34,8 @@ int	main(int argc, char **argv, char **envp)
 
 static void	init_shell(t_mshell *shell, char **envp)
 {
+	shell->stdin_backup = dup(STDIN_FILENO);
+	shell->stdout_backup = dup(STDOUT_FILENO);
 	shell->collector = NULL;
 	shell->envp_collect = NULL;
 	shell->env_char = NULL;

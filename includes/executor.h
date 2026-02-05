@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 20:14:14 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/05 17:52:16 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "../libft/libft.h"
 # include "minishell.h"
 # include "builtin.h"
+# include "heredoc.h"
 
 typedef struct s_mshell		t_mshell;
 
@@ -35,6 +36,9 @@ typedef struct s_cmd
 	char			*infile;
 	char			*outfile;
 	int				append;
+	char			*heredoc_delim;
+	char			*heredoc_file;
+	int				heredoc_expand;
 	struct s_cmd	*next;
 }	t_cmd;
 

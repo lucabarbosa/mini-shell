@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 01:12:45 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/05 17:51:15 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void			executor(t_cmd **cmd, t_mshell *shell);
 int				wait_exit_status(pid_t pid);
-static void		exec_one_command(t_cmd *cmd, t_mshell *shell);
+static void		exec_one_command(t_cmd *cmd, t_cmd **args, t_mshell *shell);
 
 void	executor(t_cmd **cmd, t_mshell *shell)
 {
@@ -27,27 +27,33 @@ void	executor(t_cmd **cmd, t_mshell *shell)
 	current = *cmd;
 	while (current)
 	{
+		if (handle_heredocs(current, total_cmds, shell))
+		{
+			cleanup_heredoc(current);
+			return ;
+		}
 		total_cmds++;
 		current = current->next;
 	}
 	current = *cmd;
 	if (total_cmds == 1)
 	{
-		if (current->args && current->args[0] && parent_built(current->args[0]))
-		{
-			if (exec_builtin(cmd, shell))
-				return ;
-		}
-		exec_one_command(current, shell);
+
+		exec_one_command(current, cmd, shell);
 	}
 	else
 		exec_pipes(total_cmds, current, shell);
 }
 
-static void	exec_one_command(t_cmd *cmd, t_mshell *shell)
+static void	exec_one_command(t_cmd *cmd, t_cmd **args, t_mshell *shell)
 {
 	pid_t	pid;
 
+	if (cmd->args && cmd->args[0] && parent_built(cmd->args[0]))
+	{
+		if (exec_builtin(args, shell))
+			return ;
+	}
 	pid = fork();
 	if (pid == -1)
 	{

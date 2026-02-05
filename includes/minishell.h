@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 19:16:06 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/05 15:42:57 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_mshell
 	int					last_exit;
 	int					running;
 	struct s_envlist	*envp;
+	int					stdin_backup;
+	int					stdout_backup;
 }	t_mshell;
 
 typedef struct s_envlist

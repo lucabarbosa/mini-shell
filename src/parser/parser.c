@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 17:50:17 by iaratang          #+#    #+#             */
-/*   Updated: 2026/01/22 19:49:23 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/05 15:57:10 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ t_cmd	*init_cmd(t_gc **collector)
 	command->args = NULL;
 	command->infile = NULL;
 	command->outfile = NULL;
+	command->heredoc_delim = NULL;
+	command->heredoc_file = NULL;
+	command->heredoc_expand = 1;
 	command->next = NULL;
 	return (command);
 }
