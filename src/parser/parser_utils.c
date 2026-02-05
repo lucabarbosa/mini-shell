@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:33:21 by iaratang          #+#    #+#             */
-/*   Updated: 2026/01/22 19:49:56 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/05 20:22:55 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_redirection_token(t_token_type type)
 {
-	return (type == TOKEN_HEREDOC || type == TOKEN_REDIR_APPEND
+	return (type == TOKEN_REDIR_APPEND
 		|| type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT);
 }
 

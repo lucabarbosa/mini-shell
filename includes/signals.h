@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/03 13:52:40 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/05 18:45:11 by iaratang         ###   ########.fr       */
+/*   Created: 2026/02/04 15:20:11 by iaratang          #+#    #+#             */
+/*   Updated: 2026/02/05 18:45:38 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#ifndef SIGNALS_H
+#define SIGNALS_H
 
-static volatile sig_atomic_t	g_signal;
+#include "minishell.h"
 
-void	sigint_handler(int sig)
+typedef enum s_signals
 {
-	(void)sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	g_signal = 130;
-}
+	INIT,
+	HEREDOC,
+	HEREDOC_END,
+	EXIT_CMD,
+	IN_CMD,
+	CTRL_C
+}			t_status;
 
-void	sig_init(void)
-{
-	signal(SIGINT, sigint_handler);
-}
+void	sig_init(void);
+
+#endif

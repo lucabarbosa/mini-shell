@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 17:38:34 by iaratang          #+#    #+#             */
-/*   Updated: 2026/01/22 19:39:15 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/05 20:25:20 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ int		handle_redirection(t_cmd *cmd, t_token **current, t_gc **collector);
 
 int		check_argument_token(t_token_type type);
 int		check_redirection_token(t_token_type type);
+
+int	handle_heredoc(t_cmd *cmd, t_token **tokens);
 
 #endif
