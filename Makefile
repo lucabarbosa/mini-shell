@@ -26,6 +26,7 @@ EXECUTOR	=	src/executor/executor.c \
 				src/executor/exec_pipes.c \
 				src/executor/heredoc/heredoc.c \
 				src/executor/heredoc/heredoc_utils.c \
+				src/executor/heredoc/expand_heredoc.c \
 
 BUILTIN		=	src/builtin/builtin.c \
 					src/builtin/builtin_pwd.c \

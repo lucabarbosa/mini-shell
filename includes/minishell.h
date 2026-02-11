@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 11:57:02 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/11 18:27:57 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include "lexer.h"
 # include "parser.h"
 # include "signals.h"
-	
+
 typedef struct s_mshell
 {
 	t_gc				*collector;

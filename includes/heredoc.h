@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:07:01 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 12:35:11 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/11 17:36:43 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ typedef struct s_envlist	t_envlist;
 int		handle_heredocs(t_cmd *cmd, t_mshell *shell);
 void	cleanup_heredoc(t_cmd *cmd);
 char	*parse_delim(char *delim, int *expand, t_mshell *shell);
-int	create_temp_file(t_cmd *cmd, int index, t_mshell *shell);
-int	is_delimiter(char *line, char *delimiter);
+int		create_temp_file(t_cmd *cmd, int index, t_mshell *shell);
+int		is_delimiter(char *line, char *delimiter);
 void	heredoc_redirects(t_cmd *cmd, t_mshell *shell);
+void	fill_line(char *line, int fd, int expand, t_mshell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:18:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 12:55:09 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/11 17:37:23 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 int			handle_heredocs(t_cmd *cmd, t_mshell *shell);
 static int	process_heredoc(t_cmd *current, int index, t_mshell *shell);
 static int	heredoc_content(int fd, char *delim, int expand, t_mshell *shell);
-void	expand_heredoc(char *line, t_mshell *shell);
 
 int	handle_heredocs(t_cmd *cmd, t_mshell *shell)
 {
@@ -42,22 +41,22 @@ int	handle_heredocs(t_cmd *cmd, t_mshell *shell)
 
 static int	process_heredoc(t_cmd *current, int index, t_mshell *shell)
 {
-	int	result;
-	int	fd;
-	char *delimiter;
+	int		result;
+	int		fd;
+	char	*deli;
 
-	delimiter = parse_delim(current->heredoc_delim, &current->heredoc_expand, shell);
-	if (!delimiter)
+	deli = parse_delim(current->heredoc_delim, &current->heredoc_expand, shell);
+	if (!deli)
 		return (1);
 	if (!create_temp_file(current, index, shell))
 		return (1);
 	fd = open(current->heredoc_file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
 	{
-		perror("minishell: heredoc");	
+		perror("minishell: heredoc");
 		return (1);
 	}
-	result = heredoc_content(fd, delimiter, current->heredoc_expand, shell);
+	result = heredoc_content(fd, deli, current->heredoc_expand, shell);
 	close(fd);
 	return (result);
 }
@@ -65,7 +64,7 @@ static int	process_heredoc(t_cmd *current, int index, t_mshell *shell)
 static int	heredoc_content(int fd, char *delim, int expand, t_mshell *shell)
 {
 	char	*line;
-	
+
 	while (1)
 	{
 		write(2, "> ", 2);
@@ -86,33 +85,7 @@ static int	heredoc_content(int fd, char *delim, int expand, t_mshell *shell)
 			gc_free(&shell->collector, line);
 			return (0);
 		}
-		if (expand)
-			expand_heredoc(line, shell);
-		write (fd, line, ft_strlen(line));
-		gc_free(&shell->collector, line);
+		fill_line(line, fd, expand, shell);
 	}
 	return (0);
-}
-
-void	expand_heredoc(char *line, t_mshell *shell)
-{
-	int	i;
-	char	*var_value;
-
-	i = 0;
-	while (line[i] && line[i] != '\n')
-	{
-		if (line[i] == '$' && line[i+1] == '?')
-		{
-			var_value = ft_itoa(shell->last_exit, &shell->collector);
-			line[i] = var_value[0];
-			i += 2;
-		}
-		if (line[i] == '$')
-		{
-			line[i] = '>';
-		}
-		i++;
-	}
-	shell->last_exit = 0;
 }

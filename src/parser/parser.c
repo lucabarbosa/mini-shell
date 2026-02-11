@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 17:50:17 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/05 20:18:24 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/11 18:20:36 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_cmd	*init_cmd(t_gc **collector)
 
 	command = gc_malloc(collector, sizeof(t_cmd));
 	if (!command)
-	return (NULL);
+		return (NULL);
 	command->append = 0;
 	command->args = NULL;
 	command->infile = NULL;
@@ -75,11 +75,11 @@ t_cmd	*init_cmd(t_gc **collector)
 int	handle_redirection(t_cmd *cmd, t_token **current, t_gc **collector)
 {
 	t_token_type	type;
-	
+
 	type = (*current)->type;
 	*current = (*current)->next;
 	if (!(*current) || ((*current)->type != TOKEN_DQUOTE && (*current)->type
-	!= TOKEN_SQUOTE && (*current)->type != TOKEN_WORD))
+			!= TOKEN_SQUOTE && (*current)->type != TOKEN_WORD))
 		return (0);
 	if (type == TOKEN_REDIR_IN)
 		cmd->infile = ft_strdup((*current)->value, collector);
@@ -99,7 +99,7 @@ int	handle_redirection(t_cmd *cmd, t_token **current, t_gc **collector)
 
 int	handle_heredoc(t_cmd *cmd, t_token **tokens)
 {
-	t_token 		*cr;
+	t_token			*cr;
 	t_token_type	type;
 
 	cr = (*tokens)->next;
@@ -109,7 +109,7 @@ int	handle_heredoc(t_cmd *cmd, t_token **tokens)
 	if (type != TOKEN_DQUOTE && type != TOKEN_SQUOTE && type != TOKEN_WORD)
 		return (0);
 	cmd->heredoc_delim = cr->value;
-	return (1);	
+	return (1);
 }
 
 

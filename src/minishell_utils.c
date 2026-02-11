@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/10 14:09:30 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/11 17:03:01 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	print_error(int num, t_mshell *shell)
 	}
 	if (num == 4)
 	{
-		ft_putstr_fd("minishell: warning: here-document delimited ", 2);
+		ft_putstr_fd("\nminishell: warning: here-document delimited ", 2);
 		ft_putstr_fd("by end-of-file\n", 2);
 		return ;
 	}

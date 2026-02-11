@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:10:21 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 10:37:27 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/11 18:28:17 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	cleanup_heredoc(t_cmd *cmd);
 char	*parse_delim(char *delim, int *expand, t_mshell *shell);
-int	create_temp_file(t_cmd *cmd, int index, t_mshell *shell);
-int	is_delimiter(char *line, char *delimiter);
+int		create_temp_file(t_cmd *cmd, int index, t_mshell *shell);
+int		is_delimiter(char *line, char *delimiter);
 void	heredoc_redirects(t_cmd *cmd, t_mshell *shell);
 
 void	cleanup_heredoc(t_cmd *cmd)
@@ -38,7 +38,7 @@ int	create_temp_file(t_cmd *cmd, int index, t_mshell *shell)
 	i = ft_itoa(index, &shell->collector);
 	if (!i)
 		return (0);
-	cmd->heredoc_file = ft_strjoin("/home/lbento/Projects_42/mini-shell/minishell_heredoc_", i, &shell->collector);
+	cmd->heredoc_file = ft_strjoin("/home/lbento/minishell/ms_heredoc_", i, &shell->collector);
 	gc_free(&shell->collector, i);
 	if (!cmd->heredoc_file)
 		return (0);
@@ -48,9 +48,9 @@ int	create_temp_file(t_cmd *cmd, int index, t_mshell *shell)
 char	*parse_delim(char *delim, int *expand, t_mshell *shell)
 {
 	char	*clean;
-	int	i;
-	int	j;
-	int	len;
+	int		i;
+	int		j;
+	int		len;
 
 	i = 0;
 	j = 0;
@@ -90,7 +90,7 @@ int	is_delimiter(char *line, char *delimiter)
 	if (ft_strncmp(line, delimiter, len_delim) == 0)
 		return (1);
 	return (0);
-	}
+}
 
 void	heredoc_redirects(t_cmd *cmd, t_mshell *shell)
 {
