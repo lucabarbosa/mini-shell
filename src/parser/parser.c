@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 17:50:17 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/05 15:57:10 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/05 20:18:24 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_cmd	*parse_command(t_token **current, t_gc **collector)
 	{
 		if (check_redirection_token((*current)->type))
 			handle_redirection(command, current, collector);
+		else if ((*current)->type == TOKEN_HEREDOC)
+			handle_heredoc(command, current);	
 		else if (check_argument_token((*current)->type))
 		{
 			add_argument(command, (*current)->value, collector);
@@ -58,7 +60,7 @@ t_cmd	*init_cmd(t_gc **collector)
 
 	command = gc_malloc(collector, sizeof(t_cmd));
 	if (!command)
-		return (NULL);
+	return (NULL);
 	command->append = 0;
 	command->args = NULL;
 	command->infile = NULL;
@@ -73,13 +75,13 @@ t_cmd	*init_cmd(t_gc **collector)
 int	handle_redirection(t_cmd *cmd, t_token **current, t_gc **collector)
 {
 	t_token_type	type;
-
+	
 	type = (*current)->type;
 	*current = (*current)->next;
 	if (!(*current) || ((*current)->type != TOKEN_DQUOTE && (*current)->type
-			!= TOKEN_SQUOTE && (*current)->type != TOKEN_WORD))
+	!= TOKEN_SQUOTE && (*current)->type != TOKEN_WORD))
 		return (0);
-	if (type == TOKEN_REDIR_IN || type == TOKEN_HEREDOC)
+	if (type == TOKEN_REDIR_IN)
 		cmd->infile = ft_strdup((*current)->value, collector);
 	else if (type == TOKEN_REDIR_OUT)
 	{
@@ -94,6 +96,22 @@ int	handle_redirection(t_cmd *cmd, t_token **current, t_gc **collector)
 	*current = (*current)->next;
 	return (1);
 }
+
+int	handle_heredoc(t_cmd *cmd, t_token **tokens)
+{
+	t_token 		*cr;
+	t_token_type	type;
+
+	cr = (*tokens)->next;
+	*tokens = (*tokens)->next;
+	*tokens = (*tokens)->next;
+	type = cr->type;
+	if (type != TOKEN_DQUOTE && type != TOKEN_SQUOTE && type != TOKEN_WORD)
+		return (0);
+	cmd->heredoc_delim = cr->value;
+	return (1);	
+}
+
 
 void	add_argument(t_cmd *cmd, char *arg, t_gc **collector)
 {
