@@ -3,16 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:52:40 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/05 18:45:11 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/11 12:47:30 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static volatile sig_atomic_t	g_signal;
+volatile sig_atomic_t	g_signal = 0;
+
+void	sig_init(void);
+void	sigint_handler(int sig);
+void	sigquit_handler(int sig);
+
+void	sig_init(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
+}
 
 void	sigint_handler(int sig)
 {
@@ -24,7 +34,8 @@ void	sigint_handler(int sig)
 	g_signal = 130;
 }
 
-void	sig_init(void)
+void	sigquit_handler(int sig)
 {
-	signal(SIGINT, sigint_handler);
+	(void)sig;
+	
 }

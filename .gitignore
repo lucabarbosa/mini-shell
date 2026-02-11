@@ -4,4 +4,4 @@
 *.a
 infile.txt
 outfile.txt
-./minishell
+minishell
