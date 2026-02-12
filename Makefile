@@ -12,6 +12,7 @@ MAIN		=	src/main.c \
 
 EXPANDER	=	src/expander/expander.c \
 				src/expander/expander_utils.c \
+				src/expander/expander_handlers.c \
 
 LEXER		=	src/lexer/lexer.c \
 				src/lexer/tokenizer_utils.c \

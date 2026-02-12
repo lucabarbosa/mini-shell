@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/12 18:14:05 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/12 18:42:47 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,13 @@ int		handle_heredoc_or_in(t_token **tokens, char *str, int i, t_gc **colle);
 
 void	expandable_tokens(t_token *tokens);
 
+char	*srchcmd(char *cmd, t_envlist *env);
+int		envchr(char c);
+
 void	expand(t_token *tokens, t_gc **gc, t_mshell *shell);
 int		cond(char *arg, int i);
+void	handle_pid(t_expctx *ctx, int *i);
+void	handle_status(t_expctx *ctx, int *i);
+void	handle_env(t_expctx *ctx, int *i);
 
 #endif
