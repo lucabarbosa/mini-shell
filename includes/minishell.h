@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/05 18:48:02 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/11 18:27:57 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include "lexer.h"
 # include "parser.h"
 # include "signals.h"
-	
+
 typedef struct s_mshell
 {
 	t_gc				*collector;
@@ -48,6 +48,8 @@ typedef struct s_envlist
 	char				*value;
 	struct s_envlist	*next;
 }	t_envlist;
+
+extern volatile sig_atomic_t	g_signal;
 
 char	*get_env_value(char *name, t_envlist *envp);
 void	remove_env_var(char *name, t_mshell *shell);

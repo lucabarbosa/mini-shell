@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/05 20:24:58 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/11 10:09:02 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,13 @@ static void	shell_loop(t_mshell *shell)
 			add_history(input);
 			shell->last_exit = input_process(input, shell);
 		}
+		dup2(shell->stdin_backup, 0);
+		dup2(shell->stdout_backup, 1);
 		free(input);
 		input = NULL;
 	}
+	close (shell->stdin_backup);
+	close (shell->stdout_backup);
 }
 
 static int	input_process(char *input, t_mshell *shell)

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 14:32:52 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/11 10:30:30 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@
 void			handle_redirect(t_cmd *cmd, t_mshell *shell);
 static int		infile_redirect(t_cmd *cmd, int newfd);
 static int		outfile_redirect(t_cmd *cmd, int newfd);
+char	**env_list_to_array(t_envlist *envp, t_gc **collector);
+static void	file_redirects(t_cmd *cmd, t_mshell *shell);
 
 void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 {
 	char	*full_path;
 
-	if (cmd->infile)
-		if (infile_redirect(cmd, STDIN_FILENO))
-			print_error (0, shell);
-	if (cmd->outfile)
-		if (outfile_redirect(cmd, STDOUT_FILENO))
-			print_error (0, shell);
+	if (cmd->heredoc_file)
+		heredoc_redirects(cmd, shell);
+	file_redirects(cmd, shell);
 	if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
 		if (exec_builtin(&cmd, shell))
 			return ;
@@ -44,6 +43,16 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 	perror("execve");
 	clean_shell(shell);
 	exit (126);
+}
+
+static void	file_redirects(t_cmd *cmd, t_mshell *shell)
+{
+	if (cmd->infile)
+		if (infile_redirect(cmd, STDIN_FILENO))
+			print_error (0, shell);
+	if (cmd->outfile)
+		if (outfile_redirect(cmd, STDOUT_FILENO))
+			print_error (0, shell);
 }
 
 static int	infile_redirect(t_cmd *cmd, int newfd)
