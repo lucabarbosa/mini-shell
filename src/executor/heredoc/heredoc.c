@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:18:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 17:37:23 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 03:08:25 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,38 @@
 #include "../../../includes/heredoc.h"
 
 int			handle_heredocs(t_cmd *cmd, t_mshell *shell);
-static int	process_heredoc(t_cmd *current, int index, t_mshell *shell);
+static int	process_heredoc(t_redir *current, int index, t_mshell *shell);
 static int	heredoc_content(int fd, char *delim, int expand, t_mshell *shell);
 
 int	handle_heredocs(t_cmd *cmd, t_mshell *shell)
 {
-	t_cmd	*current;
-	int		result;
+	t_cmd		*current;
+	t_redir	*redir;
 	int		index;
+	int		result;
 
 	index = 0;
 	current = cmd;
 	while (current)
 	{
-		if (current->heredoc_delim)
+		redir = current->redirects;
+		while(redir)
 		{
-			result = process_heredoc(current, index, shell);
-			if (result != 0)
-				return (result);
+			if (redir->type == TOKEN_HEREDOC)
+			{
+				result = process_heredoc(redir, index, shell);
+				if (result != 0)
+					return (result);
+				index++;
+			}
+			redir = redir->next;
 		}
-		index++;
 		current = current->next;
 	}
 	return (0);
 }
 
-static int	process_heredoc(t_cmd *current, int index, t_mshell *shell)
+static int	process_heredoc(t_redir *current, int index, t_mshell *shell)
 {
 	int		result;
 	int		fd;
@@ -50,7 +56,7 @@ static int	process_heredoc(t_cmd *current, int index, t_mshell *shell)
 		return (1);
 	if (!create_temp_file(current, index, shell))
 		return (1);
-	fd = open(current->heredoc_file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	fd = open(current->file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
 	{
 		perror("minishell: heredoc");

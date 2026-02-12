@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:10:21 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 21:44:14 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 03:15:12 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,38 @@
 
 void	cleanup_heredoc(t_cmd *cmd);
 char	*parse_delim(char *delim, int *expand, t_mshell *shell);
-int		create_temp_file(t_cmd *cmd, int index, t_mshell *shell);
+int		create_temp_file(t_redir *current, int index, t_mshell *shell);
 int		is_delimiter(char *line, char *delimiter);
-void	heredoc_redirects(t_cmd *cmd, t_mshell *shell);
 
 void	cleanup_heredoc(t_cmd *cmd)
 {
-	t_cmd	*current;
+	t_cmd		*current;
+	t_redir	*redir;
 
 	current = cmd;
 	while (current)
 	{
-		if (current->heredoc_file != NULL)
-			unlink(current->heredoc_file);
+		redir = current->redirects;
+		while (redir)
+		{
+			if (redir->type == TOKEN_HEREDOC && redir->file)
+				unlink(redir->file);
+			redir = redir->next;
+		}
 		current = current->next;
 	}
 }
 
-int	create_temp_file(t_cmd *cmd, int index, t_mshell *shell)
+int	create_temp_file(t_redir *current, int index, t_mshell *shell)
 {
 	char	*i;
 
 	i = ft_itoa(index, &shell->collector);
 	if (!i)
 		return (0);
-	cmd->heredoc_file = ft_strjoin("/tmp/ms_heredoc_", i, &shell->collector);
+	current->file = ft_strjoin("/tmp/ms_heredoc_", i, &shell->collector);
 	gc_free(&shell->collector, i);
-	if (!cmd->heredoc_file)
+	if (!current->file)
 		return (0);
 	return (1);
 }
@@ -91,19 +96,3 @@ int	is_delimiter(char *line, char *delimiter)
 		return (1);
 	return (0);
 }
-
-void	heredoc_redirects(t_cmd *cmd, t_mshell *shell)
-{
-	int	fd;
-
-	fd = open(cmd->heredoc_file, O_RDONLY);
-	if (fd == -1)
-		print_error(0, shell);
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		close (fd);
-		print_error(2, shell);
-	}
-	close (fd);
-}
-

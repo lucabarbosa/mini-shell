@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 10:30:30 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 03:14:12 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "../../includes/executor.h"
 
 void			handle_redirect(t_cmd *cmd, t_mshell *shell);
-static int		infile_redirect(t_cmd *cmd, int newfd);
-static int		outfile_redirect(t_cmd *cmd, int newfd);
+static void		infile_redirect(char *file, t_mshell *shell);
+static void		outfile_redirect(char *file, int append, t_mshell *shell);
 char	**env_list_to_array(t_envlist *envp, t_gc **collector);
 static void	file_redirects(t_cmd *cmd, t_mshell *shell);
 
@@ -23,8 +23,6 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 {
 	char	*full_path;
 
-	if (cmd->heredoc_file)
-		heredoc_redirects(cmd, shell);
 	file_redirects(cmd, shell);
 	if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
 		if (exec_builtin(&cmd, shell))
@@ -47,55 +45,66 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 
 static void	file_redirects(t_cmd *cmd, t_mshell *shell)
 {
-	if (cmd->infile)
-		if (infile_redirect(cmd, STDIN_FILENO))
-			print_error (0, shell);
-	if (cmd->outfile)
-		if (outfile_redirect(cmd, STDOUT_FILENO))
-			print_error (0, shell);
+	t_redir	*current_redir;
+
+	current_redir = cmd->redirects;
+	while (current_redir)
+	{
+		if (current_redir->type == TOKEN_REDIR_IN)
+			infile_redirect(current_redir->file, shell);
+		else if (current_redir->type == TOKEN_REDIR_OUT)
+			outfile_redirect(current_redir->file, 0, shell);
+		else if (current_redir->type == TOKEN_REDIR_APPEND)
+			outfile_redirect(current_redir->file, 1, shell);
+		else if (current_redir->type == TOKEN_HEREDOC)
+			infile_redirect(current_redir->file, shell);
+		current_redir = current_redir->next;
+	}
 }
 
-static int	infile_redirect(t_cmd *cmd, int newfd)
+static void	infile_redirect(char *file, t_mshell *shell)
 {
 	int	fd;
 
-	fd = open(cmd->infile, O_RDONLY);
+	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		perror(cmd->infile);
-		return (1);
+		perror(file);
+		clean_shell(shell);
+		exit (1);
 	}
-	if (dup2 (fd, newfd) == -1)
+	if (dup2 (fd, STDIN_FILENO) == -1)
 	{
-		perror(cmd->infile);
+		perror("minishell: dup2");
 		close (fd);
-		return (1);
+		clean_shell (shell);
+		exit (1);
 	}
 	close (fd);
-	return (0);
 }
 
-static int	outfile_redirect(t_cmd *cmd, int newfd)
+static void	outfile_redirect(char *file, int append, t_mshell *shell)
 {
 	int	fd;
 
-	if (cmd->append)
-		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (append)
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
-		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		perror(cmd->outfile);
-		return (1);
+		perror(file);
+		clean_shell(shell);
+		exit (1);
 	}
-	if (dup2(fd, newfd) == -1)
+	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-		perror(cmd->outfile);
+		perror("minishell: dup2");
 		close (fd);
-		return (1);
+		clean_shell(shell);
+		exit (1);
 	}
 	close (fd);
-	return (0);
 }
 
 char	**env_list_to_array(t_envlist *envp, t_gc **collector)
