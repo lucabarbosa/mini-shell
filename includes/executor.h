@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 17:07:19 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 19:01:35 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <dirent.h>
 # include <signal.h>
 # include <errno.h>
+# include <termios.h>
+# include <sys/ioctl.h>
 # include "../libft/libft.h"
 # include "minishell.h"
 # include "builtin.h"

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:18:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 17:51:26 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 19:07:11 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int			handle_heredocs(t_cmd *cmd, t_mshell *shell);
 static int	process_heredoc(t_redir *current, int index, t_mshell *shell);
 static int	heredoc_content(int fd, char *delim, int expand, t_mshell *shell);
+static void	fix_signals(char *line, t_mshell *shell);
 
 int	handle_heredocs(t_cmd *cmd, t_mshell *shell)
 {
@@ -71,14 +72,14 @@ static int	heredoc_content(int fd, char *delim, int expand, t_mshell *shell)
 {
 	char	*line;
 
+	signal(SIGINT, sigint_heredoc);
 	while (1)
 	{
 		write(2, "> ", 2);
 		line = get_next_line(0, &shell->collector);
 		if (g_signal == SIGINT)
 		{
-			gc_free(&shell->collector, line);
-			g_signal = 0;
+			fix_signals(line, shell);
 			return (1);
 		}
 		if (!line)
@@ -94,4 +95,11 @@ static int	heredoc_content(int fd, char *delim, int expand, t_mshell *shell)
 		fill_line(line, fd, expand, shell);
 	}
 	return (0);
+}
+
+static void	fix_signals(char *line, t_mshell *shell)
+{
+	gc_free(&shell->collector, line);
+	g_signal = 0;
+	sig_init();
 }

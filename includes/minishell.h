@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 18:27:57 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 19:03:29 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void	clean_shell(t_mshell *shell);
 void	print_error(int num, t_mshell *shell);
 
 void	sigint_handler(int sig);
+void	sigint_heredoc(int sig);
 
 #endif
