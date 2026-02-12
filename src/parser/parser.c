@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 17:50:17 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/11 18:20:36 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 03:03:34 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_cmd	*parse_command(t_token **current, t_gc **collector)
 		if (check_redirection_token((*current)->type))
 			handle_redirection(command, current, collector);
 		else if ((*current)->type == TOKEN_HEREDOC)
-			handle_heredoc(command, current);	
+			handle_heredoc(command, current, collector);	
 		else if (check_argument_token((*current)->type))
 		{
 			add_argument(command, (*current)->value, collector);
@@ -61,13 +61,8 @@ t_cmd	*init_cmd(t_gc **collector)
 	command = gc_malloc(collector, sizeof(t_cmd));
 	if (!command)
 		return (NULL);
-	command->append = 0;
 	command->args = NULL;
-	command->infile = NULL;
-	command->outfile = NULL;
-	command->heredoc_delim = NULL;
-	command->heredoc_file = NULL;
-	command->heredoc_expand = 1;
+	command->redirects = NULL;
 	command->next = NULL;
 	return (command);
 }
@@ -81,26 +76,30 @@ int	handle_redirection(t_cmd *cmd, t_token **current, t_gc **collector)
 	if (!(*current) || ((*current)->type != TOKEN_DQUOTE && (*current)->type
 			!= TOKEN_SQUOTE && (*current)->type != TOKEN_WORD))
 		return (0);
-	if (type == TOKEN_REDIR_IN)
-		cmd->infile = ft_strdup((*current)->value, collector);
-	else if (type == TOKEN_REDIR_OUT)
-	{
-		cmd->outfile = ft_strdup((*current)->value, collector);
-		cmd->append = 0;
-	}
-	else if (type == TOKEN_REDIR_APPEND)
-	{
-		cmd->outfile = ft_strdup((*current)->value, collector);
-		cmd->append = 1;
-	}
+//-------------------------------------------------------------------------
+	// if (type == TOKEN_REDIR_IN)
+	// 	cmd->infile = ft_strdup((*current)->value, collector);
+	// else if (type == TOKEN_REDIR_OUT)
+	// {
+	// 	cmd->outfile = ft_strdup((*current)->value, collector);
+	// 	cmd->append = 0;
+	// }
+	// else if (type == TOKEN_REDIR_APPEND)
+	// {
+	// 	cmd->outfile = ft_strdup((*current)->value, collector);
+	// 	cmd->append = 1;
+	// }
+//------------------------------------------------------------------------
+	add_redir(cmd, type, (*current)->value, collector);
 	*current = (*current)->next;
 	return (1);
 }
 
-int	handle_heredoc(t_cmd *cmd, t_token **tokens)
+int	handle_heredoc(t_cmd *cmd, t_token **tokens, t_gc **collector)
 {
 	t_token			*cr;
 	t_token_type	type;
+	int				expand;
 
 	cr = (*tokens)->next;
 	*tokens = (*tokens)->next;
@@ -108,7 +107,10 @@ int	handle_heredoc(t_cmd *cmd, t_token **tokens)
 	type = cr->type;
 	if (type != TOKEN_DQUOTE && type != TOKEN_SQUOTE && type != TOKEN_WORD)
 		return (0);
-	cmd->heredoc_delim = cr->value;
+	expand = 1;
+	if (type == TOKEN_DQUOTE || type == TOKEN_SQUOTE)
+		expand = 0;
+	add_heredoc_redir(cmd, cr->value, expand, collector);
 	return (1);
 }
 
