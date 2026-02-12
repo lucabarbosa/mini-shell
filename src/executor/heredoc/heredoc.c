@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:18:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 19:07:11 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 19:45:21 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,5 @@ static void	fix_signals(char *line, t_mshell *shell)
 	gc_free(&shell->collector, line);
 	g_signal = 0;
 	sig_init();
+	shell->last_exit = 130;
 }

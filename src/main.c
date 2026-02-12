@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 17:44:56 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/12 19:57:15 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ static t_envlist	*init_envp(char **envp, t_gc **collector)
 
 static void	shell_loop(t_mshell *shell)
 {
-	char	*input;
+	char				*input;
+	struct termios		term;
 
+	tcgetattr(STDIN_FILENO, &term);
 	while (shell->running)
 	{
 		input = readline("minishell$> ");
@@ -92,6 +94,7 @@ static void	shell_loop(t_mshell *shell)
 		dup2(shell->stdout_backup, 1);
 		free(input);
 		input = NULL;
+		tcsetattr(STDIN_FILENO, 0, &term);
 	}
 	close (shell->stdin_backup);
 	close (shell->stdout_backup);
