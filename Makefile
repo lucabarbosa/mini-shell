@@ -19,6 +19,7 @@ LEXER		=	src/lexer/lexer.c \
 
 PARSER		=	src/parser/parser.c \
 				src/parser/parser_utils.c \
+				src/parser/parser_very_utils.c \
 
 EXECUTOR	=	src/executor/executor.c \
 				src/executor/get_path.c \

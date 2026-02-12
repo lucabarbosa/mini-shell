@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 17:35:33 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 21:25:35 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 16:50:12 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*expand_heredoc(char *line, t_mshell *shell)
 			temp[0] = line[i];
 			temp[1] = '\0';
 			result = ft_strjoin(result, temp, &shell->collector);
-			i++;	
+			i++;
 		}
 	}
 	result = ft_strjoin(result, "\n", &shell->collector);
@@ -84,7 +84,7 @@ static char	*find_env(char *result, char *line, int *i, t_mshell *shell)
 	var_value = get_env_value(var_name, shell->envp);
 	if (var_value)
 		result = ft_strjoin(result, var_value, &shell->collector);
-	*i = j;	
+	*i = j;
 	gc_free(&shell->collector, var_name);
 	return (result);
 }

@@ -6,21 +6,20 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:10:21 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 03:15:12 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 17:49:18 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/heredoc.h"
 
 void	cleanup_heredoc(t_cmd *cmd);
-char	*parse_delim(char *delim, int *expand, t_mshell *shell);
 int		create_temp_file(t_redir *current, int index, t_mshell *shell);
 int		is_delimiter(char *line, char *delimiter);
 
 void	cleanup_heredoc(t_cmd *cmd)
 {
 	t_cmd		*current;
-	t_redir	*redir;
+	t_redir		*redir;
 
 	current = cmd;
 	while (current)
@@ -48,35 +47,6 @@ int	create_temp_file(t_redir *current, int index, t_mshell *shell)
 	if (!current->file)
 		return (0);
 	return (1);
-}
-
-char	*parse_delim(char *delim, int *expand, t_mshell *shell)
-{
-	char	*clean;
-	int		i;
-	int		j;
-	int		len;
-
-	i = 0;
-	j = 0;
-	*expand = 1;
-	len = ft_strlen(delim);
-	clean = gc_malloc(&shell->collector, len + 1);
-	if (!clean)
-		return (NULL);
-	while (delim[i])
-	{
-		if (delim[i] == '\'' || delim[i] == '"')
-			*expand = 0;
-		else
-		{
-			clean[j] = delim[i];
-			j++;
-		}
-		i++;
-	}
-	clean[j] = '\0';
-	return (clean);
 }
 
 int	is_delimiter(char *line, char *delimiter)

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:18:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 03:08:25 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 17:51:26 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ static int	heredoc_content(int fd, char *delim, int expand, t_mshell *shell);
 int	handle_heredocs(t_cmd *cmd, t_mshell *shell)
 {
 	t_cmd		*current;
-	t_redir	*redir;
-	int		index;
-	int		result;
+	t_redir		*redir;
+	int			index;
+	int			result;
 
 	index = 0;
 	current = cmd;
 	while (current)
 	{
 		redir = current->redirects;
-		while(redir)
+		while (redir)
 		{
 			if (redir->type == TOKEN_HEREDOC)
 			{
@@ -51,7 +51,7 @@ static int	process_heredoc(t_redir *current, int index, t_mshell *shell)
 	int		fd;
 	char	*deli;
 
-	deli = parse_delim(current->heredoc_delim, &current->heredoc_expand, shell);
+	deli = current->heredoc_delim;
 	if (!deli)
 		return (1);
 	if (!create_temp_file(current, index, shell))

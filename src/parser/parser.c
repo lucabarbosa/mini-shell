@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 17:50:17 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/12 03:03:34 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 17:43:43 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_cmd	*parse_command(t_token **current, t_gc **collector)
 		if (check_redirection_token((*current)->type))
 			handle_redirection(command, current, collector);
 		else if ((*current)->type == TOKEN_HEREDOC)
-			handle_heredoc(command, current, collector);	
+			handle_heredoc(command, current, collector);
 		else if (check_argument_token((*current)->type))
 		{
 			add_argument(command, (*current)->value, collector);
@@ -76,20 +76,6 @@ int	handle_redirection(t_cmd *cmd, t_token **current, t_gc **collector)
 	if (!(*current) || ((*current)->type != TOKEN_DQUOTE && (*current)->type
 			!= TOKEN_SQUOTE && (*current)->type != TOKEN_WORD))
 		return (0);
-//-------------------------------------------------------------------------
-	// if (type == TOKEN_REDIR_IN)
-	// 	cmd->infile = ft_strdup((*current)->value, collector);
-	// else if (type == TOKEN_REDIR_OUT)
-	// {
-	// 	cmd->outfile = ft_strdup((*current)->value, collector);
-	// 	cmd->append = 0;
-	// }
-	// else if (type == TOKEN_REDIR_APPEND)
-	// {
-	// 	cmd->outfile = ft_strdup((*current)->value, collector);
-	// 	cmd->append = 1;
-	// }
-//------------------------------------------------------------------------
 	add_redir(cmd, type, (*current)->value, collector);
 	*current = (*current)->next;
 	return (1);
@@ -101,45 +87,13 @@ int	handle_heredoc(t_cmd *cmd, t_token **tokens, t_gc **collector)
 	t_token_type	type;
 	int				expand;
 
+	expand = 1;
 	cr = (*tokens)->next;
 	*tokens = (*tokens)->next;
 	*tokens = (*tokens)->next;
 	type = cr->type;
-	if (type != TOKEN_DQUOTE && type != TOKEN_SQUOTE && type != TOKEN_WORD)
-		return (0);
-	expand = 1;
-	if (type == TOKEN_DQUOTE || type == TOKEN_SQUOTE)
+	if ((type == TOKEN_DQUOTE || type == TOKEN_SQUOTE) && type != TOKEN_WORD)
 		expand = 0;
 	add_heredoc_redir(cmd, cr->value, expand, collector);
 	return (1);
-}
-
-
-void	add_argument(t_cmd *cmd, char *arg, t_gc **collector)
-{
-	int		count;
-	char	**new_args;
-	int		i;
-
-	count = 0;
-	if (cmd->args)
-	{
-		while (cmd->args[count])
-			count++;
-	}
-	new_args = gc_malloc(collector, sizeof(char *) * (count + 2));
-	if (!new_args)
-		return ;
-	if (cmd->args)
-	{
-		i = 0;
-		while (i < count)
-		{
-			new_args[i] = cmd->args[i];
-			i++;
-		}
-	}
-	new_args[count] = ft_strdup(arg, collector);
-	new_args[count + 1] = NULL;
-	cmd->args = new_args;
 }

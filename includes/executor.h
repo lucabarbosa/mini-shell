@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 02:58:55 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 17:07:19 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ typedef struct s_envlist	t_envlist;
 typedef struct s_redir
 {
 	int				type;
-	char				*file;
-	char				*heredoc_delim;
+	char			*file;
+	char			*heredoc_delim;
 	int				heredoc_expand;
 	struct s_redir	*next;
 }	t_redir;
@@ -42,7 +42,7 @@ typedef struct s_redir
 typedef struct s_cmd
 {
 	char			**args;
-	t_redir		*redirects;
+	t_redir			*redirects;
 	struct s_cmd	*next;
 }	t_cmd;
 
