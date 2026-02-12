@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:10:21 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 18:28:17 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/11 20:23:34 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	create_temp_file(t_cmd *cmd, int index, t_mshell *shell)
 	i = ft_itoa(index, &shell->collector);
 	if (!i)
 		return (0);
-	cmd->heredoc_file = ft_strjoin("/home/lbento/minishell/ms_heredoc_", i, &shell->collector);
+	cmd->heredoc_file = ft_strjoin("/home/lbento/Projects_42/mini-shell/ms_heredoc_", i, &shell->collector);
 	gc_free(&shell->collector, i);
 	if (!cmd->heredoc_file)
 		return (0);
