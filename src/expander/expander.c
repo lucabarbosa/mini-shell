@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:07:16 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/04 20:09:44 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 18:13:26 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,29 @@ void	expand(t_token *tokens, t_gc **gc, t_mshell *shell)
 
 static char	*find_cmd(char *arg, t_gc **gc, t_mshell *shell)
 {
-	int		i;
-	int		j;
-	char	*env_v;
-	char	*res;
+	t_expctx	ctx;
+	int			i;
 
+	ctx.arg = arg;
+	ctx.gc = gc;
+	ctx.shell = shell;
+	ctx.res = ft_strdup("", gc);
 	i = 0;
-	res = ft_strdup("", gc);
 	while (arg[i])
 	{
-		if (arg[i] == '$')
-		{
-			j = ++i;
-			while (envchr(arg[i]))
-			i++;
-			env_v = srchcmd(ft_substr(arg, j, i - j, gc), shell->envp);
-			if (env_v)
-			res = ft_strjoin(res, env_v, gc);
-		}
+		if (arg[i] == '$' && arg[i + 1] == '$')
+			handle_pid(&ctx, &i);
+		else if (arg[i] == '$' && arg[i + 1] == '?')
+			handle_status(&ctx, &i);
+		else if (cond(arg, i))
+			handle_env(&ctx, &i);
 		else
 		{
-			res = concat_cmd(&res, arg, i, gc);
+			ctx.res = concat_cmd(&ctx.res, arg, i, gc);
 			i++;
 		}
 	}
-	return (res);
+	return (ctx.res);
 }
 
 static char	*srchcmd(char *cmd, t_envlist *env)

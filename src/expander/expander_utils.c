@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:07:34 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/04 20:15:40 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 17:59:05 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,10 @@ void	init_var(int *i, char **res, char *tmp, t_gc **gc)
 	*i = 0;
 	*res = ft_strdup("", gc);
 	tmp[1] = '\0';
+}
+
+int	cond(char *arg, int i)
+{
+	return (arg[i] == '$' && arg[i + 1] != '$'
+		&& arg[i + 1] != '?' && arg[i + 1]);
 }

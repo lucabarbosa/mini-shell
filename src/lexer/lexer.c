@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:19:54 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/04 20:16:03 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 16:35:08 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	add_token(t_token **token, t_token_type type, char *value, t_gc **coll)
 	while (current->next != NULL)
 		current = current->next;
 	current->next = new_token;
+	new_token->prev = current;
 }
 
 void	expandable_tokens(t_token *tokens)
@@ -81,7 +82,7 @@ void	expandable_tokens(t_token *tokens)
 			i = 0;
 			while (cr->value[i])
 			{
-				if (cr->value[i] == '$')
+				if (cr->value[i] == '$' && cr->prev->type != TOKEN_HEREDOC)
 					cr->expandable = 1;
 				i++;
 			}
