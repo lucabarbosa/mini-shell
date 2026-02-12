@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/12 18:42:47 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/12 18:46:49 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "../libft/libft.h"
 
 typedef struct s_mshell	t_mshell;
+typedef struct s_envlist	t_envlist;
 
 typedef enum e_token_type
 {
