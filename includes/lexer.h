@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 14:05:14 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 15:50:22 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,7 @@ int		process_word_part(char *str, char **result, int *expandable, t_gc **gc);
 int		ft_is_metachar(char c);
 int		is_operator(char c);
 int		is_word_start(char c);
+
+void    print_tokens(t_token *tokens);
 
 #endif

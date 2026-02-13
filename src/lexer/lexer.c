@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:19:54 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 14:03:56 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 15:55:53 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,33 @@ void	expandable_tokens(t_token *tokens)
 			i = 0;
 			while (cr->value[i])
 			{
-				if (cr->value[i] == '$' && cr->prev->type != TOKEN_HEREDOC)
+				if (cr->value[i] == '$' && (cr->prev && cr->prev->type != TOKEN_HEREDOC))
 					cr->expandable = 1;
 				i++;
 			}
 		}
 		cr = cr->next;
 	}
+}
+
+void    print_tokens(t_token *tokens)
+{
+    t_token *current;
+    const char  *type_names[] = {
+        "WORD", "PIPE", "REDIR_IN",
+        "REDIR_OUT", "REDIR_APPEND",
+        "HEREDOC", "ENV_VAR", "SQUOTE",
+        "DQUOTE", "END"};
+        
+    current = tokens;
+    printf("==========TOKENS==========\n");
+    while (current)
+    {
+        printf("Type: %-15s\n", type_names[current->type]);
+        printf("Value: %s\n", current->value);
+        printf("============\n");
+        current = current->next;
+    }
+    
+    
 }

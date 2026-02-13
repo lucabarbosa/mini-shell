@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 14:20:04 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 15:50:41 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ static int	input_process(char *input, t_mshell *shell)
 		gc_clear(&shell->collector);
 		return (1);
 	}
+	print_tokens(tokens);
 	if (shell->env_char)
 		gc_free(&shell->envp_collect, shell->env_char);
 	shell->env_char = env_list_to_array(shell->envp, &shell->envp_collect);
