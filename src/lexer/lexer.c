@@ -6,17 +6,16 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:19:54 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 20:09:35 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:31:47 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/lexer.h"
 
-t_token	*lexer(char *input, t_gc **collector)
+t_token	*lexer(char *input, t_gc **collector, int i)
 {
 	t_token	*tokens;
-	int i = 0;
 
 	tokens = NULL;
 	while (input[i])
@@ -38,6 +37,7 @@ t_token	*lexer(char *input, t_gc **collector)
 	}
 	add_token(&tokens, TOKEN_END, NULL, collector);
 	is_tkn_valid(&tokens);
+	validate_tokens(&tokens);
 	return (tokens);
 }
 
@@ -92,41 +92,4 @@ void	expandable_tokens(t_token *tokens)
 		}
 		cr = cr->next;
 	}
-}
-
-void	is_tkn_valid(t_token **tokens)
-{
-	t_token	*cr;
-
-	cr = *tokens;
-	if (cr->type == TOKEN_HEREDOC)
-	{
-		if (!cr->next || cr->next->type == TOKEN_END)
-		{
-			*tokens = NULL;
-			print_tk_errp(cr->type);
-			return ;
-		}
-		if (!cr->next->value || cr->next->value[0] == '\0')
-		{
-			*tokens = NULL;
-			print_tk_errp(cr->type);
-			return ;
-		}	
-	}
-	if (cr->type != TOKEN_WORD && cr->type != TOKEN_HEREDOC)
-	{
-		*tokens = NULL;
-		print_tk_errp(cr->type);
-		return ;
-	}
-	expandable_tokens(*tokens);
-}
-
-void	print_tk_errp(t_token_type type)
-{
-	if (type == TOKEN_PIPE)
-		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
-	else
-		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 }

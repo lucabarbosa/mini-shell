@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 16:19:08 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 20:11:05 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:22:17 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,26 +104,4 @@ int	process_word_part(char *str, char **result, int *expandable, t_gc **gc)
 int	is_word_start(char c)
 {
 	return (c != ' ' && !is_operator(c) && c != '\'' && c != '"');
-}
-
-void    print_tokens(t_token *tokens)
-{
-    t_token *current;
-    const char  *type_names[] = {
-        "WORD", "PIPE", "REDIR_IN",
-        "REDIR_OUT", "REDIR_APPEND",
-        "HEREDOC", "ENV_VAR", "SQUOTE",
-        "DQUOTE", "END"};
-        
-    current = tokens;
-    printf("==========TOKENS==========\n");
-    while (current)
-    {
-        printf("Type: %-15s\n", type_names[current->type]);
-        printf("Value: %s\n", current->value);
-        printf("============\n");
-        current = current->next;
-    }
-    
-    
 }

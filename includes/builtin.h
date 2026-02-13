@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:30:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 18:57:31 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 20:32:24 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_mshell		t_mshell;
 typedef struct s_envlist	t_envlist;
 
 int		is_builtin(char *arg);
-int	   verify_type(t_redir *cur);
+int		verify_type(t_redir *cur);
 int		parent_built(char *cmd);
 int		exec_builtin(t_cmd **cmd, t_mshell *shell);
 int		command_echo(char **args);
