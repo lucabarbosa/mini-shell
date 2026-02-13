@@ -70,6 +70,14 @@ re:			fclean all
 
 val:			re
 				@echo "\033[1;31m\n================ Running with valgrind ================\033[1;m"
-				@valgrind --leak-check=full --show-leak-kinds=all --suppressions=./readline.supp ./minishell
+				@valgrind -q --suppressions=readline.supp \
+				--leak-check=full \
+				--show-leak-kinds=all \
+				--track-origins=yes \
+				--track-fds=yes \
+				--trace-children=yes \
+				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
+				--suppressions=./readline.supp \
+				./${NAME}
 
 .PHONY:		all clean fclean re val
