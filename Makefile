@@ -46,11 +46,11 @@ all:		$(LIBFT) $(NAME)
 
 $(LIBFT):		
 			@make -s -C libft
-			@echo "\033[1;32m✅ Libft compiled!\033[1;30m"
+			@echo "\033[1;32m✅ Libft compiled!\033[1;m"
 
 $(NAME):	$(OBJ)
 			$(CC) $(CFLAGS) -o $@ $^ $(LIBFT) $(READLINE)
-			@echo "\033[1;32m✅ Minishell compiled!\033[1;30m"
+			@echo "\033[1;32m✅ Minishell compiled!\033[1;m"
 
 obj/%.o:	src/%.c
 			@mkdir -p $(dir $@)
@@ -59,17 +59,17 @@ obj/%.o:	src/%.c
 clean:
 			@make -s $@ -C libft
 			@rm -rf $(OBJ) $(LIBFT) obj
-			@echo "\033[1;35m🗑️  Objects deleted.\033[1;30m"
+			@echo "\033[1;35m🗑️  Objects deleted.\033[1;m"
 
 fclean:	clean
 			@make -s fclean -C libft
 			@rm -rf $(NAME)
-			@echo "\033[1;36m🗑️  Minishell deleted!\033[1;30m"
+			@echo "\033[1;36m🗑️  Minishell deleted!\033[1;m"
 
 re:			fclean all
 
 val:			re
-				@echo "\033[1;31m\n================ Running with valgrind ================\033[1;30m"
+				@echo "\033[1;31m\n================ Running with valgrind ================\033[1;m"
 				@valgrind --leak-check=full --show-leak-kinds=all --suppressions=./readline.supp ./minishell
 
 .PHONY:		all clean fclean re val

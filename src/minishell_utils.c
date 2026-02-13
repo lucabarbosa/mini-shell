@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/11 17:03:01 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 14:12:12 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	clean_shell(t_mshell *shell)
 {
 	gc_clear(&shell->envp_collect);
 	gc_clear(&shell->collector);
+	close (shell->stdin_backup);
+	close (shell->stdout_backup);
 	rl_clear_history();
 }
 

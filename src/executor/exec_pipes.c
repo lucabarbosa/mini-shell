@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:08:35 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 12:48:44 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 14:07:38 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,20 @@ static int	wait_all_exit(pid_t *pid, int num_cmd)
 	while (i < num_cmd)
 	{
 		waitpid(pid[i], &status, 0);
-		if (WIFSIGNALED(status))
+		if (i == num_cmd - 1)
 		{
-			if (WTERMSIG(status) == SIGINT)
-				write(1, "\n", 1);
-			if (WTERMSIG(status) == SIGQUIT)
-				write(2, "Quit (core dumped)\n", 19);
-			return (128 + WTERMSIG(status));
+			if (WIFSIGNALED(status))
+			{
+				if (WTERMSIG(status) == SIGINT)
+					write(1, "\n", 1);
+				if (WTERMSIG(status) == SIGQUIT)
+					write(2, "Quit (core dumped)\n", 19);
+				last_status = 128 + WTERMSIG(status);
+			}
+			else if (WIFEXITED(status))
+				last_status = WEXITSTATUS(status);
 		}
-		i++;
+	i++;
 	}
 	return (last_status);
 }

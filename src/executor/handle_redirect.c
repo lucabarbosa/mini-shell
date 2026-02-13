@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 12:41:51 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 14:34:25 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 	char	*full_path;
 
 	file_redirects(cmd, shell);
+	if (!cmd->args || !cmd->args[0])
+	{
+		clean_shell(shell);
+		exit(0);
+	}
 	if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
 		if (exec_builtin(&cmd, shell))
 			print_error (0, shell);

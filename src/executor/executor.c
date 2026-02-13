@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 12:38:37 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 14:39:46 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmds, t_mshell *shell)
 
 	if (cmd->args && cmd->args[0] && parent_built(cmd->args[0]))
 	{
-		if (exec_builtin(arg, shell))
-			return ;
+		exec_builtin(arg, shell);
+		return ;
 	}
 	pid = fork();
 	if (pid == -1)
