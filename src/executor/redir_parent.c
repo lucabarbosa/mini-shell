@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 18:51:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 18:59:47 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 20:38:19 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,12 @@ void		parent_restore_fds(int saved_in, int saved_out);
 int	parent_redirect(t_cmd *cmd)
 {
 	t_redir	*current;
-	int		saved_in;
-	int		saved_out;
 
-	saved_in = dup(STDIN_FILENO);
-	saved_out = dup(STDOUT_FILENO);
-	if (saved_in == -1 || saved_out == -1)
-		return (1);
 	current = cmd->redirects;
 	while (current)
 	{
 		if (apply_one_redir(current))
-		{
-			parent_restore_fds(saved_in, saved_out);
 			return (1);
-		}
 		current = current->next;
 	}
 	return (0);

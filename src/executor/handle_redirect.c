@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 19:11:07 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 20:49:18 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	exec_child_builtin(t_cmd *cmd, t_mshell *shell)
 
 void	do_execve(char *full_path, t_cmd *cmd, t_mshell *shell)
 {
+	close (shell->stdin_backup);
+	close (shell->stdout_backup);
 	if (shell->env_char)
 		gc_free(&shell->envp_collect, shell->env_char);
 	shell->env_char = env_list_to_array(shell->envp, &shell->envp_collect);
