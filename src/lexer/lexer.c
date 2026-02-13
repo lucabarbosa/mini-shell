@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:19:54 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 15:55:53 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 16:10:12 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	add_token(t_token **token, t_token_type type, char *value, t_gc **coll)
 	else
 		new_token->value = NULL;
 	new_token->next = NULL;
+	new_token->prev = NULL;
 	if (*token == NULL)
 	{
 		*token = new_token;
@@ -74,6 +75,8 @@ void	expandable_tokens(t_token *tokens)
 	t_token	*cr;
 	int		i;
 
+	if (!tokens)
+		return ;
 	cr = tokens;
 	while (cr)
 	{
