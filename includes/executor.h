@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 11:25:21 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 15:14:26 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,8 @@ char	*get_path(char *cmd, t_mshell *shell);
 void	handle_redirect(t_cmd *cmd, t_mshell *shell);
 void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
 char	**env_list_to_array(t_envlist *envp, t_gc **collector);
+void	exec_parent_builtin(t_cmd *cmd, t_cmd **arg, t_mshell *shell);
+int		redir_parent(t_cmd *cmd);
+int		verify_type(t_redir *cur);
 
 #endif

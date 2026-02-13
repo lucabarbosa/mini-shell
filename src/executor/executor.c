@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 14:39:46 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 15:15:16 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmds, t_mshell *shell);
 void	executor(t_cmd **cmd, t_mshell *shell);
 int		wait_exit_status(pid_t *pid, int num_cmd);
+void	exec_parent_builtin(t_cmd *cmd, t_cmd **arg, t_mshell *shell);
 
 void	executor(t_cmd **cmd, t_mshell *shell)
 {
@@ -53,7 +54,7 @@ void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmds, t_mshell *shell)
 
 	if (cmd->args && cmd->args[0] && parent_built(cmd->args[0]))
 	{
-		exec_builtin(arg, shell);
+		exec_parent_builtin(cmd, arg, shell);
 		return ;
 	}
 	pid = fork();
@@ -71,6 +72,16 @@ void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmds, t_mshell *shell)
 	}
 	sig_wait();
 	shell->last_exit = wait_exit_status(&pid, num_cmds);
+}
+
+void	exec_parent_builtin(t_cmd *cmd, t_cmd **arg, t_mshell *shell)
+{
+	if (cmd->redirects && redir_parent(cmd))
+	{
+		shell->last_exit = 1;
+		return ;
+	}
+	exec_builtin(arg, shell);
 }
 
 int	wait_exit_status(pid_t *pid, int num_cmd)
