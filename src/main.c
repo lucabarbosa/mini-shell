@@ -6,14 +6,14 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 14:02:35 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 14:20:04 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static void			init_shell(t_mshell *shell, char **envp);
-static t_envlist	*init_envp(char **envp, t_gc **collector);
+static t_envlist	*init_envp(char **envp, t_gc **gc, int i);
 static int			input_process(char *input, t_mshell *shell);
 static void			shell_loop(t_mshell *shell);
 
@@ -40,29 +40,31 @@ static void	init_shell(t_mshell *shell, char **envp)
 	shell->collector = NULL;
 	shell->envp_collect = NULL;
 	shell->env_char = NULL;
-	shell->envp = init_envp(envp, &shell->envp_collect);
+	shell->envp = init_envp(envp, &shell->envp_collect, 0);
 	if (!shell->envp)
 		print_error(3, shell);
 	shell->last_exit = 0;
 	shell->running = 1;
 }
 
-static t_envlist	*init_envp(char **envp, t_gc **collector)
+static t_envlist	*init_envp(char **envp, t_gc **gc, int i)
 {
-	int			i;
 	t_envlist	*head;
 	t_envlist	*current;
 	t_envlist	*new_node;
 
-	i = 0;
 	head = NULL;
 	current = NULL;
 	while (envp[i])
 	{
-		new_node = gc_malloc(collector, sizeof(t_envlist));
+		new_node = gc_malloc(gc, sizeof(t_envlist));
 		if (!new_node)
 			return (NULL);
-		new_node->value = ft_strdup(envp[i], collector);
+		if (ft_strncmp(envp[i], "SHLVL=", 6) == 0)
+			new_node->value = ft_strjoin("SHLVL=", ft_itoa(ft_atoi(envp[i]
+							+ 6) + 1, gc), gc);
+		else
+			new_node->value = ft_strdup(envp[i], gc);
 		new_node->next = NULL;
 		if (head == NULL)
 			head = new_node;
