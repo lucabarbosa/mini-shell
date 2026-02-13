@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 13:52:30 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 17:04:22 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 16:46:17 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ static void	print_env(t_envlist *envp, t_mshell *shell)
 	i = 0;
 	while (envp_array[i])
 	{
+		equal_sig = ft_strchr(envp_array[i], '=');
 		ft_putstr_fd("declare -x ", 1);
-		if (ft_strcmp(envp_array[i], "="))
+		if (equal_sig)
 		{
-			equal_sig = ft_strchr(envp_array[i], '=');
 			len = equal_sig - envp_array[i];
 			write(1, envp_array[i], len + 1);
 			printf("\"%s\"\n", equal_sig + 1);

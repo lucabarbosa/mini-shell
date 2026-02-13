@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 16:16:05 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 19:48:46 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 16:47:49 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,14 @@ int	export_args(char *arg, t_mshell *shell)
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (1);
 	}
-	if (!ft_strchr(arg, '='))
-		return (0);
 	len = 0;
 	exist = check_arg_exist(arg, len, shell);
+	if (!ft_strchr(arg, '='))
+	{
+		if (!exist)
+			add_new_envp(arg, shell);
+		return (0);
+	}
 	if (exist)
 		update_envp(arg, exist, shell);
 	else
@@ -53,7 +57,7 @@ static int	is_valid(char *arg)
 	i = 1;
 	while (arg[i] && arg[i] != '=')
 	{
-		if (!ft_isalpha(arg[0]) && arg[0] != '_')
+		if (!ft_isalpha(arg[i]) && arg[i] != '_')
 			return (1);
 		i++;
 	}

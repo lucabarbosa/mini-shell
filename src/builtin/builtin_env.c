@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 11:11:28 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 00:40:28 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 16:45:13 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	command_env(char **args, t_envlist *envp)
 	current = envp;
 	while (current)
 	{
-		printf("%s\n", current->value);
+		if (ft_strchr(current->value, '='))
+			printf("%s\n", current->value);
 		current = current->next;
 	}
 	return (0);
