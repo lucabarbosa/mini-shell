@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:05:42 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 17:51:45 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 19:06:02 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_path(char *cmd, t_mshell *shell)
 
 	if (!cmd || !cmd[0])
 		return (NULL);
-	if (cmd[0] == '/' || cmd[0] == '.')
+	if (ft_strchr(cmd, '/') != NULL)
 	{
 		if (access(cmd, X_OK) == 0)
 			return (ft_strdup(cmd, &shell->collector));
