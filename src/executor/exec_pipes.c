@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:08:35 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 17:51:02 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 21:04:00 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell)
 		i++;
 	}
 	close_pipes(pipes, num_cmd - 1);
+	sig_wait();
 	shell->last_exit = wait_all_exit(pids, num_cmd);
+	sig_restore();
 }
 
 static int	**create_pipes(int num_pipes, t_gc **collector)
@@ -107,12 +109,13 @@ static int	wait_all_exit(pid_t *pid, int num_cmd)
 	while (i < num_cmd)
 	{
 		waitpid(pid[i], &status, 0);
-		if (i == num_cmd -1)
+		if (WIFSIGNALED(status))
 		{
-			if (WIFEXITED(status))
-				last_status = WEXITSTATUS(status);
-			if (WIFSIGNALED(status))
-				last_status = 128 + WTERMSIG(status);
+			if (WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
+			if (WTERMSIG(status) == SIGQUIT)
+				write(2, "Quit (core dumped)\n", 19);
+			return (128 + WTERMSIG(status));
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:18:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 19:45:21 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 20:28:02 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	handle_heredocs(t_cmd *cmd, t_mshell *shell)
 		{
 			if (redir->type == TOKEN_HEREDOC)
 			{
+				g_signal = HEREDOC;
 				result = process_heredoc(redir, index, shell);
 				if (result != 0)
 					return (result);
@@ -64,6 +65,7 @@ static int	process_heredoc(t_redir *current, int index, t_mshell *shell)
 		return (1);
 	}
 	result = heredoc_content(fd, deli, current->heredoc_expand, shell);
+	sig_init();
 	close(fd);
 	return (result);
 }
@@ -101,6 +103,5 @@ static void	fix_signals(char *line, t_mshell *shell)
 {
 	gc_free(&shell->collector, line);
 	g_signal = 0;
-	sig_init();
 	shell->last_exit = 130;
 }

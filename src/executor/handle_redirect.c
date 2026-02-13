@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 03:14:12 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/12 20:49:33 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void			handle_redirect(t_cmd *cmd, t_mshell *shell);
 static void		infile_redirect(char *file, t_mshell *shell);
 static void		outfile_redirect(char *file, int append, t_mshell *shell);
-char	**env_list_to_array(t_envlist *envp, t_gc **collector);
+char			**env_list_to_array(t_envlist *envp, t_gc **collector);
 static void	file_redirects(t_cmd *cmd, t_mshell *shell);
 
 void	handle_redirect(t_cmd *cmd, t_mshell *shell)
