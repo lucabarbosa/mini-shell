@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 21:00:29 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 10:06:35 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	exec_one_command(t_cmd *cmd, t_cmd **args, t_mshell *shell)
 	if (pid == 0)
 	{
 		handle_redirect(cmd, shell);
-		exit (1);
+		exit (0);
 	}
 	sig_wait();
 	shell->last_exit = wait_exit_status(pid);

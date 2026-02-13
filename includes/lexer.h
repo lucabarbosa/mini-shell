@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/12 18:46:49 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/12 21:48:04 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,7 @@ int		cond(char *arg, int i);
 void	handle_pid(t_expctx *ctx, int *i);
 void	handle_status(t_expctx *ctx, int *i);
 void	handle_env(t_expctx *ctx, int *i);
+
+void    print_tokens(t_token *tokens);
 
 #endif

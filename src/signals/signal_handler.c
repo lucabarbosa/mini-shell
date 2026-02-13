@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:52:40 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/12 21:05:35 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 11:10:49 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,26 @@ void	sig_init(void)
 void	sigint_handler(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	if (g_signal == HEREDOC)
+	{
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		g_signal = SIGINT;
+	}
+	else
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 void	sigquit_handler(int sig)
 {
+	printf("SIGQUIT received, g_status = %i", g_signal);
 	(void)sig;
-}
-
-void	sigint_heredoc(int sig)
-{
-	(void)sig;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	g_signal = SIGINT;
 }
 
 void	sig_wait(void)

@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:07:16 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/12 18:43:57 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 11:03:05 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static char	*find_cmd(char *arg, t_gc **gc, t_mshell *shell);
 static char	*concat_cmd( char **res, char *arg, int i, t_gc **gc);
-char	*srchcmd(char *cmd, t_envlist *env);
-int	envchr(char c);
+char		*srchcmd(char *cmd, t_envlist *env);
+int			envchr(char c);
 
 void	expand(t_token *tokens, t_gc **gc, t_mshell *shell)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:18:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 20:28:02 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 11:08:37 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	heredoc_content(int fd, char *delim, int expand, t_mshell *shell)
 {
 	char	*line;
 
-	signal(SIGINT, sigint_heredoc);
+	g_signal = HEREDOC;
 	while (1)
 	{
 		write(2, "> ", 2);

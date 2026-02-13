@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 16:19:08 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/12 17:38:55 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 11:02:53 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	handle_squotes(char *str, t_token **tokens, t_gc **gc)
 	}
 	else
 	{
-		add_token(tokens, TOKEN_END, NULL, gc);
 		ft_putstr_fd("Syntax Error: Unclosed Quotes", 2);
 		return (i);
 	}
@@ -63,7 +62,6 @@ int	handle_dquotes(char *str, t_token **tokens, t_gc **gc)
 	}
 	else
 	{
-		add_token(tokens, TOKEN_END, NULL, gc);
 		ft_putstr_fd("Syntax Error: Unclosed Quotes", 2);
 		return (i);
 	}
@@ -72,26 +70,4 @@ int	handle_dquotes(char *str, t_token **tokens, t_gc **gc)
 int	is_metachar(char c)
 {
 	return (c == '|' || c == '<' || c == '>' || c == '\'' || c == '"');
-}
-
-void    print_tokens(t_token *tokens)
-{
-    t_token *current;
-    const char  *type_names[] = {
-        "WORD", "PIPE", "REDIR_IN",
-        "REDIR_OUT", "REDIR_APPEND",
-        "HEREDOC", "ENV_VAR", "SQUOTE",
-        "DQUOTE", "END"};
-        
-    current = tokens;
-    printf("==========TOKENS==========\n");
-    while (current)
-    {
-        printf("Type: %-15s\n", type_names[current->type]);
-        printf("Value: %s\n", current->value);
-        printf("============\n");
-        current = current->next;
-    }
-    
-    
 }
