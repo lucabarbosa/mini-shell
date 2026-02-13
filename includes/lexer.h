@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 12:45:22 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 12:58:35 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <errno.h>
 # include "../libft/libft.h"
 
-typedef struct s_mshell		t_mshell;
+typedef struct s_mshell	t_mshell;
 typedef struct s_envlist	t_envlist;
 
 typedef enum e_token_type
@@ -60,10 +60,6 @@ typedef struct s_expctx
 t_token	*lexer(char *input, t_gc **collector);
 
 int		handle_pipe(t_token **tokens, t_gc **collector);
-int		handle_words(char *str, t_token **tokens, t_gc **collector);
-int		handle_squotes(char *str, t_token **tokens, t_gc **collector);
-int		handle_dquotes(char *str, t_token **tokens, t_gc **collector);
-int		is_metachar(char c);
 
 void	add_token(t_token **token, t_token_type type, char *value, t_gc **coll);
 
@@ -81,6 +77,12 @@ void	handle_pid(t_expctx *ctx, int *i);
 void	handle_status(t_expctx *ctx, int *i);
 void	handle_env(t_expctx *ctx, int *i);
 
-void	print_tokens(t_token *tokens);
+int		handle_concat_token(char *str, t_token **tokens, t_gc **gc);
+int		process_squote(char *str, char **result, t_gc **gc);
+int		process_dquote(char *str, char **result, int *expandable, t_gc **gc);
+int		process_word_part(char *str, char **result, int *expandable, t_gc **gc);
+int		ft_is_metachar(char c);
+int		is_operator(char c);
+int		is_word_start(char c);
 
 #endif

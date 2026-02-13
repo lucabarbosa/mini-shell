@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:19:54 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/12 16:35:08 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 12:54:20 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,10 @@ t_token	*lexer(char *input, t_gc **collector)
 			i += handle_append_or_out(&tokens, input, i, collector);
 		else if (input[i] == '<')
 			i += handle_heredoc_or_in(&tokens, input, i, collector);
-		else if (input[i] == '\'')
-			i += handle_squotes(input + i, &tokens, collector);
-		else if (input[i] == '"')
-			i += handle_dquotes(input + i, &tokens, collector);
+		else if (input[i] == '\'' || input[i] == '"' || is_word_start(input[i]))
+			i += handle_concat_token(input + i, &tokens, collector);
 		else
-			i += handle_words(input + i, &tokens, collector);
+			i++;
 	}
 	add_token(&tokens, TOKEN_END, NULL, collector);
 	expandable_tokens(tokens);

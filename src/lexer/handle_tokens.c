@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 18:58:01 by iaratang          #+#    #+#             */
-/*   Updated: 2026/01/22 19:36:14 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 12:55:45 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,14 @@ int	handle_heredoc_or_in(t_token **tokens, char *str, int i, t_gc **colle)
 		}
 	}
 	return (-1);
+}
+
+int	ft_is_metachar(char c)
+{
+	return (c == '|' || c == '<' || c == '>' || c == '\'' || c == '"');
+}
+
+int	is_operator(char c)
+{
+	return (c == '|' || c == '<' || c == '>');
 }
