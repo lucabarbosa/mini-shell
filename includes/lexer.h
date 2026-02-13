@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 12:58:35 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 14:05:14 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <errno.h>
 # include "../libft/libft.h"
 
-typedef struct s_mshell	t_mshell;
+typedef struct s_mshell		t_mshell;
 typedef struct s_envlist	t_envlist;
 
 typedef enum e_token_type

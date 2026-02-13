@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:19:54 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 12:54:20 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 14:03:56 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_token	*lexer(char *input, t_gc **collector)
 	{
 		while (input[i] == ' ')
 			i++;
+		if (input[i] == '\0')
+			add_token(&tokens, TOKEN_END, NULL, collector);
 		if (input[i] == '|')
 			i += handle_pipe(&tokens, collector);
 		else if (input[i] == '>')
