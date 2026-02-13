@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 19:55:36 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:02:23 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_expctx
 	t_mshell	*shell;
 }	t_expctx;
 
-t_token	*lexer(char *input, t_gc **collector, int i);
+t_token	*lexer(char *input, t_gc **collector);
 
 int		handle_pipe(t_token **tokens, t_gc **collector);
 

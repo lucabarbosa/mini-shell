@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 16:19:08 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 19:51:52 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:11:05 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,18 @@ int	handle_concat_token(char *str, t_token **tokens, t_gc **gc)
 	int		i;
 	int		expandable;
 	char	*result;
-	int		ret;
 
-	ret = 0;
 	i = 0;
 	result = ft_strdup("", gc);
 	expandable = 0;
 	while (str[i] && str[i] != ' ' && !is_operator(str[i]))
 	{
 		if (str[i] == '\'')
-			ret = process_squote(str + i, &result, gc);
+			i += process_squote(str + i, &result, gc);
 		else if (str[i] == '"')
-			ret = process_dquote(str + i, &result, &expandable, gc);
+			i += process_dquote(str + i, &result, &expandable, gc);
 		else
-			ret = process_word_part(str + i, &result, &expandable, gc);
-		if (ret == -1)
-			return (-1);
-		i += ret;
+			i += process_word_part(str + i, &result, &expandable, gc);
 	}
 	add_token(tokens, TOKEN_WORD, result, gc);
 	if (expandable)
@@ -60,7 +55,7 @@ int	process_squote(char *str, char **result, t_gc **gc)
 	else
 	{
 		ft_putstr_fd("Syntax Error: Unclosed Quotes\n", 2);
-		return (-1);
+		return (i);
 	}
 }
 
@@ -85,7 +80,7 @@ int	process_dquote(char *str, char **result, int *expandable, t_gc **gc)
 	else
 	{
 		ft_putstr_fd("Syntax Error: Unclosed Quotes\n", 2);
-		return (-1);
+		return (i);
 	}
 }
 
