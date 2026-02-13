@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 15:15:16 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 18:49:34 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../includes/executor.h"
 #include "../../includes/builtin.h"
 
-void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmds, t_mshell *shell);
+void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmd, t_mshell *shell);
 void	executor(t_cmd **cmd, t_mshell *shell);
 int		wait_exit_status(pid_t *pid, int num_cmd);
 void	exec_parent_builtin(t_cmd *cmd, t_cmd **arg, t_mshell *shell);
@@ -41,14 +41,12 @@ void	executor(t_cmd **cmd, t_mshell *shell)
 	if (total_cmds == 1)
 		exec_one_cmd(current, cmd, total_cmds, shell);
 	else
-	{
 		exec_pipes(total_cmds, current, shell);
-	}
 	sig_init();
 	cleanup_heredoc(current);
 }
 
-void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmds, t_mshell *shell)
+void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmd, t_mshell *shell)
 {
 	pid_t	pid;
 
@@ -71,17 +69,24 @@ void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmds, t_mshell *shell)
 		exit (0);
 	}
 	sig_wait();
-	shell->last_exit = wait_exit_status(&pid, num_cmds);
+	shell->last_exit = wait_exit_status(&pid, num_cmd);
 }
 
 void	exec_parent_builtin(t_cmd *cmd, t_cmd **arg, t_mshell *shell)
 {
-	if (cmd->redirects && redir_parent(cmd))
+	int	saved_in;
+	int	saved_out;
+
+	saved_in = dup(STDIN_FILENO);
+	saved_out = dup(STDOUT_FILENO);
+	if (cmd->redirects && parent_redirect(cmd))
 	{
+		parent_restore_fds(saved_in, saved_out);
 		shell->last_exit = 1;
 		return ;
 	}
 	exec_builtin(arg, shell);
+	parent_restore_fds(saved_in, saved_out);
 }
 
 int	wait_exit_status(pid_t *pid, int num_cmd)

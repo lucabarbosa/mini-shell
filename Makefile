@@ -26,7 +26,10 @@ PARSER		=	src/parser/parser.c \
 EXECUTOR	=	src/executor/executor.c \
 				src/executor/get_path.c \
 				src/executor/handle_redirect.c \
+				src/executor/redir_parent.c \
 				src/executor/exec_pipes.c \
+				src/executor/file_redirect.c \
+				src/executor/validator.c \
 				src/executor/heredoc/heredoc.c \
 				src/executor/heredoc/heredoc_utils.c \
 				src/executor/heredoc/expand_heredoc.c \

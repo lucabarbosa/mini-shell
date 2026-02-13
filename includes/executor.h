@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:55:25 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 15:14:26 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 18:58:44 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,28 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-int		wait_exit_status(pid_t *pid, int num_cmd);;
-void	executor(t_cmd **cmd, t_mshell *shell);
-void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmds, t_mshell *shell);
-char	*get_path(char *cmd, t_mshell *shell);
-void	handle_redirect(t_cmd *cmd, t_mshell *shell);
-void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
-char	**env_list_to_array(t_envlist *envp, t_gc **collector);
-void	exec_parent_builtin(t_cmd *cmd, t_cmd **arg, t_mshell *shell);
-int		redir_parent(t_cmd *cmd);
-int		verify_type(t_redir *cur);
+void		exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell);
+
+void		executor(t_cmd **cmd, t_mshell *shell);
+int			wait_exit_status(pid_t *pid, int num_cmd);
+void		exec_parent_builtin(t_cmd *cmd, t_cmd **arg, t_mshell *shell);
+void		exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmd, t_mshell *shell);
+
+void		file_redirects(t_cmd *cmd, t_mshell *shell);
+void		infile_redirect(char *file, t_mshell *shell);
+void		outfile_redirect(char *file, int append, t_mshell *shell);
+
+char		*get_path(char *cmd, t_mshell *shell);
+
+void		handle_redirect(t_cmd *cmd, t_mshell *shell);
+char		*check_path(t_cmd *cmd, t_mshell *shell);
+void		exec_child_builtin(t_cmd *cmd, t_mshell *shell);
+void		do_execve(char *full_path, t_cmd *cmd, t_mshell *shell);
+
+int			parent_redirect(t_cmd *cmd);
+void		parent_restore_fds(int saved_in, int saved_out);
+
+int			validate_command(char *cmd);
+char		**env_list_to_array(t_envlist *envp, t_gc **collector);
 
 #endif
