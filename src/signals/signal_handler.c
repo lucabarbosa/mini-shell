@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:52:40 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 11:10:49 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 11:39:13 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	sigquit_handler(int sig);
 void	sig_init(void)
 {
 	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	sigint_handler(int sig)
@@ -45,7 +45,6 @@ void	sigint_handler(int sig)
 
 void	sigquit_handler(int sig)
 {
-	printf("SIGQUIT received, g_status = %i", g_signal);
 	(void)sig;
 }
 
@@ -55,8 +54,8 @@ void	sig_wait(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	sig_restore(void)
+void	sig_child(void)
 {
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

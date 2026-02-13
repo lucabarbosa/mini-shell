@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:08:35 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 11:02:13 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 11:40:12 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell)
 		return ;
 	pids = gc_malloc(&shell->collector, sizeof(pid_t) * num_cmd);
 	i = 0;
+	sig_wait();
 	while (cmd)
 	{
 		pids[i] = fork();
@@ -37,6 +38,7 @@ void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell)
 			print_error(0, shell);
 		if (pids[i] == 0)
 		{
+			sig_child();
 			child_pipes(pipes, num_cmd - 1, i, shell);
 			handle_redirect(cmd, shell);
 			print_error (0, shell);
@@ -45,9 +47,8 @@ void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell)
 		i++;
 	}
 	close_pipes(pipes, num_cmd - 1);
-	sig_wait();
 	shell->last_exit = wait_all_exit(pids, num_cmd);
-	sig_restore();
+	sig_init();
 }
 
 static int	**create_pipes(int num_pipes, t_gc **collector)
