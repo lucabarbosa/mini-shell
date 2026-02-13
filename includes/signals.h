@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:20:11 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/05 18:45:38 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 12:45:07 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNALS_H
-#define SIGNALS_H
+# define SIGNALS_H
 
-#include "minishell.h"
+# include "minishell.h"
 
 typedef enum s_signals
 {

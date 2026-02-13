@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:08:35 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 11:40:12 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 12:48:44 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell)
 		return ;
 	pids = gc_malloc(&shell->collector, sizeof(pid_t) * num_cmd);
 	i = 0;
-	sig_wait();
 	while (cmd)
 	{
 		pids[i] = fork();
@@ -41,14 +40,12 @@ void	exec_pipes(int num_cmd, t_cmd *cmd, t_mshell *shell)
 			sig_child();
 			child_pipes(pipes, num_cmd - 1, i, shell);
 			handle_redirect(cmd, shell);
-			print_error (0, shell);
 		}
 		cmd = cmd -> next;
 		i++;
 	}
 	close_pipes(pipes, num_cmd - 1);
 	shell->last_exit = wait_all_exit(pids, num_cmd);
-	sig_init();
 }
 
 static int	**create_pipes(int num_pipes, t_gc **collector)
@@ -72,6 +69,7 @@ static int	**create_pipes(int num_pipes, t_gc **collector)
 		}
 		i++;
 	}
+	sig_wait();
 	return (pipes);
 }
 

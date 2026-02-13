@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 11:39:50 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 12:38:37 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void	executor(t_cmd **cmd, t_mshell *shell)
 	if (total_cmds == 1)
 		exec_one_cmd(current, cmd, total_cmds, shell);
 	else
+	{
 		exec_pipes(total_cmds, current, shell);
+	}
+	sig_init();
 	cleanup_heredoc(current);
 }
 
@@ -68,7 +71,6 @@ void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmds, t_mshell *shell)
 	}
 	sig_wait();
 	shell->last_exit = wait_exit_status(&pid, num_cmds);
-	sig_init();
 }
 
 int	wait_exit_status(pid_t *pid, int num_cmd)

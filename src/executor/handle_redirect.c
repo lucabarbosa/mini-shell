@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirect.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 11:02:37 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 12:41:51 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 	file_redirects(cmd, shell);
 	if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
 		if (exec_builtin(&cmd, shell))
-			return ;
+			print_error (0, shell);
 	full_path = get_path(cmd->args[0], shell);
 	if (!full_path)
 	{

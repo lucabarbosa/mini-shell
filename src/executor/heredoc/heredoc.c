@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:18:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 11:37:58 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 12:35:02 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int			handle_heredocs(t_cmd *cmd, t_mshell *shell);
 static int	process_heredoc(t_redir *current, int index, t_mshell *shell);
+static void	disable_ctl(struct termios *original);
 static int	heredoc_content(int fd, char *delim, int expand, t_mshell *shell);
 static void	fix_signals(char *line, t_mshell *shell);
 
@@ -49,9 +50,10 @@ int	handle_heredocs(t_cmd *cmd, t_mshell *shell)
 
 static int	process_heredoc(t_redir *current, int index, t_mshell *shell)
 {
-	int		result;
-	int		fd;
-	char	*deli;
+	int				result;
+	int				fd;
+	char			*deli;
+	struct termios	original;
 
 	deli = current->heredoc_delim;
 	if (!deli)
@@ -64,7 +66,10 @@ static int	process_heredoc(t_redir *current, int index, t_mshell *shell)
 		perror("minishell: heredoc");
 		return (1);
 	}
+	tcgetattr(STDIN_FILENO, &original);
+	disable_ctl(&original);
 	result = heredoc_content(fd, deli, current->heredoc_expand, shell);
+	tcsetattr(STDIN_FILENO, TCSANOW, &original);
 	sig_init();
 	close(fd);
 	return (result);
@@ -104,4 +109,13 @@ static void	fix_signals(char *line, t_mshell *shell)
 	gc_free(&shell->collector, line);
 	g_signal = 0;
 	shell->last_exit = 130;
+}
+
+static void	disable_ctl(struct termios *original)
+{
+	struct termios	modified;
+
+	modified = *original;
+	modified.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &modified);
 }
