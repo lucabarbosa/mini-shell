@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 17:25:55 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 19:55:36 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_expctx
 	t_mshell	*shell;
 }	t_expctx;
 
-t_token	*lexer(char *input, t_gc **collector);
+t_token	*lexer(char *input, t_gc **collector, int i);
 
 int		handle_pipe(t_token **tokens, t_gc **collector);
 
@@ -87,5 +87,7 @@ int		is_word_start(char c);
 
 void	is_tkn_valid(t_token **tokens);
 void	print_tk_errp(t_token_type type);
+
+void    print_tokens(t_token *tokens);
 
 #endif

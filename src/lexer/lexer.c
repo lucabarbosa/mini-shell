@@ -6,20 +6,18 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:19:54 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 17:32:43 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 19:55:06 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/lexer.h"
 
-t_token	*lexer(char *input, t_gc **collector)
+t_token	*lexer(char *input, t_gc **collector, int i)
 {
-	int		i;
 	t_token	*tokens;
 
 	tokens = NULL;
-	i = 0;
 	while (input[i])
 	{
 		while (input[i] == ' ')
@@ -33,7 +31,11 @@ t_token	*lexer(char *input, t_gc **collector)
 		else if (input[i] == '<')
 			i += handle_heredoc_or_in(&tokens, input, i, collector);
 		else if (input[i] == '\'' || input[i] == '"' || is_word_start(input[i]))
+		{
+			if (handle_concat_token(input + i, &tokens, collector) == -1)
+				return (NULL);
 			i += handle_concat_token(input + i, &tokens, collector);
+		}
 		else
 			i++;
 	}

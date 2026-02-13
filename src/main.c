@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 17:48:24 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 19:55:46 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,13 @@ static int	input_process(char *input, t_mshell *shell)
 	int		exit_status;
 
 	exit_status = 0;
-	tokens = lexer(input, &shell->collector);
+	tokens = lexer(input, &shell->collector, 0);
 	if (tokens == NULL)
 	{
 		gc_clear(&shell->collector);
 		return (1);
 	}
+	// print_tokens(tokens);
 	if (shell->env_char)
 		gc_free(&shell->envp_collect, shell->env_char);
 	shell->env_char = env_list_to_array(shell->envp, &shell->envp_collect);
