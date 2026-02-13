@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:19:54 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 16:10:12 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 17:25:24 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_token	*lexer(char *input, t_gc **collector)
 			i++;
 	}
 	add_token(&tokens, TOKEN_END, NULL, collector);
-	expandable_tokens(tokens);
+	is_tkn_valid(&tokens);
 	return (tokens);
 }
 
@@ -85,7 +85,8 @@ void	expandable_tokens(t_token *tokens)
 			i = 0;
 			while (cr->value[i])
 			{
-				if (cr->value[i] == '$' && (cr->prev && cr->prev->type != TOKEN_HEREDOC))
+				if (cr->value[i] == '$' && (cr->prev
+						&& cr->prev->type != TOKEN_HEREDOC))
 					cr->expandable = 1;
 				i++;
 			}
@@ -94,24 +95,39 @@ void	expandable_tokens(t_token *tokens)
 	}
 }
 
-void    print_tokens(t_token *tokens)
+void	is_tkn_valid(t_token **tokens)
 {
-    t_token *current;
-    const char  *type_names[] = {
-        "WORD", "PIPE", "REDIR_IN",
-        "REDIR_OUT", "REDIR_APPEND",
-        "HEREDOC", "ENV_VAR", "SQUOTE",
-        "DQUOTE", "END"};
-        
-    current = tokens;
-    printf("==========TOKENS==========\n");
-    while (current)
-    {
-        printf("Type: %-15s\n", type_names[current->type]);
-        printf("Value: %s\n", current->value);
-        printf("============\n");
-        current = current->next;
-    }
-    
-    
+	t_token	*cr;
+
+	cr = *tokens;
+	if (cr->type == TOKEN_HEREDOC)
+	{
+		if (!cr->next || cr->next->type == TOKEN_END)
+		{
+			*tokens = NULL;
+			print_tk_errp(cr->type);
+			return ;
+		}
+		if (!cr->next->value || cr->next->value[0] == '\0')
+		{
+			*tokens = NULL;
+			print_tk_errp(cr->type);
+			return ;
+		}	
+	}
+	if (cr->type != TOKEN_WORD && cr->type != TOKEN_HEREDOC)
+	{
+		*tokens = NULL;
+		print_tk_errp(cr->type);
+		return ;
+	}
+	expandable_tokens(tokens);
+}
+
+void	print_tk_errp(t_token_type type)
+{
+	if (type == TOKEN_PIPE)
+		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+	else
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 }

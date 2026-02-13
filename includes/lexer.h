@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 15:50:22 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 17:25:55 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int		ft_is_metachar(char c);
 int		is_operator(char c);
 int		is_word_start(char c);
 
-void    print_tokens(t_token *tokens);
+void	is_tkn_valid(t_token **tokens);
+void	print_tk_errp(t_token_type type);
 
 #endif
