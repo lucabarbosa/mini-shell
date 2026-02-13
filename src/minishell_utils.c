@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 14:12:12 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 17:13:40 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*get_env_value(char *name, t_envlist *envp);
 void	remove_env_var(char *name, t_mshell *shell);
 void	clean_shell(t_mshell *shell);
 void	print_error(int num, t_mshell *shell);
+void	set_exit(t_mshell *shell);
 
 char	*get_env_value(char *name, t_envlist *envp)
 {
@@ -97,4 +98,10 @@ void	print_error(int num, t_mshell *shell)
 	}
 	clean_shell(shell);
 	exit (shell->last_exit);
+}
+
+void	set_exit(t_mshell *shell)
+{
+	shell->last_exit = 130;
+	g_signal = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 17:30:43 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 17:48:24 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,19 @@ static void	shell_loop(t_mshell *shell)
 	while (shell->running)
 	{
 		input = readline("minishell$> ");
+		if (g_signal == CTRL_C)
+			set_exit(shell);
 		if (input == NULL)
+		{
+			write (1, "exit\n", 5);
 			break ;
+		}
 		if (input[0] != '\0')
 		{
 			add_history(input);
 			shell->last_exit = input_process(input, shell);
 		}
-		dup2(shell->stdin_backup, 0);
-		dup2(shell->stdout_backup, 1);
-		free(input);
+		restore_fds(input, shell);
 		input = NULL;
 		tcsetattr(STDIN_FILENO, 0, &term);
 	}

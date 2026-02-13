@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 11:39:23 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 17:35:55 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char	*get_env_value(char *name, t_envlist *envp);
 void	remove_env_var(char *name, t_mshell *shell);
 void	clean_shell(t_mshell *shell);
 void	print_error(int num, t_mshell *shell);
+void	restore_fds(char *input, t_mshell *shell);
+void	set_exit(t_mshell *shell);
 
 void	sigint_handler(int sig);
 void	sigint_heredoc(int sig);

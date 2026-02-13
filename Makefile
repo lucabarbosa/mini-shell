@@ -8,6 +8,7 @@ SRC		=	$(MAIN) $(LEXER) $(PARSER) $(EXECUTOR) $(BUILTIN) $(EXPANDER)
 
 MAIN		=	src/main.c \
 				src/minishell_utils.c \
+				src/minishell_very_utils.c \
 				src/signals/signal_handler.c \
 
 EXPANDER	=	src/expander/expander.c \

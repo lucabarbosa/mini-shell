@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:52:40 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 11:39:13 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 17:10:48 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	sigint_handler(int sig)
 	}
 	else
 	{
+		g_signal = CTRL_C;
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
