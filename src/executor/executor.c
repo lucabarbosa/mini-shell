@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 20:45:49 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 22:03:31 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmd, t_mshell *shell)
 {
 	pid_t	pid;
 
+	if (!cmd->args || !cmd->args[0] || !cmd->args[0][0])
+	{
+		if (cmd->redirects)
+			exec_parent_builtin(cmd, arg, shell);
+		return ;
+	}
 	if (cmd->args && cmd->args[0] && parent_built(cmd->args[0]))
 	{
 		exec_parent_builtin(cmd, arg, shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:07:34 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/12 18:43:48 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 22:04:50 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ void	init_var(int *i, char **res, char *tmp, t_gc **gc)
 int	cond(char *arg, int i)
 {
 	return (arg[i] == '$' && arg[i + 1] != '$'
-		&& arg[i + 1] != '?' && arg[i + 1]);
+		&& arg[i + 1] != '?' && arg[i + 1]
+		&& envchr(arg[i + 1]));
 }

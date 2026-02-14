@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 20:32:07 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 22:03:07 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char	*srchcmd(char *cmd, t_envlist *env);
 int		envchr(char c);
 
 void	expand(t_token *tokens, t_gc **gc, t_mshell *shell);
+void	remove_empty_expanded(t_token **tokens);
 int		cond(char *arg, int i);
 void	handle_pid(t_expctx *ctx, int *i);
 void	handle_status(t_expctx *ctx, int *i);

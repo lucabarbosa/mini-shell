@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 16:19:08 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 20:22:17 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 22:04:16 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	handle_concat_token(char *str, t_token **tokens, t_gc **gc)
 	int		i;
 	int		expandable;
 	char	*result;
+	t_token	*last;
 
 	i = 0;
 	result = ft_strdup("", gc);
@@ -31,8 +32,10 @@ int	handle_concat_token(char *str, t_token **tokens, t_gc **gc)
 			i += process_word_part(str + i, &result, &expandable, gc);
 	}
 	add_token(tokens, TOKEN_WORD, result, gc);
-	if (expandable)
-		(*tokens)->expandable = 1;
+	last = *tokens;
+	while (last->next)
+		last = last->next;
+	last->expandable = expandable;
 	return (i);
 }
 

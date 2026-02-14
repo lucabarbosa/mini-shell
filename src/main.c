@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 20:30:47 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 22:02:31 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,12 @@ static int	input_process(char *input, t_mshell *shell)
 		gc_free(&shell->envp_collect, shell->env_char);
 	shell->env_char = env_list_to_array(shell->envp, &shell->envp_collect);
 	expand(tokens, &shell->collector, shell);
+	remove_empty_expanded(&tokens);
+	if (tokens == NULL || tokens->type == TOKEN_END)
+	{
+		gc_clear(&shell->collector);
+		return (0);
+	}
 	commands = parser(tokens, &shell->collector);
 	if (commands == NULL)
 	{

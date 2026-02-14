@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:07:16 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 11:03:05 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/13 21:58:00 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,37 @@ void	expand(t_token *tokens, t_gc **gc, t_mshell *shell)
 			cr->value = find_cmd(cr->value, gc, shell);
 		}
 		cr = cr->next;
+	}
+}
+
+void	remove_empty_expanded(t_token **tokens)
+{
+	t_token	*cr;
+	t_token	*next;
+
+	while (*tokens && (*tokens)->expandable && (*tokens)->value
+		&& (*tokens)->value[0] == '\0'
+		&& (*tokens)->type != TOKEN_END)
+	{
+		*tokens = (*tokens)->next;
+		if (*tokens)
+			(*tokens)->prev = NULL;
+	}
+	if (!*tokens)
+		return ;
+	cr = *tokens;
+	while (cr)
+	{
+		next = cr->next;
+		if (cr->expandable && cr->value && cr->value[0] == '\0'
+			&& cr->type != TOKEN_END)
+		{
+			if (cr->prev)
+				cr->prev->next = cr->next;
+			if (cr->next)
+				cr->next->prev = cr->prev;
+		}
+		cr = next;
 	}
 }
 
