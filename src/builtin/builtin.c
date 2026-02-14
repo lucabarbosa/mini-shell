@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:27:58 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 15:12:00 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 21:02:50 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int		is_builtin(char *arg);
 int		parent_built(char *arg);
-int		exec_builtin(t_cmd **cmd, t_mshell *shell);
+void	exec_builtin(t_cmd **cmd, t_mshell *shell);
 
 int	is_builtin(char *arg)
 {
@@ -53,12 +53,12 @@ int	parent_built(char *arg)
 	return (0);
 }
 
-int	exec_builtin(t_cmd **cmd, t_mshell *shell)
+void	exec_builtin(t_cmd **cmd, t_mshell *shell)
 {
 	char	*command;
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
-		return (0);
+		return ;
 	command = (*cmd)->args[0];
 	if (!ft_strcmp("echo", command))
 		shell->last_exit = command_echo((*cmd)->args);
@@ -74,7 +74,6 @@ int	exec_builtin(t_cmd **cmd, t_mshell *shell)
 		shell->last_exit = command_env((*cmd)->args, shell->envp);
 	else if (!ft_strcmp("exit", command))
 		shell->last_exit = command_exit((*cmd)->args, shell);
-	return (1);
 }
 
 int	redir_parent(t_cmd *cmd)

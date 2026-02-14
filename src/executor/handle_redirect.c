@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 20:49:18 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/13 21:00:19 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,13 @@ char	*check_path(t_cmd *cmd, t_mshell *shell)
 
 void	exec_child_builtin(t_cmd *cmd, t_mshell *shell)
 {
-	int	ret;
-
 	if (!cmd->args || !cmd->args[0])
 		return ;
 	if (!is_builtin(cmd->args[0]))
 		return ;
-	ret = exec_builtin(&cmd, shell);
+	exec_builtin(&cmd, shell);
 	clean_shell(shell);
-	exit(ret);
+	exit(shell->last_exit);
 }
 
 void	do_execve(char *full_path, t_cmd *cmd, t_mshell *shell)
