@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 20:22:38 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 22:04:28 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 16:51:35 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	validate_tokens(t_token **token)
 	cr = *token;
 	if ((*token)->value[0] == '\0')
 		*token = NULL;
-	else if (cr->type == TOKEN_HEREDOC && cr->next->type == TOKEN_PIPE)
+	else if (cr->type == TOKEN_HEREDOC && cr->next
+		&& cr->next->type == TOKEN_PIPE)
 	{
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 		*token = NULL;

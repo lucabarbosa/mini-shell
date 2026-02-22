@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 22:03:07 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 19:07:17 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int		envchr(char c);
 void	expand(t_token *tokens, t_gc **gc, t_mshell *shell);
 void	remove_empty_expanded(t_token **tokens);
 int		cond(char *arg, int i);
+char	*concat_cmd( char **res, char *arg, int i, t_gc **gc);
 void	handle_pid(t_expctx *ctx, int *i);
 void	handle_status(t_expctx *ctx, int *i);
 void	handle_env(t_expctx *ctx, int *i);

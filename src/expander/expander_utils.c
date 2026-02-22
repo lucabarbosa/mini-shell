@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:07:34 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 22:04:50 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 19:02:57 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,14 @@ int	cond(char *arg, int i)
 	return (arg[i] == '$' && arg[i + 1] != '$'
 		&& arg[i + 1] != '?' && arg[i + 1]
 		&& envchr(arg[i + 1]));
+}
+
+char	*concat_cmd( char **res, char *arg, int i, t_gc **gc)
+{
+	char	tmp[2];
+
+	tmp[1] = '\0';
+	tmp[0] = arg[i];
+	*res = ft_strjoin(*res, tmp, gc);
+	return (*res);
 }

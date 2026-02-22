@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 22:03:54 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 17:24:30 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,16 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 
 char	*check_path(t_cmd *cmd, t_mshell *shell)
 {
-	int	err;
+	int	error;
 
 	if (cmd->args[0][0] == '/' || cmd->args[0][0] == '.')
 	{
-		err = validate_command(cmd->args[0]);
-		if (err != 0)
+		error = validate_command(cmd->args[0]);
+		if (error != 0)
 		{
 			clean_shell(shell);
-			exit(err);
+			exit(error);
 		}
-		return (ft_strdup(cmd->args[0], &shell->collector));
 	}
 	return (get_path(cmd->args[0], shell));
 }

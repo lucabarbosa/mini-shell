@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:59:23 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 19:40:14 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 17:21:28 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	validate_command(char *cmd)
 {
 	if (access(cmd, F_OK) != 0)
 	{
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		return (127);
 	}
 	if (validate_directory(cmd))
@@ -38,9 +38,9 @@ int	validate_command(char *cmd)
 		return (127);
 	if (access(cmd, X_OK) != 0)
 	{
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": Permission denied\n", 2);
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 		return (126);
 	}
 	return (0);

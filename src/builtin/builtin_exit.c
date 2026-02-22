@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 11:46:18 by lbento            #+#    #+#             */
-/*   Updated: 2026/01/29 15:34:02 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 16:50:00 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ long	command_exit(char **args, t_mshell *shell)
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
-		ft_putendl_fd(": numeric argument required\n", 2);
+		ft_putendl_fd(": numeric argument required", 2);
 		shell->running = 0;
 		return (2);
 	}

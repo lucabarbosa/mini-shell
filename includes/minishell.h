@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 17:35:55 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 18:27:35 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,21 @@ typedef struct s_envlist
 
 extern volatile sig_atomic_t	g_signal;
 
-char	*get_env_value(char *name, t_envlist *envp);
-void	remove_env_var(char *name, t_mshell *shell);
-void	clean_shell(t_mshell *shell);
-void	print_error(int num, t_mshell *shell);
-void	restore_fds(char *input, t_mshell *shell);
-void	set_exit(t_mshell *shell);
+char			*get_env_value(char *name, t_envlist *envp);
+void			remove_env_var(char *name, t_mshell *shell);
+void			clean_shell(t_mshell *shell);
+void			print_error(int num, t_mshell *shell);
+void			restore_fds(char *input, t_mshell *shell);
+void			set_exit(t_mshell *shell);
+void			init_shell(t_mshell *shell, char **envp);
+t_envlist		*init_envp(char **envp, t_gc **gc, int i);
+int				input_process(char *input, t_mshell *shell);
+void			shell_loop(t_mshell *shell);
+void			cmd_executor(t_token *tokens, t_mshell *shell);
 
-void	sigint_handler(int sig);
-void	sigint_heredoc(int sig);
-void	sig_wait(void);
-void	sig_child(void);
+void			sigint_handler(int sig);
+void			sigint_heredoc(int sig);
+void			sig_wait(void);
+void			sig_child(void);
 
 #endif

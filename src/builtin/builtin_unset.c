@@ -6,14 +6,14 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 19:01:54 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/04 19:26:28 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 17:10:23 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/builtin.h"
 
-static int	is_valid_env(char *str);
+static int	is_invalid_env(char *str);
 int			command_unset(char **args, t_mshell *shell);
 
 int	command_unset(char **args, t_mshell *shell)
@@ -25,11 +25,11 @@ int	command_unset(char **args, t_mshell *shell)
 	status = 0;
 	while (args[i])
 	{
-		if (is_valid_env(args[i]))
+		if (is_invalid_env(args[i]))
 		{
-			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
 			ft_putstr_fd(args[i], 2);
-			ft_putendl_fd(": invalid parameter name", 2);
+			ft_putendl_fd(": invalid parameter name", STDERR_FILENO);
 			status = 1;
 		}
 		else
@@ -39,20 +39,20 @@ int	command_unset(char **args, t_mshell *shell)
 	return (status);
 }
 
-static int	is_valid_env(char *name)
+static int	is_invalid_env(char *name)
 {
 	int	i;
 
 	if (!name || !name[0])
-		return (0);
-	if (!ft_isalpha(name[0] && name[0] != '_'))
-		return (0);
+		return (1);
+	if (ft_isalpha(name[0] && name[0] != '_'))
+		return (1);
 	i = 1;
 	while (name[i])
 	{
-		if (!ft_isalnum(name[i] && name[i] != '_'))
-			return (0);
+		if (ft_isalnum(name[i] && name[i] != '_'))
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }

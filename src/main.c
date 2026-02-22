@@ -6,16 +6,15 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 22:02:31 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 18:26:56 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void			init_shell(t_mshell *shell, char **envp);
-static t_envlist	*init_envp(char **envp, t_gc **gc, int i);
-static int			input_process(char *input, t_mshell *shell);
-static void			shell_loop(t_mshell *shell);
+int			input_process(char *input, t_mshell *shell);
+void		shell_loop(t_mshell *shell);
+void		cmd_executor(t_token *tokens, t_mshell *shell);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -33,50 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	return (shell.last_exit);
 }
 
-static void	init_shell(t_mshell *shell, char **envp)
-{
-	shell->stdin_backup = dup(STDIN_FILENO);
-	shell->stdout_backup = dup(STDOUT_FILENO);
-	shell->collector = NULL;
-	shell->envp_collect = NULL;
-	shell->env_char = NULL;
-	shell->envp = init_envp(envp, &shell->envp_collect, 0);
-	if (!shell->envp)
-		print_error(3, shell);
-	shell->last_exit = 0;
-	shell->running = 1;
-}
-
-static t_envlist	*init_envp(char **envp, t_gc **gc, int i)
-{
-	t_envlist	*head;
-	t_envlist	*current;
-	t_envlist	*new_node;
-
-	head = NULL;
-	current = NULL;
-	while (envp[i])
-	{
-		new_node = gc_malloc(gc, sizeof(t_envlist));
-		if (!new_node)
-			return (NULL);
-		if (ft_strncmp(envp[i], "SHLVL=", 6) == 0)
-			new_node->value = ft_strjoin("SHLVL=", ft_itoa(ft_atoi(envp[i]
-							+ 6) + 1, gc), gc);
-		else
-			new_node->value = ft_strdup(envp[i], gc);
-		new_node->next = NULL;
-		if (head == NULL)
-			head = new_node;
-		else
-			current->next = new_node;
-		current = new_node;
-		i++;
-	}
-	return (head);
-}
-
-static void	shell_loop(t_mshell *shell)
+void	shell_loop(t_mshell *shell)
 {
 	char				*input;
 	struct termios		term;
@@ -105,10 +61,9 @@ static void	shell_loop(t_mshell *shell)
 	close (shell->stdout_backup);
 }
 
-static int	input_process(char *input, t_mshell *shell)
+int	input_process(char *input, t_mshell *shell)
 {
 	t_token	*tokens;
-	t_cmd	*commands;
 	int		exit_status;
 
 	exit_status = 0;
@@ -128,14 +83,22 @@ static int	input_process(char *input, t_mshell *shell)
 		gc_clear(&shell->collector);
 		return (0);
 	}
+	cmd_executor(tokens, shell);
+	exit_status = shell->last_exit;
+	gc_clear(&shell->collector);
+	return (exit_status);
+}
+
+void	cmd_executor(t_token *tokens, t_mshell *shell)
+{
+	t_cmd	*commands;
+
 	commands = parser(tokens, &shell->collector);
 	if (commands == NULL)
 	{
 		gc_clear(&shell->collector);
-		return (1);
+		shell->last_exit = 1;
+		return ;
 	}
 	executor(&commands, shell);
-	exit_status = shell->last_exit;
-	gc_clear(&shell->collector);
-	return (exit_status);
 }

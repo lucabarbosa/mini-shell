@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 22:03:31 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 19:17:59 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmd, t_mshell *shell)
 	{
 		sig_child();
 		handle_redirect(cmd, shell);
-		exit (0);
 	}
 	sig_wait();
 	shell->last_exit = wait_exit_status(&pid, num_cmd);

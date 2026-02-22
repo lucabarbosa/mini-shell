@@ -6,16 +6,16 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:07:16 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 21:58:00 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 19:15:05 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static char	*find_cmd(char *arg, t_gc **gc, t_mshell *shell);
-static char	*concat_cmd( char **res, char *arg, int i, t_gc **gc);
 char		*srchcmd(char *cmd, t_envlist *env);
 int			envchr(char c);
+static void	check_prev_next(t_token **tokens);
 
 void	expand(t_token *tokens, t_gc **gc, t_mshell *shell)
 {
@@ -34,9 +34,6 @@ void	expand(t_token *tokens, t_gc **gc, t_mshell *shell)
 
 void	remove_empty_expanded(t_token **tokens)
 {
-	t_token	*cr;
-	t_token	*next;
-
 	while (*tokens && (*tokens)->expandable && (*tokens)->value
 		&& (*tokens)->value[0] == '\0'
 		&& (*tokens)->type != TOKEN_END)
@@ -47,6 +44,14 @@ void	remove_empty_expanded(t_token **tokens)
 	}
 	if (!*tokens)
 		return ;
+	check_prev_next(tokens);
+}
+
+static void	check_prev_next(t_token **tokens)
+{
+	t_token	*cr;
+	t_token	*next;
+
 	cr = *tokens;
 	while (cr)
 	{
@@ -99,14 +104,4 @@ char	*srchcmd(char *cmd, t_envlist *env)
 		return (env_v);
 	else
 		return (NULL);
-}
-
-static char	*concat_cmd( char **res, char *arg, int i, t_gc **gc)
-{
-	char	tmp[2];
-
-	tmp[1] = '\0';
-	tmp[0] = arg[i];
-	*res = ft_strjoin(*res, tmp, gc);
-	return (*res);
 }
