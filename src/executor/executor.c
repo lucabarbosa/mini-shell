@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/22 19:17:59 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 23:22:09 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,7 @@ void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmd, t_mshell *shell)
 	}
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("minishell: fork");
-		shell->last_exit = 1;
-		return ;
-	}
+		print_error(1, shell);
 	if (pid == 0)
 	{
 		sig_child();

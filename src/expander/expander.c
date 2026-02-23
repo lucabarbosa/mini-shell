@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:07:16 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/22 19:15:05 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 23:13:19 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	expand(t_token *tokens, t_gc **gc, t_mshell *shell)
 	cr = tokens;
 	while (cr != NULL)
 	{
-		if (cr->expandable)
+		if (cr->expandable && !(cr->prev && cr->prev->type == TOKEN_HEREDOC))
 		{
 			cr->value = find_cmd(cr->value, gc, shell);
 		}
