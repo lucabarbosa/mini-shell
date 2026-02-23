@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/22 19:07:17 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 21:22:26 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int		process_word_part(char *str, char **result, int *expandable, t_gc **gc);
 int		ft_is_metachar(char c);
 int		is_operator(char c);
 int		is_word_start(char c);
+
+void	fill_last_expandable(t_token **tokens, int expandable);
 
 void	is_tkn_valid(t_token **tokens);
 void	print_tk_errp(t_token_type type);

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:52:40 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 17:10:48 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 20:23:20 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	sigint_handler(int sig)
 	(void)sig;
 	if (g_signal == HEREDOC)
 	{
+		write(2, "^C", 2);
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();

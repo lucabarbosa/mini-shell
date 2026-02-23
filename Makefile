@@ -17,6 +17,7 @@ EXPANDER	=	src/expander/expander.c \
 
 LEXER		=	src/lexer/lexer.c \
 				src/lexer/tokenizer_utils.c \
+				src/lexer/expandable.c \
 				src/lexer/handle_tokens.c \
 				src/lexer/validate_tokens.c \
 

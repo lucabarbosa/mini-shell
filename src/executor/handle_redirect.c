@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:20:22 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/22 17:24:30 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/22 21:59:49 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,16 @@ void	handle_redirect(t_cmd *cmd, t_mshell *shell)
 	char	*full_path;
 
 	file_redirects(cmd, shell);
-	if (!cmd->args || !cmd->args[0] || !cmd->args[0][0])
+	if (!cmd->args || !cmd->args[0])
 	{
 		clean_shell(shell);
 		exit(0);
+	}
+	if (!cmd->args[0][0])
+	{
+		ft_putstr_fd("minishell: : command not found\n", 2);
+		clean_shell(shell);
+		exit(127);
 	}
 	exec_child_builtin(cmd, shell);
 	full_path = check_path(cmd, shell);
