@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 17:13:40 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/24 17:50:27 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	remove_env_var(char *name, t_mshell *shell)
 	while (current)
 	{
 		if (ft_strncmp(current->value, name, len) == 0
-			&& current->value[len] == '=')
+			&& (current->value[len] == '=' || current->value[len] == '\0'))
 		{
 			if (prev == NULL)
 				shell->envp = current->next;

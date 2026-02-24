@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/22 18:27:35 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/24 15:17:07 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void			shell_loop(t_mshell *shell);
 void			cmd_executor(t_token *tokens, t_mshell *shell);
 
 void			sigint_handler(int sig);
-void			sigint_heredoc(int sig);
 void			sig_wait(void);
 void			sig_child(void);
 

@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:18:44 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/13 12:35:02 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/24 14:58:12 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	process_heredoc(t_redir *current, int index, t_mshell *shell)
 	deli = current->heredoc_delim;
 	if (!deli)
 		return (1);
-	if (!create_temp_file(current, index, shell))
+	if (create_temp_file(current, index, shell))
 		return (1);
 	fd = open(current->file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)

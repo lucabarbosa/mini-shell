@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:20:11 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 12:45:07 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/24 13:32:10 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@ typedef enum s_signals
 }			t_status;
 
 void	sig_init(void);
+void	sigint_handler(int sig);
+void	sig_wait(void);
+void	sig_child(void);
 
 #endif

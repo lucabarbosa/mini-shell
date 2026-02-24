@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/22 18:26:56 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/24 14:42:00 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	shell_loop(t_mshell *shell)
 		input = NULL;
 		tcsetattr(STDIN_FILENO, 0, &term);
 	}
-	close (shell->stdin_backup);
-	close (shell->stdout_backup);
 }
 
 int	input_process(char *input, t_mshell *shell)

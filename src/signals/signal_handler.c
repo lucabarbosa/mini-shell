@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:52:40 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/22 20:23:20 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/24 13:32:28 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ volatile sig_atomic_t	g_signal = 0;
 
 void	sig_init(void);
 void	sigint_handler(int sig);
-void	sigquit_handler(int sig);
+void	sig_wait(void);
+void	sig_child(void);
 
 void	sig_init(void)
 {
@@ -43,11 +44,6 @@ void	sigint_handler(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-}
-
-void	sigquit_handler(int sig)
-{
-	(void)sig;
 }
 
 void	sig_wait(void)

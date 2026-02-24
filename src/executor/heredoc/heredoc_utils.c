@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:10:21 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/12 17:49:18 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/24 15:01:58 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int	create_temp_file(t_redir *current, int index, t_mshell *shell)
 
 	i = ft_itoa(index, &shell->collector);
 	if (!i)
-		return (0);
+		return (1);
 	current->file = ft_strjoin("/tmp/ms_heredoc_", i, &shell->collector);
 	gc_free(&shell->collector, i);
 	if (!current->file)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 int	is_delimiter(char *line, char *delimiter)
