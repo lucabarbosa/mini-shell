@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 20:22:38 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/25 00:17:46 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/25 00:57:30 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,16 @@ void	is_tkn_valid(t_token **tokens)
 		*tokens = NULL;
 		return ;
 	}
-	if (cr->type == TOKEN_PIPE || chk_first(cr))
+	if (cr->type == TOKEN_PIPE)
 	{
 		*tokens = NULL;
-		print_tk_errp(cr->type);
+		print_tk_errp(TOKEN_PIPE, cr->next->type);
+		return ;
+	}
+	if (chk_first(cr))
+	{
+		*tokens = NULL;
+		print_tk_errp(cr->type, cr->next->type);
 		return ;
 	}
 }
@@ -81,22 +87,34 @@ static int	verify_heredoc(t_token *cr)
 	{
 		if (!cr->next || cr->next->type == TOKEN_END)
 		{
-			print_tk_errp(cr->type);
+			print_tk_errp(TOKEN_END, cr->next->type);
 			return (1);
 		}
 		if (!cr->next->value || cr->next->value[0] == '\0')
 		{
-			print_tk_errp(cr->type);
+			print_tk_errp(TOKEN_END, cr->next->type);
 			return (1);
 		}
 	}
 	return (0);
 }
 
-void	print_tk_errp(t_token_type type)
+void	print_tk_errp(t_token_type type, t_token_type next_type)
 {
 	if (type == TOKEN_PIPE)
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+	else if (type == TOKEN_REDIR_IN && next_type == TOKEN_REDIR_OUT)
+		ft_putstr_fd("syntax error near unexpected token `<>'\n", 2);
+	else if (type == TOKEN_REDIR_OUT && next_type == TOKEN_REDIR_IN)
+		ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+	else if (next_type == TOKEN_REDIR_OUT)
+		ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
+	else if (next_type == TOKEN_REDIR_APPEND)
+		ft_putstr_fd("syntax error near unexpected token `>>'\n", 2);
+	else if (next_type == TOKEN_REDIR_IN)
+		ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+	else if (next_type == TOKEN_HEREDOC)
+		ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
 	else
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 }

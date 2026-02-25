@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/24 23:32:04 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/25 00:47:44 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		is_word_start(char c);
 void	fill_last_expandable(t_token **tokens, int expandable);
 
 void	is_tkn_valid(t_token **tokens);
-void	print_tk_errp(t_token_type type);
+void	print_tk_errp(t_token_type type, t_token_type next_type);
 void	validate_tokens(t_token **token);
 int		chk_first(t_token *t);
 
