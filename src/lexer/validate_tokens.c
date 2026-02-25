@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   validate_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 20:22:38 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/24 23:48:37 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/25 00:17:46 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static int	has_invalid_heredoc(t_token *cr);
+static int	verify_heredoc(t_token *cr);
 
 void	validate_tokens(t_token **token)
 {
@@ -56,20 +57,15 @@ void	is_tkn_valid(t_token **tokens)
 	t_token	*cr;
 
 	cr = *tokens;
-	if (cr->type == TOKEN_HEREDOC)
+	if (cr->type == TOKEN_END)
 	{
-		if (!cr->next || cr->next->type == TOKEN_END)
-		{
-			*tokens = NULL;
-			print_tk_errp(cr->type);
-			return ;
-		}
-		if (!cr->next->value || cr->next->value[0] == '\0')
-		{
-			*tokens = NULL;
-			print_tk_errp(cr->type);
-			return ;
-		}
+		*tokens = NULL;
+		return ;
+	}
+	if (verify_heredoc(cr))
+	{
+		*tokens = NULL;
+		return ;
 	}
 	if (cr->type == TOKEN_PIPE || chk_first(cr))
 	{
@@ -79,15 +75,28 @@ void	is_tkn_valid(t_token **tokens)
 	}
 }
 
+static int	verify_heredoc(t_token *cr)
+{
+	if (cr->type == TOKEN_HEREDOC)
+	{
+		if (!cr->next || cr->next->type == TOKEN_END)
+		{
+			print_tk_errp(cr->type);
+			return (1);
+		}
+		if (!cr->next->value || cr->next->value[0] == '\0')
+		{
+			print_tk_errp(cr->type);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 void	print_tk_errp(t_token_type type)
 {
 	if (type == TOKEN_PIPE)
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 	else
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
-}
-
-int	is_word_start(char c)
-{
-	return (c != ' ' && !is_operator(c) && c != '\'' && c != '"');
 }
