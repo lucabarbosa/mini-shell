@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 20:22:38 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/22 21:37:32 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/24 23:48:37 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ void	is_tkn_valid(t_token **tokens)
 			return ;
 		}
 	}
-	if (cr->type != TOKEN_WORD && cr->type != TOKEN_HEREDOC
-		&& cr->type != TOKEN_DQUOTE && cr->type != TOKEN_SQUOTE)
+	if (cr->type == TOKEN_PIPE || chk_first(cr))
 	{
 		*tokens = NULL;
 		print_tk_errp(cr->type);

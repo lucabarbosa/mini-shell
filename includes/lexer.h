@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:20:52 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/22 21:22:26 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/24 23:32:04 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ void	fill_last_expandable(t_token **tokens, int expandable);
 void	is_tkn_valid(t_token **tokens);
 void	print_tk_errp(t_token_type type);
 void	validate_tokens(t_token **token);
+int		chk_first(t_token *t);
 
 #endif

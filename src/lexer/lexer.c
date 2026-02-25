@@ -6,7 +6,7 @@
 /*   By: iaratang <iaratang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 15:19:54 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/13 20:31:47 by iaratang         ###   ########.fr       */
+/*   Updated: 2026/02/25 00:00:11 by iaratang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,11 @@ void	expandable_tokens(t_token *tokens)
 		}
 		cr = cr->next;
 	}
+}
+
+int	chk_first(t_token *t)
+{
+	return ((t->type == TOKEN_HEREDOC || t->type == TOKEN_REDIR_APPEND
+	|| t->type == TOKEN_REDIR_IN || t->type == TOKEN_REDIR_OUT) && (t->next->type == TOKEN_END || t->next->type == TOKEN_HEREDOC
+	|| t->next->type == TOKEN_REDIR_APPEND || t->next->type == TOKEN_REDIR_IN || t->next->type == TOKEN_REDIR_OUT));
 }
