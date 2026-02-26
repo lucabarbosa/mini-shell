@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:34:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/22 17:33:19 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/26 13:46:04 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,11 @@ void	restore_fds(char *input, t_mshell *shell)
 	dup2(shell->stdin_backup, 0);
 	dup2(shell->stdout_backup, 1);
 	free(input);
+}
+
+void	empty_argument_error(t_mshell *shell)
+{
+	ft_putstr_fd("minishell: : command not found\n", 2);
+	clean_shell(shell);
+	exit (127);
 }

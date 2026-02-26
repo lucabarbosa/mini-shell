@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 20:22:38 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/26 13:21:06 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/26 13:53:13 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	validate_tokens(t_token **token)
 	cr = *token;
 	if (has_invalid_heredoc(cr))
 	{
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 		*token = NULL;
 		return ;
 	}

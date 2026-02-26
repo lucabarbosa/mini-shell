@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/24 14:42:00 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:11 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	input_process(char *input, t_mshell *shell)
 	if (tokens == NULL)
 	{
 		gc_clear(&shell->collector);
-		return (1);
+		return (2);
 	}
 	if (shell->env_char)
 		gc_free(&shell->envp_collect, shell->env_char);
