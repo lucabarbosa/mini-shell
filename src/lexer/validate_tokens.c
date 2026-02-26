@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 20:22:38 by iaratang          #+#    #+#             */
-/*   Updated: 2026/02/25 00:57:30 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/26 13:21:06 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,7 @@ void	validate_tokens(t_token **token)
 	if (!token || !*token)
 		return ;
 	cr = *token;
-	if ((*token)->value[0] == '\0')
-	{
-		*token = NULL;
-		return ;
-	}
-	else if (has_invalid_heredoc(cr))
+	if (has_invalid_heredoc(cr))
 	{
 		*token = NULL;
 		return ;

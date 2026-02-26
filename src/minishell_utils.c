@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/24 17:50:27 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/26 13:10:33 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ void	print_error(int num, t_mshell *shell)
 		ft_putstr_fd("\nminishell: warning: here-document delimited ", 2);
 		ft_putstr_fd("by end-of-file\n", 2);
 		return ;
+	}
+	if (num == 5)
+	{
+		ft_putstr_fd("minishell: : command not found\n", 2);
+		exit (127);
 	}
 	clean_shell(shell);
 	exit (shell->last_exit);

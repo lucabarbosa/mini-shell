@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:56:53 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/22 23:22:09 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/26 13:37:08 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 #include "../../includes/executor.h"
 #include "../../includes/builtin.h"
 
-void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmd, t_mshell *shell);
-void	executor(t_cmd **cmd, t_mshell *shell);
-int		wait_exit_status(pid_t *pid, int num_cmd);
-void	exec_parent_builtin(t_cmd *cmd, t_cmd **arg, t_mshell *shell);
+void		exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmd, t_mshell *shell);
+void		executor(t_cmd **cmd, t_mshell *shell);
+int			wait_exit_status(pid_t *pid, int num_cmd);
+void		exec_parent_builtin(t_cmd *cmd, t_cmd **arg, t_mshell *shell);
+static int	check_empty_arg(t_cmd *cmd, t_cmd **arg, t_mshell *shell);
 
 void	executor(t_cmd **cmd, t_mshell *shell)
 {
@@ -50,12 +51,8 @@ void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmd, t_mshell *shell)
 {
 	pid_t	pid;
 
-	if (!cmd->args || !cmd->args[0] || !cmd->args[0][0])
-	{
-		if (cmd->redirects)
-			exec_parent_builtin(cmd, arg, shell);
+	if (check_empty_arg(cmd, arg, shell))
 		return ;
-	}
 	if (cmd->args && cmd->args[0] && parent_built(cmd->args[0]))
 	{
 		exec_parent_builtin(cmd, arg, shell);
@@ -71,6 +68,25 @@ void	exec_one_cmd(t_cmd *cmd, t_cmd **arg, int num_cmd, t_mshell *shell)
 	}
 	sig_wait();
 	shell->last_exit = wait_exit_status(&pid, num_cmd);
+}
+
+static int	check_empty_arg(t_cmd *cmd, t_cmd **arg, t_mshell *shell)
+{
+	if (!cmd->args || !cmd->args[0])
+	{
+		if (cmd->redirects)
+			exec_parent_builtin(cmd, arg, shell);
+		return (1);
+	}
+	if (!cmd->args[0][0])
+	{
+		if (cmd->redirects)
+			exec_parent_builtin(cmd, arg, shell);
+		ft_putstr_fd("minishell: : command not found\n", 2);
+		shell->last_exit = 127;
+		return (1);
+	}
+	return (0);
 }
 
 void	exec_parent_builtin(t_cmd *cmd, t_cmd **arg, t_mshell *shell)
