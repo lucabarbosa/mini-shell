@@ -1,4 +1,4 @@
-# minishell
+# Minishell
 > *This project was created as part of the 42-SP curriculum by Luca (lbento) and Ian (iaratang).*
 
 This project is a simplified version of Unix shell written in C, developed as part of the 42 School curriculum. **minishell** reproduces the core behavior of `bash`, including tokenization, command execution, pipelines, redirections, environment variable expansion, and built-in commands — all built from scratch using low-level system calls.
@@ -177,7 +177,7 @@ ls > f1 > f2 > -la
 ls | grep .c
 cat Makefile | grep minishell
 echo "hello world" | wc -w
-cat << "a" | cat << "b" | cat << "c"
+cat << a | cat << b | cat << c 
 ```
 
 **Combined pipeline with redirections:**
@@ -199,6 +199,8 @@ eof
 ls /nonexistent
 echo $?
 ls /tmp
+echo $?
+#press ctrl + C
 echo $?
 ```
 
