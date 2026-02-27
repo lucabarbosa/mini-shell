@@ -62,6 +62,11 @@ obj/%.o:	src/%.c
 			@mkdir -p $(dir $@)
 			@$(CC) $(CFLAGS) $(INC) -c $< -o $@ 
 
+mac:
+				@$(MAKE) \
+					READLINE="-L$(shell brew --prefix readline)/lib -lreadline" \
+					INC="-I ./src -I ./libft -I $(shell brew --prefix readline)/include"
+
 clean:
 			@make -s $@ -C libft
 			@rm -rf $(OBJ) $(LIBFT) obj
@@ -86,4 +91,4 @@ val:			re
 				--suppressions=./readline.supp \
 				./${NAME}
 
-.PHONY:		all clean fclean re val
+.PHONY:		all mac clean fclean re val
