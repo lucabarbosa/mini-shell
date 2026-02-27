@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:02:31 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/26 13:46:29 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/26 20:03:37 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_mshell
 	t_gc				*collector;
 	t_gc				*envp_collect;
 	char				**env_char;
+	char				*prompt;
 	int					last_exit;
 	int					running;
 	struct s_envlist	*envp;
@@ -59,6 +60,7 @@ void			empty_argument_error(t_mshell *shell);
 void			restore_fds(char *input, t_mshell *shell);
 void			set_exit(t_mshell *shell);
 void			init_shell(t_mshell *shell, char **envp);
+char			*get_prompt(t_mshell *shell);
 t_envlist		*init_envp(char **envp, t_gc **gc, int i);
 int				input_process(char *input, t_mshell *shell);
 void			shell_loop(t_mshell *shell);

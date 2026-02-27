@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:40:50 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:11 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/26 20:05:15 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	shell_loop(t_mshell *shell)
 	tcgetattr(STDIN_FILENO, &term);
 	while (shell->running)
 	{
-		input = readline("minishell$> ");
+		input = readline(shell->prompt);
 		if (g_signal == CTRL_C)
 			set_exit(shell);
 		if (input == NULL)
@@ -56,6 +56,7 @@ void	shell_loop(t_mshell *shell)
 		restore_fds(input, shell);
 		input = NULL;
 		tcsetattr(STDIN_FILENO, 0, &term);
+		shell->prompt = get_prompt(shell);
 	}
 }
 

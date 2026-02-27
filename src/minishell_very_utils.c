@@ -6,7 +6,7 @@
 /*   By: lbento <lbento@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:34:07 by lbento            #+#    #+#             */
-/*   Updated: 2026/02/26 13:46:04 by lbento           ###   ########.fr       */
+/*   Updated: 2026/02/26 23:09:22 by lbento           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void		init_shell(t_mshell *shell, char **envp);
 t_envlist	*init_envp(char **envp, t_gc **gc, int i);
 void		restore_fds(char *input, t_mshell *shell);
+void		empty_argument_error(t_mshell *shell);
+char		*get_prompt(t_mshell *shell);
 
 void	init_shell(t_mshell *shell, char **envp)
 {
@@ -26,6 +28,7 @@ void	init_shell(t_mshell *shell, char **envp)
 	shell->envp = init_envp(envp, &shell->envp_collect, 0);
 	if (!shell->envp)
 		print_error(3, shell);
+	shell->prompt = get_prompt(shell);
 	shell->last_exit = 0;
 	shell->running = 1;
 }
@@ -71,4 +74,18 @@ void	empty_argument_error(t_mshell *shell)
 	ft_putstr_fd("minishell: : command not found\n", 2);
 	clean_shell(shell);
 	exit (127);
+}
+
+char	*get_prompt(t_mshell *shell)
+{
+	char *prompt;
+	char	*user;
+
+	user = get_env_value("USER", shell->envp);
+	if (user)
+		user = ft_strjoin("\033[1;34m", user, &shell->collector);
+	else
+		user = ft_strdup("\033[1;31mAre you kidding me ?", &shell->collector);
+	prompt = ft_strjoin(user, ":\033[1;36mminishell $> \033[1;m", &shell->collector);	
+	return (prompt);
 }
